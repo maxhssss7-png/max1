@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>سعر TON</title>
+<style>
+  :root{--bg:#0b1220;--card:#151f33;--txt:#fff;--sub:#8a9bb5;--blue:#0098ea;--up:#22c55e;--down:#ef4444}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,sans-serif;padding:24px 16px}
+  h1{margin:0;font-size:24px}
+  .sub{color:var(--sub);font-size:13px}
+  .card{background:var(--card);border-radius:18px;padding:16px;margin-top:14px}
+  #price{font-size:40px;font-weight:700;direction:ltr;text-align:right}
+  #change{font-weight:700;margin-top:4px}
+  canvas{width:100%;height:160px;margin-top:12px;display:block}
+  .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #22304a}
+  .row:last-child{border:0}
+  .row b{direction:ltr}
+  input{width:100%;background:#0f1828;border:1px solid #22304a;color:var(--txt);border-radius:12px;padding:12px;font-size:16px;margin-top:8px}
+  #result{color:var(--blue);font-size:22px;font-weight:700;margin-top:10px;direction:ltr;text-align:right}
+  button{width:100%;margin-top:16px;height:52px;border:0;border-radius:14px;background:var(--blue);color:#fff;font-size:16px;font-weight:700}
+  #upd{text-align:center;color:var(--sub);font-size:12px;margin-top:10px}
+</style>
+</head>
+<body>
+<h1>سعر TON</h1>
+<div class="sub">Toncoin / USD</div>
+
+<div class="card">
+  <div id="price">...</div>
+  <div id="change"></div>
+  <canvas id="chart"></canvas>
+  <div class="sub">آخر 7 أيام</div>
+</div>
+
+<div class="card">
+  <div class="row"><span class="sub">أعلى سعر 24 ساعة</span><b id="high">—</b></div>
+  <div class="row"><span class="sub">أدنى سعر 24 ساعة</span><b id="low">—</b></div>
+  <div class="row"><span class="sub">القيمة السوقية</span><b id="cap">—</b></div>
+  <div class="row"><span class="sub">حجم التداول 24 ساعة</span><b id="vol">—</b></div>
+</div>
+
+<div class="card">
+  <b>حاسبة TON</b>
+  <input id="amt" type="number" inputmode="decimal" value="1" placeholder="اكتب كمية TON">
+  <div id="result"></div>
+</div>
+
+<button onclick="load()">تحديث الآن</button>
+<div id="upd"></div>
+
+<script>
+const API="https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=the-open-network&sparkline=true";
+let price=0;
+const $=id=>document.getElementById(id);
+const money=v=>"$"+v.toLocaleString("en-US",{minimumFractionDigits:v<10?3:2,maximumFractionDigits:v<10?3:2});
+const big=v=>v>=1e9?"$"+(v/1e9).toFixed(2)+"B":v>=1e6?"$"+(v/1e6).toFixed(2)+"M":money(v);
+
+function calc(){
+  const a=parseFloat($("amt").value)||0;
+  $("result").textContent=price?"= "+money(a*price):"";
+}
+
+function draw(data,color){
+  const c=$("chart"),r=window.devicePixelRatio||1;
+  c.width=c.clientWidth*r;c.height=c.clientHeight*r;
+  const x=c.getContext("2d"),w=c.width,h=c.height,p=8*r;
+  const min=Math.min(...data),max=Math.max(...data),rg=(max-min)||1;
+  x.beginPath();
+  data.forEach((v,i)=>{const X=w*i/(data.length-1),Y=p+(h-2*p)*(1-(v-min)/rg);i?x.lineTo(X,Y):x.moveTo(X,Y)});
+  x.strokeStyle=color;x.lineWidth=2.5*r;x.lineJoin="round";x.stroke();
+  x.lineTo(w,h);x.lineTo(0,h);x.closePath();
+  const g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,color+"55");g.addColorStop(1,color+"00");
+  x.fillStyle=g;x.fill();
+}
+
+async function load(){
+  $("upd").textContent="جاري التحديث...";
+  try{
+    const res=await fetch(API);
+    if(!res.ok)throw 0;
+    const o=(await res.json())[0];
+    price=o.current_price;
+    const ch=o.price_change_percentage_24h||0,up=ch>=0;
+    $("price").textContent=money(price);
+    $("change").textContent=(up?"▲ +":"▼ ")+ch.toFixed(2)+"% خلال 24 ساعة";
+    $("change").style.color=up?"var(--up)":"var(--down)";
+    $("high").textContent=money(o.high_24h);
+    $("low").textContent=money(o.low_24h);
+    $("cap").textContent=big(o.market_cap);
+    $("vol").textContent=big(o.total_volume);
+    if(o.sparkline_in_7d)draw(o.sparkline_in_7d.price,up?"#22c55e":"#ef4444");
+    calc();
+    $("upd").textContent="آخر تحديث: "+new Date().toLocaleTimeString("en-GB")+" • يتحدث تلقائياً كل 30 ثانية";
+  }catch(e){
+    $("upd").textContent="تعذر جلب السعر، تأكد من الإنترنت وحاول مرة ثانية";
+  }
+}
+
+$("amt").addEventListener("input",calc);
+load();
+setInterval(load,30000);
+</script>
+</body>
+</html>
