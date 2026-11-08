@@ -1,4 +1,4 @@
-# GRAM Update — ملف واحد يبني كل شي: صفحة التطبيق + الشعار + الـ APK والويدجت
+# GRAM Update — ملف واحد يبني كل شي: الصفحة + الأيقونة + التطبيق + الويدجت
 name: GRAM Update
 
 on:
@@ -496,8 +496,164 @@ jobs:
           </body>
           </html>
           EOF
-          mkdir -p src/main/java/com/ton/price src/main/res/drawable src/main/res/layout src/main/res/xml src/main/res/values
-          cp site/logo.png src/main/res/drawable/ic_launcher.png
+          mkdir -p src/main/java/com/ton/price src/main/res/drawable src/main/res/drawable-nodpi src/main/res/mipmap src/main/res/mipmap-anydpi-v26 src/main/res/layout src/main/res/xml src/main/res/values
+
+          base64 -d > src/main/res/drawable-nodpi/widget_preview.webp << 'EOF'
+          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
+          EOF
+
+          cp site/logo.png src/main/res/drawable-nodpi/logo_badge.png
+
+          pip install --quiet pillow
+          python3 - << 'EOF'
+          from PIL import Image, ImageDraw
+          b = Image.open("site/logo.png").convert("RGBA")
+          w, h = b.size
+          px = b.load()
+          pts = [(x, y) for y in range(h) for x in range(w) if px[x, y][0] > 200 and px[x, y][3] > 200]
+          x0 = min(p[0] for p in pts) - 2; x1 = max(p[0] for p in pts) + 3
+          y0 = min(p[1] for p in pts) - 2; y1 = max(p[1] for p in pts) + 3
+          c = b.crop((x0, y0, x1, y1))
+          d = Image.new("RGBA", c.size)
+          for y in range(c.height):
+              for x in range(c.width):
+                  r, g, bl, a = c.getpixel((x, y))
+                  al = max(0.0, min(1.0, (r - 48) / 207.0)) * a / 255.0
+                  d.putpixel((x, y), (255, 255, 255, int(round(al * 255))))
+          W, tw = 432, 184
+          th = round(d.height * tw / d.width)
+          d = d.resize((tw, th), Image.LANCZOS)
+          fg = Image.new("RGBA", (W, W), (0, 0, 0, 0))
+          fg.paste(d, ((W - tw) // 2, (W - th) // 2), d)
+          fg.save("src/main/res/drawable-nodpi/ic_fg.png")
+          L = 192
+          leg = Image.new("RGBA", (L, L), (0, 0, 0, 0))
+          m = Image.new("L", (L, L), 0)
+          ImageDraw.Draw(m).rounded_rectangle([0, 0, L - 1, L - 1], radius=44, fill=255)
+          leg.paste(Image.new("RGBA", (L, L), (48, 161, 245, 255)), (0, 0), m)
+          s = fg.resize((L * 432 // 288,) * 2, Image.LANCZOS)
+          o = (s.width - L) // 2
+          leg.alpha_composite(s.crop((o, o, o + L, o + L)))
+          leg.save("src/main/res/mipmap/ic_launcher.png")
+          EOF
+
+
+          cat > src/main/res/mipmap-anydpi-v26/ic_launcher.xml << 'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+              <background android:drawable="@color/icon_bg" />
+              <foreground android:drawable="@drawable/ic_fg" />
+              <monochrome android:drawable="@drawable/ic_fg" />
+          </adaptive-icon>
+          EOF
+
+          cat > src/main/res/values/colors.xml << 'EOF'
+          <resources>
+              <color name="icon_bg">#30A1F5</color>
+          </resources>
+          EOF
 
           cat > settings.gradle << 'EOF'
           pluginManagement {
@@ -518,8 +674,8 @@ jobs:
                   applicationId 'com.ton.price'
                   minSdk 24
                   targetSdk 34
-                  versionCode 6
-                  versionName '6.0'
+                  versionCode 8
+                  versionName '8.0'
               }
           }
           EOF
@@ -528,9 +684,11 @@ jobs:
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
               <application
                   android:label="GRAM Update"
-                  android:icon="@drawable/ic_launcher"
+                  android:icon="@mipmap/ic_launcher"
+                  android:roundIcon="@mipmap/ic_launcher"
                   android:supportsRtl="true"
                   android:theme="@android:style/Theme.Material.NoActionBar">
                   <activity android:name=".MainActivity" android:exported="true"
@@ -606,7 +764,7 @@ jobs:
                       android:id="@+id/logo"
                       android:layout_width="30dp"
                       android:layout_height="30dp"
-                      android:src="@drawable/ic_launcher" />
+                      android:src="@drawable/logo_badge" />
                   <LinearLayout
                       android:layout_width="0dp"
                       android:layout_height="wrap_content"
@@ -684,7 +842,7 @@ jobs:
                       android:id="@+id/time"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="اضغط للتحديث"
+                      android:text=""
                       android:textColor="#4A5670"
                       android:textSize="11sp"
                       android:fontFeatureSettings="tnum" />
@@ -703,7 +861,7 @@ jobs:
               android:resizeMode="horizontal|vertical"
               android:updatePeriodMillis="1800000"
               android:initialLayout="@layout/widget"
-              android:previewLayout="@layout/widget"
+              android:previewImage="@drawable/widget_preview"
               android:description="@string/widget_desc"
               android:widgetCategory="home_screen" />
           EOF
@@ -711,6 +869,7 @@ jobs:
           cat > src/main/java/com/ton/price/PriceWidget.java << 'EOF'
           package com.ton.price;
 
+          import android.app.AlarmManager;
           import android.app.PendingIntent;
           import android.appwidget.AppWidgetManager;
           import android.appwidget.AppWidgetProvider;
@@ -747,6 +906,11 @@ jobs:
               public void onReceive(Context c, Intent i) {
                   String a = i.getAction();
                   if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(a) || REFRESH.equals(a)) {
+                      if (AppWidgetManager.getInstance(c).getAppWidgetIds(new ComponentName(c, PriceWidget.class)).length == 0) {
+                          onDisabled(c);
+                          return;
+                      }
+                      schedule(c);
                       final PendingResult pr = goAsync();
                       final Context app = c.getApplicationContext();
                       new Thread(new Runnable() {
@@ -757,6 +921,29 @@ jobs:
                   } else {
                       super.onReceive(c, i);
                   }
+              }
+
+              @Override
+              public void onDisabled(Context c) {
+                  AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+                  if (am != null) am.cancel(tick(c));
+              }
+
+              static PendingIntent tick(Context c) {
+                  Intent i = new Intent(c, PriceWidget.class).setAction(REFRESH);
+                  return PendingIntent.getBroadcast(c, 2, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+              }
+
+              static void schedule(Context c) {
+                  AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+                  if (am == null) return;
+                  long every = 60 * 1000L;
+                  am.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + every, every, tick(c));
+              }
+
+              static PendingIntent openApp(Context c) {
+                  Intent oi = new Intent(c, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                  return PendingIntent.getActivity(c, 1, oi, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
               }
 
               static String get(String path) throws Exception {
@@ -829,12 +1016,7 @@ jobs:
                   AppWidgetManager m = AppWidgetManager.getInstance(c);
                   ComponentName cn = new ComponentName(c, PriceWidget.class);
                   RemoteViews rv = new RemoteViews(c.getPackageName(), R.layout.widget);
-                  Intent ri = new Intent(c, PriceWidget.class).setAction(REFRESH);
-                  rv.setOnClickPendingIntent(R.id.root, PendingIntent.getBroadcast(c, 0, ri,
-                      PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
-                  Intent oi = new Intent(c, MainActivity.class);
-                  rv.setOnClickPendingIntent(R.id.logo, PendingIntent.getActivity(c, 1, oi,
-                      PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
+                  rv.setOnClickPendingIntent(R.id.root, openApp(c));
                   try {
                       JSONObject o = new JSONObject(get(TICKER));
                       double p = Double.parseDouble(o.getString("lastPrice"));
@@ -851,8 +1033,8 @@ jobs:
                       rv.setTextColor(R.id.pill, col);
                       rv.setInt(R.id.pill, "setBackgroundResource", up ? R.drawable.pill_up : R.drawable.pill_down);
                       rv.setTextViewText(R.id.range, "↓ " + money(lo) + "    ↑ " + money(hi));
-                      rv.setTextViewText(R.id.time, now);
-                      rv.setTextColor(R.id.time, 0xFF4A5670);
+                      rv.setTextViewText(R.id.time, "● " + now);
+                      rv.setTextColor(R.id.time, 0xFF7D8BA5);
 
                       try {
                           JSONArray k = new JSONArray(get(KLINES));
@@ -866,10 +1048,9 @@ jobs:
                   } catch (Exception e) {
                       String last = sp.getString("last", null);
                       RemoteViews err = new RemoteViews(c.getPackageName(), R.layout.widget);
-                      err.setTextViewText(R.id.time, last != null ? "⚠ " + last : "⚠ اضغط للتحديث");
+                      err.setTextViewText(R.id.time, last != null ? "⚠ " + last : "⚠");
                       err.setTextColor(R.id.time, DOWN);
-                      err.setOnClickPendingIntent(R.id.root, PendingIntent.getBroadcast(c, 0, ri,
-                          PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
+                      err.setOnClickPendingIntent(R.id.root, openApp(c));
                       m.partiallyUpdateAppWidget(m.getAppWidgetIds(cn), err);
                       return;
                   }
@@ -882,7 +1063,18 @@ jobs:
           package com.ton.price;
 
           import android.app.Activity;
+          import android.app.AlertDialog;
+          import android.content.Context;
+          import android.content.Intent;
+          import android.content.SharedPreferences;
+          import android.net.ConnectivityManager;
+          import android.net.Uri;
+          import android.os.Build;
           import android.os.Bundle;
+          import android.os.Handler;
+          import android.os.Looper;
+          import android.os.PowerManager;
+          import android.provider.Settings;
           import android.webkit.WebResourceError;
           import android.webkit.WebResourceRequest;
           import android.webkit.WebSettings;
@@ -897,7 +1089,10 @@ jobs:
                   + "<button onclick=\"location.href='" + URL + "'\" style='background:#3aa8ff;color:#fff;"
                   + "border:0;border-radius:14px;padding:14px 32px;font-size:16px'>إعادة المحاولة</button>"
                   + "</body></html>";
+              static final long SNOOZE = 3L * 24 * 60 * 60 * 1000;
               WebView web;
+              AlertDialog dialog;
+              final Handler handler = new Handler(Looper.getMainLooper());
 
               @Override
               protected void onCreate(Bundle b) {
@@ -918,6 +1113,93 @@ jobs:
                   });
                   setContentView(web);
                   web.loadUrl(URL);
+              }
+
+              @Override
+              protected void onResume() {
+                  super.onResume();
+                  sendBroadcast(new Intent(this, PriceWidget.class).setAction(PriceWidget.REFRESH));
+                  handler.postDelayed(new Runnable() {
+                      public void run() { askPermissions(); }
+                  }, 1500);
+              }
+
+              @Override
+              protected void onPause() {
+                  super.onPause();
+                  handler.removeCallbacksAndMessages(null);
+              }
+
+              SharedPreferences prefs() { return getSharedPreferences("perm", Context.MODE_PRIVATE); }
+
+              boolean snoozed(String key) { return System.currentTimeMillis() < prefs().getLong(key, 0); }
+
+              void snooze(String key) { prefs().edit().putLong(key, System.currentTimeMillis() + SNOOZE).apply(); }
+
+              boolean batteryOk() {
+                  PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                  return pm == null || pm.isIgnoringBatteryOptimizations(getPackageName());
+              }
+
+              boolean dataOk() {
+                  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                  return cm == null || cm.getRestrictBackgroundStatus() != ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED;
+              }
+
+              void askPermissions() {
+                  if (isFinishing() || (dialog != null && dialog.isShowing())) return;
+                  if (!batteryOk() && !snoozed("battery")) {
+                      show("تشغيل الويدجت بالخلفية",
+                          "حتى يبقى سعر GRAM يتحدث على الشاشة الرئيسية، اسمح للتطبيق يشتغل بدون قيود البطارية.\n\nبالنافذة اللي تطلع اضغط «سماح».",
+                          "battery", new Runnable() { public void run() { openBattery(); } });
+                  } else if (!dataOk() && !snoozed("data")) {
+                      show("استخدام البيانات بالخلفية",
+                          "وضع توفير البيانات مفعّل ويمنع الويدجت يجيب السعر.\n\nبالصفحة اللي تفتح فعّل «السماح بالبيانات أثناء توفير البيانات».",
+                          "data", new Runnable() { public void run() { openData(); } });
+                  }
+              }
+
+              void show(String title, String msg, final String key, final Runnable allow) {
+                  dialog = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert)
+                      .setTitle(title)
+                      .setMessage(msg)
+                      .setCancelable(false)
+                      .setPositiveButton("سماح", new android.content.DialogInterface.OnClickListener() {
+                          public void onClick(android.content.DialogInterface d, int w) { allow.run(); }
+                      })
+                      .setNegativeButton("لاحقاً", new android.content.DialogInterface.OnClickListener() {
+                          public void onClick(android.content.DialogInterface d, int w) { snooze(key); }
+                      })
+                      .create();
+                  dialog.show();
+              }
+
+              void openBattery() {
+                  try {
+                      Intent i = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                      i.setData(Uri.parse("package:" + getPackageName()));
+                      startActivity(i);
+                  } catch (Exception e) {
+                      openAppSettings();
+                  }
+              }
+
+              void openData() {
+                  try {
+                      Intent i = new Intent(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS);
+                      i.setData(Uri.parse("package:" + getPackageName()));
+                      startActivity(i);
+                  } catch (Exception e) {
+                      openAppSettings();
+                  }
+              }
+
+              void openAppSettings() {
+                  try {
+                      Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                      i.setData(Uri.parse("package:" + getPackageName()));
+                      startActivity(i);
+                  } catch (Exception ignored) {}
               }
 
               @Override
