@@ -674,8 +674,8 @@ jobs:
                   applicationId 'com.ton.price'
                   minSdk 24
                   targetSdk 34
-                  versionCode 8
-                  versionName '8.0'
+                  versionCode 9
+                  versionName '9.0'
               }
           }
           EOF
@@ -685,6 +685,7 @@ jobs:
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <uses-permission android:name="android.permission.INTERNET" />
               <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+              <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
               <application
                   android:label="GRAM Update"
                   android:icon="@mipmap/ic_launcher"
@@ -1118,9 +1119,13 @@ jobs:
               @Override
               protected void onResume() {
                   super.onResume();
-                  sendBroadcast(new Intent(this, PriceWidget.class).setAction(PriceWidget.REFRESH));
+                  try {
+                      sendBroadcast(new Intent(this, PriceWidget.class).setAction(PriceWidget.REFRESH));
+                  } catch (Exception ignored) {}
                   handler.postDelayed(new Runnable() {
-                      public void run() { askPermissions(); }
+                      public void run() {
+                          try { askPermissions(); } catch (Exception ignored) {}
+                      }
                   }, 1500);
               }
 
@@ -1137,13 +1142,21 @@ jobs:
               void snooze(String key) { prefs().edit().putLong(key, System.currentTimeMillis() + SNOOZE).apply(); }
 
               boolean batteryOk() {
-                  PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                  return pm == null || pm.isIgnoringBatteryOptimizations(getPackageName());
+                  try {
+                      PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                      return pm == null || pm.isIgnoringBatteryOptimizations(getPackageName());
+                  } catch (Exception e) {
+                      return true;
+                  }
               }
 
               boolean dataOk() {
-                  ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                  return cm == null || cm.getRestrictBackgroundStatus() != ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED;
+                  try {
+                      ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                      return cm == null || cm.getRestrictBackgroundStatus() != ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED;
+                  } catch (Exception e) {
+                      return true;
+                  }
               }
 
               void askPermissions() {
