@@ -1,24 +1,503 @@
-name: Build GRAM App
+# GRAM Update — ملف واحد يبني كل شي: صفحة التطبيق + الشعار + الـ APK والويدجت
+name: GRAM Update
 
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/build.yml', 'logo.png']
+    paths: ['.github/workflows/build.yml']
   workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: gram-update
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Create project files
+      - name: Create all files
         run: |
-          rm -rf src
-          mkdir -p src/main/java/com/ton/price src/main/res/drawable src/main/res/layout src/main/res/xml
+          rm -rf src site
+          mkdir -p site
+          base64 -d > site/logo.png << 'EOF'
+          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
+          z1gVBVpJjyQAAAAASUVORK5CYII=
+          EOF
+
+          cat > site/ton.html << 'EOF'
+          <!doctype html>
+          <html lang="ar" dir="rtl">
+          <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+          <meta name="theme-color" content="#070b14">
+          <title>GRAM Update</title>
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap">
+          <style>
+            /* Layout: single column instrument panel — hero price, chart, range, stats grid, converter */
+            :root{
+              --bg:#070b14; --surface:#0e1524; --surface-2:#141d31; --line:rgba(150,175,215,.10);
+              --txt:#eef3fb; --sub:#7d8ba5; --faint:#4a5670;
+              --accent:#3aa8ff; --accent-2:#7b6cff; --up:#2fd58b; --down:#ff5c6c;
+              --font:"Readex Pro",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+              --r-lg:24px; --r-md:16px;
+            }
+            *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+            [hidden]{display:none!important}
+            html,body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--font)}
+            body{
+              min-height:100vh;
+              padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 28px) max(16px,env(safe-area-inset-left,0px));
+              background:
+                radial-gradient(120% 60% at 50% -10%, rgba(58,168,255,.16), transparent 60%),
+                radial-gradient(80% 40% at 100% 0%, rgba(123,108,255,.10), transparent 70%),
+                var(--bg);
+              background-attachment:fixed;
+            }
+            .wrap{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+            .num{direction:ltr;unicode-bidi:isolate;display:inline-block;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+            /* Top bar */
+            .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+            .brand{display:flex;align-items:center;gap:10px}
+            .mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+              background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 6px 20px rgba(58,168,255,.35)}
+            .mark img{width:100%;height:100%;border-radius:12px;object-fit:cover}
+            .brand b{font-size:17px;font-weight:700;letter-spacing:.02em}
+            .brand small{display:block;color:var(--sub);font-size:11px;font-weight:400;letter-spacing:.06em}
+            .actions{display:flex;align-items:center;gap:8px}
+            .live{display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:99px;
+              background:var(--surface);border:1px solid var(--line);font-size:12px;color:var(--sub)}
+            .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
+            .live.on .dot{background:var(--up);box-shadow:0 0 0 0 rgba(47,213,139,.6);animation:pulse 2s infinite}
+            .live.on{color:var(--txt)}
+            @keyframes pulse{70%{box-shadow:0 0 0 7px rgba(47,213,139,0)}100%{box-shadow:0 0 0 0 rgba(47,213,139,0)}}
+            .icon-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);
+              color:var(--txt);display:grid;place-items:center;cursor:pointer}
+            .icon-btn svg{width:16px;height:16px}
+            .icon-btn.spin svg{animation:spin .8s linear}
+            @keyframes spin{to{transform:rotate(360deg)}}
+
+            /* Hero */
+            .hero{padding:18px 4px 6px}
+            .label{color:var(--sub);font-size:13px}
+            .price{font-size:clamp(44px,14vw,60px);font-weight:600;line-height:1.05;margin-top:6px;text-align:right;
+              transition:color .6s}
+            .price.flash-up{color:var(--up);transition:none}
+            .price.flash-down{color:var(--down);transition:none}
+            .chg{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+            .pill{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px;border-radius:99px;
+              font-size:13px;font-weight:600}
+            .pill.up{color:var(--up);background:rgba(47,213,139,.12)}
+            .pill.down{color:var(--down);background:rgba(255,92,108,.12)}
+            .chg .abs{font-size:13px;color:var(--sub)}
+
+            /* Cards */
+            .card{background:linear-gradient(180deg,var(--surface),rgba(14,21,36,.85));border:1px solid var(--line);
+              border-radius:var(--r-lg);padding:16px}
+            .card-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
+            .card-h h2{margin:0;font-size:14px;font-weight:500;color:var(--sub)}
+
+            /* Chart */
+            .tabs{display:flex;gap:4px;padding:4px;background:var(--bg);border-radius:12px;border:1px solid var(--line)}
+            .tab{border:0;background:none;color:var(--sub);font:500 12px var(--font);height:28px;padding:0 10px;border-radius:9px;cursor:pointer}
+            .tab[aria-pressed="true"]{background:var(--surface-2);color:var(--txt)}
+            .scrub{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;min-height:22px}
+            .scrub .v{font-size:16px;font-weight:600}
+            .scrub .t{font-size:12px;color:var(--sub)}
+            .chart-box{position:relative;height:190px;margin:8px -4px 0;touch-action:pan-y}
+            canvas{width:100%;height:100%;display:block}
+            .chart-empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--faint);font-size:13px}
+            .chart-foot{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--faint)}
+
+            /* Range */
+            .range{margin-top:14px}
+            .track{position:relative;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--down),#f5c451,var(--up));opacity:.9}
+            .knob{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:var(--txt);
+              border:3px solid var(--bg);transform:translate(-50%,-50%);left:50%;transition:left .5s cubic-bezier(.2,.8,.2,1);box-shadow:0 2px 10px rgba(0,0,0,.5)}
+            .range-lbl{display:flex;justify-content:space-between;margin-top:10px;font-size:12px}
+            .range-lbl span{color:var(--sub)}
+            .range-lbl b{display:block;font-size:14px;font-weight:600;color:var(--txt);margin-top:2px}
+            [dir=rtl] .track{transform:scaleX(1)}
+
+            /* Stats */
+            .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+            .tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px;min-width:0}
+            .tile span{display:block;color:var(--sub);font-size:12px}
+            .tile b{display:block;font-size:17px;font-weight:600;margin-top:6px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+            /* Converter */
+            .conv{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+            .field{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-md);padding:0 14px;height:58px;transition:border-color .2s}
+            .field:focus-within{border-color:var(--accent)}
+            .field input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--txt);font:600 20px var(--font);
+              direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
+            .field .cur{font-size:13px;font-weight:600;color:var(--sub);background:var(--surface-2);padding:5px 10px;border-radius:8px}
+            .swap{align-self:center;margin:-16px 0;z-index:1;width:34px;height:34px;border-radius:50%;background:var(--surface-2);
+              border:1px solid var(--line);display:grid;place-items:center;color:var(--accent)}
+            .swap svg{width:16px;height:16px}
+
+            .foot{text-align:center;color:var(--faint);font-size:11px;line-height:1.8;margin-top:4px}
+            .err{color:var(--down)}
+            button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+            @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+          </style>
+          </head>
+          <body>
+          <div class="wrap">
+
+            <header class="top">
+              <div class="brand">
+                <div class="mark" id="mark">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M18 7.5A7 7 0 1 0 19 13h-6"/></svg>
+                </div>
+                <div><b>GRAM</b><small>UPDATE</small></div>
+              </div>
+              <div class="actions">
+                <div class="live" id="live"><span class="dot"></span><span id="liveTxt">جاري الاتصال</span></div>
+                <button class="icon-btn" id="refresh" aria-label="تحديث">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+                </button>
+              </div>
+            </header>
+
+            <section class="hero">
+              <div class="label">سعر GRAM الآن · USDT</div>
+              <div class="price num" id="price">—</div>
+              <div class="chg">
+                <span class="pill up" id="pct"><span class="num">—</span></span>
+                <span class="abs num" id="abs"></span>
+                <span class="abs">خلال 24 ساعة</span>
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="card-h">
+                <h2>الحركة</h2>
+                <div class="tabs" role="group" aria-label="المدة">
+                  <button class="tab" data-r="1D" aria-pressed="false">يوم</button>
+                  <button class="tab" data-r="1W" aria-pressed="true">أسبوع</button>
+                  <button class="tab" data-r="1M" aria-pressed="false">شهر</button>
+                  <button class="tab" data-r="1Y" aria-pressed="false">سنة</button>
+                </div>
+              </div>
+              <div class="scrub"><span class="v num" id="scrubV">—</span><span class="t" id="scrubT"></span></div>
+              <div class="chart-box" id="chartBox">
+                <canvas id="chart"></canvas>
+                <div class="chart-empty" id="chartEmpty">جاري تحميل الرسم…</div>
+              </div>
+              <div class="chart-foot"><span>المس الرسم واسحب لعرض السعر بأي وقت</span><span id="periodChg" class="num"></span></div>
+            </section>
+
+            <section class="card">
+              <div class="card-h"><h2>نطاق آخر 24 ساعة</h2></div>
+              <div class="range">
+                <div class="track" dir="ltr"><div class="knob" id="knob"></div></div>
+                <div class="range-lbl" dir="ltr">
+                  <div><span>الأدنى</span><b class="num" id="low">—</b></div>
+                  <div style="text-align:right"><span>الأعلى</span><b class="num" id="high">—</b></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="grid">
+              <div class="tile"><span>حجم التداول (USDT)</span><b class="num" id="qvol">—</b></div>
+              <div class="tile"><span>حجم التداول (GRAM)</span><b class="num" id="vol">—</b></div>
+              <div class="tile"><span>سعر الافتتاح</span><b class="num" id="open">—</b></div>
+              <div class="tile"><span>عدد الصفقات</span><b class="num" id="trades">—</b></div>
+            </section>
+
+            <section class="card">
+              <div class="card-h"><h2>المحوّل</h2></div>
+              <div class="conv">
+                <label class="field"><input id="inGram" type="text" inputmode="decimal" value="1" aria-label="كمية GRAM"><span class="cur">GRAM</span></label>
+                <div class="swap" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg></div>
+                <label class="field"><input id="inUsd" type="text" inputmode="decimal" aria-label="المبلغ بالدولار"><span class="cur">USD</span></label>
+              </div>
+            </section>
+
+            <div class="foot" id="foot">البيانات من Binance</div>
+          </div>
+
+          <script>
+          (function(){
+            "use strict";
+            var HOSTS=["https://api.binance.com","https://data-api.binance.vision"];
+            var WSS=["wss://stream.binance.com:9443/ws/gramusdt@ticker","wss://data-stream.binance.vision/ws/gramusdt@ticker"];
+            var SYM="GRAMUSDT";
+            var RANGES={"1D":["15m",96],"1W":["1h",168],"1M":["4h",180],"1Y":["1d",365]};
+            var $=function(id){return document.getElementById(id)};
+            var state={price:0,range:"1W",series:[],times:[],lastSide:"gram",ws:null,wsIdx:0,lastTick:0};
+
+            try{var saved=localStorage.getItem("gram.range");if(saved&&RANGES[saved])state.range=saved;}catch(e){}
+
+            // Optional logo uploaded to the repo as logo.png
+            (function(){var img=new Image();img.onload=function(){$("mark").innerHTML="";$("mark").appendChild(img);};img.src="logo.png";})();
+
+            function dec(v){return v>=1000?2:v>=10?2:v>=1?3:v>=0.01?4:6}
+            function money(v){return "$"+v.toLocaleString("en-US",{minimumFractionDigits:dec(v),maximumFractionDigits:dec(v)})}
+            function compact(v,prefix){
+              var s=v>=1e9?(v/1e9).toFixed(2)+"B":v>=1e6?(v/1e6).toFixed(2)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":v.toFixed(0);
+              return (prefix||"")+s;
+            }
+            function clock(d){return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+            function fmtTime(ms){
+              var d=new Date(ms);
+              if(state.range==="1D")return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+              var day=d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"});
+              return state.range==="1Y"?day+" "+d.getFullYear():day+" · "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+            }
+
+            function fetchJSON(path){
+              var i=0;
+              function next(){
+                if(i>=HOSTS.length)return Promise.reject(new Error("unreachable"));
+                var h=HOSTS[i++];
+                return fetch(h+path,{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(next);
+              }
+              return next();
+            }
+
+            /* ---------- Ticker ---------- */
+            function applyTicker(t){
+              var p=+t.price, prev=state.price;
+              state.price=p;
+              var el=$("price");
+              el.textContent=money(p);
+              if(prev&&p!==prev){
+                el.classList.remove("flash-up","flash-down");void el.offsetWidth;
+                el.classList.add(p>prev?"flash-up":"flash-down");
+                setTimeout(function(){el.classList.remove("flash-up","flash-down")},450);
+              }
+              var up=t.pct>=0,pill=$("pct");
+              pill.className="pill "+(up?"up":"down");
+              pill.innerHTML='<span class="num">'+(up?"▲ +":"▼ ")+t.pct.toFixed(2)+"%</span>";
+              $("abs").textContent=(t.chg>=0?"+":"-")+money(Math.abs(t.chg));
+              $("low").textContent=money(t.low);
+              $("high").textContent=money(t.high);
+              var pos=t.high>t.low?(p-t.low)/(t.high-t.low):.5;
+              $("knob").style.left=(Math.max(0,Math.min(1,pos))*100)+"%";
+              $("qvol").textContent=compact(t.qvol,"$");
+              $("vol").textContent=compact(t.vol);
+              $("open").textContent=money(t.open);
+              $("trades").textContent=Math.round(t.trades).toLocaleString("en-US");
+              if(!scrubbing)$("scrubV").textContent=money(p);
+              syncConv();
+              state.lastTick=Date.now();
+              $("foot").innerHTML="البيانات من Binance · آخر تحديث <span class='num'>"+clock(new Date())+"</span>";
+            }
+
+            function loadTicker(){
+              return fetchJSON("/api/v3/ticker/24hr?symbol="+SYM).then(function(t){
+                applyTicker({price:+t.lastPrice,pct:+t.priceChangePercent,chg:+t.priceChange,low:+t.lowPrice,high:+t.highPrice,
+                  qvol:+t.quoteVolume,vol:+t.volume,open:+t.openPrice,trades:+t.count});
+              });
+            }
+
+            /* ---------- Live stream ---------- */
+            function setLive(on,txt){$("live").classList.toggle("on",on);$("liveTxt").textContent=txt;}
+            function connect(){
+              if(!("WebSocket" in window)){setLive(false,"تحديث دوري");return;}
+              var url=WSS[state.wsIdx%WSS.length],ws;
+              try{ws=new WebSocket(url);}catch(e){state.wsIdx++;setTimeout(connect,3000);return;}
+              state.ws=ws;
+              ws.onopen=function(){setLive(true,"مباشر")};
+              ws.onmessage=function(m){
+                try{var d=JSON.parse(m.data);
+                  applyTicker({price:+d.c,pct:+d.P,chg:+d.p,low:+d.l,high:+d.h,qvol:+d.q,vol:+d.v,open:+d.o,trades:+d.n});
+                }catch(e){}
+              };
+              ws.onclose=function(){setLive(false,"إعادة الاتصال");state.wsIdx++;setTimeout(connect,3000)};
+              ws.onerror=function(){try{ws.close()}catch(e){}};
+            }
+            // Safety net: if the stream goes quiet, poll
+            setInterval(function(){if(Date.now()-state.lastTick>20000)loadTicker().catch(function(){});},10000);
+
+            /* ---------- Chart ---------- */
+            var cv=$("chart"),ctx=cv.getContext("2d"),scrubbing=false,hoverIdx=-1;
+            function loadChart(){
+              var r=RANGES[state.range];
+              $("chartEmpty").hidden=false;$("chartEmpty").textContent="جاري تحميل الرسم…";
+              return fetchJSON("/api/v3/klines?symbol="+SYM+"&interval="+r[0]+"&limit="+r[1]).then(function(k){
+                state.series=k.map(function(c){return +c[4]});
+                state.times=k.map(function(c){return c[0]});
+                $("chartEmpty").hidden=true;
+                var a=state.series[0],b=state.series[state.series.length-1],ch=(b-a)/a*100;
+                var pc=$("periodChg");pc.textContent=(ch>=0?"+":"")+ch.toFixed(2)+"%";
+                pc.style.color=ch>=0?"var(--up)":"var(--down)";
+                draw();
+              }).catch(function(){$("chartEmpty").textContent="تعذر تحميل الرسم";});
+            }
+            function draw(){
+              var d=state.series,dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;
+              cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+              if(d.length<2)return;
+              var min=Math.min.apply(null,d),max=Math.max.apply(null,d),rg=(max-min)||1,pt=12,pb=10;
+              var up=d[d.length-1]>=d[0],col=up?"47,213,139":"255,92,108";
+              var px=10;function X(i){return px+(W-2*px)*i/(d.length-1)}
+              function Y(v){return pt+(H-pt-pb)*(1-(v-min)/rg)}
+              // grid
+              ctx.strokeStyle="rgba(150,175,215,.07)";ctx.lineWidth=1;
+              for(var g=1;g<4;g++){var gy=Math.round(H*g/4)+.5;ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+              // area
+              ctx.beginPath();
+              for(var i=0;i<d.length;i++){i?ctx.lineTo(X(i),Y(d[i])):ctx.moveTo(X(i),Y(d[i]))}
+              ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();
+              var gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,"rgba("+col+",.28)");gr.addColorStop(1,"rgba("+col+",0)");
+              ctx.fillStyle=gr;ctx.fill();
+              // line
+              ctx.beginPath();
+              for(i=0;i<d.length;i++){i?ctx.lineTo(X(i),Y(d[i])):ctx.moveTo(X(i),Y(d[i]))}
+              ctx.strokeStyle="rgb("+col+")";ctx.lineWidth=2;ctx.lineJoin="round";ctx.lineCap="round";
+              ctx.shadowColor="rgba("+col+",.5)";ctx.shadowBlur=10;ctx.stroke();ctx.shadowBlur=0;
+              // marker
+              var mi=hoverIdx>=0?hoverIdx:d.length-1,mx=X(mi),my=Y(d[mi]);
+              if(hoverIdx>=0){
+                ctx.strokeStyle="rgba(238,243,251,.25)";ctx.setLineDash([3,4]);
+                ctx.beginPath();ctx.moveTo(mx,0);ctx.lineTo(mx,H);ctx.stroke();ctx.setLineDash([]);
+              }
+              ctx.fillStyle="rgba("+col+",.25)";ctx.beginPath();ctx.arc(mx,my,9,0,7);ctx.fill();
+              ctx.fillStyle="#eef3fb";ctx.beginPath();ctx.arc(mx,my,4,0,7);ctx.fill();
+            }
+            function scrubAt(clientX){
+              var r=cv.getBoundingClientRect(),n=state.series.length;if(n<2)return;
+              var i=Math.round((clientX-r.left-10)/(r.width-20)*(n-1));i=Math.max(0,Math.min(n-1,i));
+              hoverIdx=i;scrubbing=true;
+              $("scrubV").textContent=money(state.series[i]);$("scrubT").textContent=fmtTime(state.times[i]);
+              draw();
+            }
+            function endScrub(){hoverIdx=-1;scrubbing=false;$("scrubV").textContent=state.price?money(state.price):"—";$("scrubT").textContent="";draw();}
+            var box=$("chartBox");
+            box.addEventListener("pointerdown",function(e){scrubAt(e.clientX)});
+            box.addEventListener("pointermove",function(e){if(scrubbing||e.pointerType==="mouse")scrubAt(e.clientX)});
+            ["pointerup","pointercancel","pointerleave"].forEach(function(ev){box.addEventListener(ev,endScrub)});
+            if("ResizeObserver" in window)new ResizeObserver(draw).observe(box);else window.addEventListener("resize",draw);
+
+            Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(b){
+              b.setAttribute("aria-pressed",b.dataset.r===state.range?"true":"false");
+              b.addEventListener("click",function(){
+                if(state.range===b.dataset.r)return;
+                state.range=b.dataset.r;
+                try{localStorage.setItem("gram.range",state.range)}catch(e){}
+                Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+                loadChart();
+              });
+            });
+
+            /* ---------- Converter ---------- */
+            function parse(v){v=(v||"").replace(/[٠-٩]/g,function(c){return "٠١٢٣٤٥٦٧٨٩".indexOf(c)}).replace(/[٫,]/g,".");return parseFloat(v)}
+            function trim(n,max){return n.toLocaleString("en-US",{maximumFractionDigits:max,useGrouping:false})}
+            function syncConv(){
+              if(!state.price)return;
+              if(state.lastSide==="gram"){var g=parse($("inGram").value);$("inUsd").value=isNaN(g)?"":trim(g*state.price,2);}
+              else{var u=parse($("inUsd").value);$("inGram").value=isNaN(u)?"":trim(u/state.price,4);}
+            }
+            $("inGram").addEventListener("input",function(){state.lastSide="gram";syncConv()});
+            $("inUsd").addEventListener("input",function(){state.lastSide="usd";syncConv()});
+
+            /* ---------- Refresh ---------- */
+            $("refresh").addEventListener("click",function(){
+              var b=this;b.classList.remove("spin");void b.offsetWidth;b.classList.add("spin");
+              Promise.all([loadTicker(),loadChart()]).catch(function(){});
+            });
+
+            loadTicker().catch(function(){$("foot").innerHTML="<span class='err'>تعذر الاتصال بـ Binance، تأكد من الإنترنت</span>"});
+            loadChart();
+            connect();
+            document.addEventListener("visibilitychange",function(){if(!document.hidden){loadTicker().catch(function(){});}});
+          })();
+          </script>
+          </body>
+          </html>
+          EOF
+          mkdir -p src/main/java/com/ton/price src/main/res/drawable src/main/res/layout src/main/res/xml src/main/res/values
+          cp site/logo.png src/main/res/drawable/ic_launcher.png
 
           cat > settings.gradle << 'EOF'
           pluginManagement {
@@ -39,8 +518,8 @@ jobs:
                   applicationId 'com.ton.price'
                   minSdk 24
                   targetSdk 34
-                  versionCode 4
-                  versionName '4.0'
+                  versionCode 6
+                  versionName '6.0'
               }
           }
           EOF
@@ -72,28 +551,37 @@ jobs:
           </manifest>
           EOF
 
-          cat > src/main/res/drawable/ic_launcher.xml << 'EOF'
-          <vector xmlns:android="http://schemas.android.com/apk/res/android"
-              android:width="108dp" android:height="108dp"
-              android:viewportWidth="108" android:viewportHeight="108">
-              <path android:fillColor="#0098EA"
-                  android:pathData="M54,4a50,50 0 1,0 0.1,0z" />
-              <path android:fillColor="#FFFFFF"
-                  android:pathData="M32,36h44l-22,40z" />
-              <path android:fillColor="#0098EA"
-                  android:pathData="M51,40h6v28l-3,5l-3,-5z" />
-          </vector>
-          EOF
-          if [ -f logo.png ]; then
-            rm src/main/res/drawable/ic_launcher.xml
-            cp logo.png src/main/res/drawable/ic_launcher.png
-          fi
 
           cat > src/main/res/drawable/widget_bg.xml << 'EOF'
+          <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+              <item>
+                  <shape android:shape="rectangle">
+                      <gradient android:angle="270" android:startColor="#131D33" android:endColor="#070B14" />
+                      <corners android:radius="28dp" />
+                      <stroke android:width="1dp" android:color="#1E2A44" />
+                  </shape>
+              </item>
+          </layer-list>
+          EOF
+
+          cat > src/main/res/drawable/pill_up.xml << 'EOF'
           <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-              <solid android:color="#0B0B0F" />
-              <corners android:radius="28dp" />
+              <solid android:color="#262FD58B" />
+              <corners android:radius="99dp" />
           </shape>
+          EOF
+
+          cat > src/main/res/drawable/pill_down.xml << 'EOF'
+          <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+              <solid android:color="#26FF5C6C" />
+              <corners android:radius="99dp" />
+          </shape>
+          EOF
+
+          cat > src/main/res/values/strings.xml << 'EOF'
+          <resources>
+              <string name="widget_desc">سعر GRAM المباشر من Binance</string>
+          </resources>
           EOF
 
           cat > src/main/res/layout/widget.xml << 'EOF'
@@ -102,10 +590,13 @@ jobs:
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:gravity="center_vertical"
-              android:padding="16dp"
+              android:paddingLeft="18dp"
+              android:paddingRight="18dp"
+              android:paddingTop="16dp"
+              android:paddingBottom="14dp"
               android:layoutDirection="ltr"
               android:background="@drawable/widget_bg">
+
               <LinearLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -116,52 +607,104 @@ jobs:
                       android:layout_width="30dp"
                       android:layout_height="30dp"
                       android:src="@drawable/ic_launcher" />
+                  <LinearLayout
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:layout_marginStart="10dp"
+                      android:orientation="vertical">
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="GRAM"
+                          android:textColor="#EEF3FB"
+                          android:textSize="15sp"
+                          android:fontFamily="sans-serif-medium"
+                          android:letterSpacing="0.04" />
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="USDT · Binance"
+                          android:textColor="#7D8BA5"
+                          android:textSize="10sp" />
+                  </LinearLayout>
                   <TextView
+                      android:id="@+id/pill"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_marginStart="8dp"
-                      android:text="GRAM"
-                      android:textColor="#FFFFFF"
-                      android:textSize="16sp"
-                      android:textStyle="bold" />
+                      android:background="@drawable/pill_up"
+                      android:paddingLeft="10dp"
+                      android:paddingRight="10dp"
+                      android:paddingTop="4dp"
+                      android:paddingBottom="4dp"
+                      android:text="—"
+                      android:textColor="#2FD58B"
+                      android:textSize="12sp"
+                      android:fontFamily="sans-serif-medium"
+                      android:fontFeatureSettings="tnum" />
               </LinearLayout>
+
               <TextView
                   android:id="@+id/price"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_marginTop="10dp"
-                  android:text="..."
-                  android:textColor="#FFFFFF"
-                  android:textSize="30sp"
-                  android:textStyle="bold" />
-              <TextView
-                  android:id="@+id/change"
-                  android:layout_width="wrap_content"
+                  android:layout_marginTop="8dp"
+                  android:text="$—"
+                  android:textColor="#EEF3FB"
+                  android:textSize="34sp"
+                  android:fontFamily="sans-serif-medium"
+                  android:fontFeatureSettings="tnum"
+                  android:includeFontPadding="false" />
+
+              <ImageView
+                  android:id="@+id/spark"
+                  android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="1"
+                  android:layout_marginTop="8dp"
+                  android:scaleType="fitXY" />
+
+              <LinearLayout
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:textColor="#8A9BB5"
-                  android:textSize="14sp"
-                  android:textStyle="bold" />
-              <TextView
-                  android:id="@+id/time"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="4dp"
-                  android:text="اضغط للتحديث"
-                  android:textColor="#8A9BB5"
-                  android:textSize="11sp" />
+                  android:layout_marginTop="8dp"
+                  android:orientation="horizontal"
+                  android:gravity="center_vertical">
+                  <TextView
+                      android:id="@+id/range"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:text="↓ —   ↑ —"
+                      android:textColor="#7D8BA5"
+                      android:textSize="11sp"
+                      android:fontFeatureSettings="tnum"
+                      android:maxLines="1" />
+                  <TextView
+                      android:id="@+id/time"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="اضغط للتحديث"
+                      android:textColor="#4A5670"
+                      android:textSize="11sp"
+                      android:fontFeatureSettings="tnum" />
+              </LinearLayout>
           </LinearLayout>
           EOF
 
           cat > src/main/res/xml/widget_info.xml << 'EOF'
           <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-              android:minWidth="140dp"
+              android:minWidth="180dp"
               android:minHeight="110dp"
-              android:targetCellWidth="2"
+              android:minResizeWidth="140dp"
+              android:minResizeHeight="100dp"
+              android:targetCellWidth="4"
               android:targetCellHeight="2"
               android:resizeMode="horizontal|vertical"
               android:updatePeriodMillis="1800000"
               android:initialLayout="@layout/widget"
               android:previewLayout="@layout/widget"
+              android:description="@string/widget_desc"
               android:widgetCategory="home_screen" />
           EOF
 
@@ -175,7 +718,15 @@ jobs:
           import android.content.Context;
           import android.content.Intent;
           import android.content.SharedPreferences;
+          import android.graphics.Bitmap;
+          import android.graphics.Canvas;
+          import android.graphics.LinearGradient;
+          import android.graphics.Paint;
+          import android.graphics.Path;
+          import android.graphics.Shader;
+          import android.view.View;
           import android.widget.RemoteViews;
+          import org.json.JSONArray;
           import org.json.JSONObject;
           import java.io.BufferedReader;
           import java.io.InputStreamReader;
@@ -187,8 +738,10 @@ jobs:
 
           public class PriceWidget extends AppWidgetProvider {
               static final String[] HOSTS = {"https://api.binance.com", "https://data-api.binance.vision"};
-              static final String PATH = "/api/v3/ticker/24hr?symbol=GRAMUSDT";
+              static final String TICKER = "/api/v3/ticker/24hr?symbol=GRAMUSDT";
+              static final String KLINES = "/api/v3/klines?symbol=GRAMUSDT&interval=30m&limit=48";
               static final String REFRESH = "com.ton.price.REFRESH";
+              static final int UP = 0xFF2FD58B, DOWN = 0xFFFF5C6C;
 
               @Override
               public void onReceive(Context c, Intent i) {
@@ -206,31 +759,75 @@ jobs:
                   }
               }
 
-              static String get(String url) throws Exception {
-                  HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
-                  con.setConnectTimeout(4000);
-                  con.setReadTimeout(4000);
-                  con.setUseCaches(false);
-                  con.setRequestProperty("User-Agent", "GramUpdateApp");
-                  if (con.getResponseCode() != 200) throw new Exception("HTTP " + con.getResponseCode());
-                  BufferedReader r = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-                  StringBuilder sb = new StringBuilder();
-                  String line;
-                  while ((line = r.readLine()) != null) sb.append(line);
-                  r.close();
-                  return sb.toString();
-              }
-
-              static JSONObject ticker() throws Exception {
+              static String get(String path) throws Exception {
                   Exception last = null;
                   for (String h : HOSTS) {
-                      try { return new JSONObject(get(h + PATH)); } catch (Exception e) { last = e; }
+                      try {
+                          HttpURLConnection con = (HttpURLConnection) new URL(h + path).openConnection();
+                          con.setConnectTimeout(3500);
+                          con.setReadTimeout(3500);
+                          con.setUseCaches(false);
+                          con.setRequestProperty("User-Agent", "GramUpdateApp");
+                          if (con.getResponseCode() != 200) throw new Exception("HTTP " + con.getResponseCode());
+                          BufferedReader r = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+                          StringBuilder sb = new StringBuilder();
+                          String line;
+                          while ((line = r.readLine()) != null) sb.append(line);
+                          r.close();
+                          return sb.toString();
+                      } catch (Exception e) { last = e; }
                   }
                   throw last;
               }
 
+              static String money(double v) {
+                  return String.format(Locale.US, v < 10 ? "$%,.3f" : "$%,.2f", v);
+              }
+
+              static Bitmap spark(double[] d, int color) {
+                  int w = 640, h = 160;
+                  float px = 10f, py = 12f;
+                  Bitmap b = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+                  Canvas cv = new Canvas(b);
+                  double min = d[0], max = d[0];
+                  for (double v : d) { if (v < min) min = v; if (v > max) max = v; }
+                  double rg = max - min;
+                  if (rg == 0) rg = 1;
+                  Path line = new Path();
+                  float lx = 0, ly = 0;
+                  for (int i = 0; i < d.length; i++) {
+                      float x = px + (w - 2 * px) * i / (d.length - 1);
+                      float y = (float) (py + (h - 2 * py) * (1 - (d[i] - min) / rg));
+                      if (i == 0) line.moveTo(x, y); else line.lineTo(x, y);
+                      lx = x; ly = y;
+                  }
+                  Path fill = new Path(line);
+                  fill.lineTo(lx, h);
+                  fill.lineTo(px, h);
+                  fill.close();
+                  Paint fp = new Paint(Paint.ANTI_ALIAS_FLAG);
+                  fp.setShader(new LinearGradient(0, 0, 0, h, (color & 0x00FFFFFF) | 0x50000000,
+                      color & 0x00FFFFFF, Shader.TileMode.CLAMP));
+                  cv.drawPath(fill, fp);
+                  Paint lp = new Paint(Paint.ANTI_ALIAS_FLAG);
+                  lp.setStyle(Paint.Style.STROKE);
+                  lp.setStrokeWidth(4f);
+                  lp.setStrokeJoin(Paint.Join.ROUND);
+                  lp.setStrokeCap(Paint.Cap.ROUND);
+                  lp.setColor(color);
+                  cv.drawPath(line, lp);
+                  Paint dp = new Paint(Paint.ANTI_ALIAS_FLAG);
+                  dp.setColor((color & 0x00FFFFFF) | 0x40000000);
+                  cv.drawCircle(lx, ly, 10f, dp);
+                  dp.setColor(0xFFEEF3FB);
+                  cv.drawCircle(lx, ly, 5f, dp);
+                  return b;
+              }
+
               static void update(Context c) {
                   SharedPreferences sp = c.getSharedPreferences("w", Context.MODE_PRIVATE);
+                  AppWidgetManager m = AppWidgetManager.getInstance(c);
+                  ComponentName cn = new ComponentName(c, PriceWidget.class);
                   RemoteViews rv = new RemoteViews(c.getPackageName(), R.layout.widget);
                   Intent ri = new Intent(c, PriceWidget.class).setAction(REFRESH);
                   rv.setOnClickPendingIntent(R.id.root, PendingIntent.getBroadcast(c, 0, ri,
@@ -239,23 +836,44 @@ jobs:
                   rv.setOnClickPendingIntent(R.id.logo, PendingIntent.getActivity(c, 1, oi,
                       PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
                   try {
-                      JSONObject o = ticker();
+                      JSONObject o = new JSONObject(get(TICKER));
                       double p = Double.parseDouble(o.getString("lastPrice"));
                       double ch = Double.parseDouble(o.getString("priceChangePercent"));
+                      double lo = Double.parseDouble(o.getString("lowPrice"));
+                      double hi = Double.parseDouble(o.getString("highPrice"));
+                      boolean up = ch >= 0;
+                      int col = up ? UP : DOWN;
                       String now = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
                       sp.edit().putString("last", now).apply();
-                      rv.setTextViewText(R.id.price, String.format(Locale.US, p < 10 ? "$%,.3f" : "$%,.2f", p));
-                      rv.setTextViewText(R.id.change, String.format(Locale.US, "%s%.2f%%", ch >= 0 ? "▲ +" : "▼ ", ch));
-                      rv.setTextColor(R.id.change, ch >= 0 ? 0xFF22C55E : 0xFFEF4444);
-                      rv.setTextViewText(R.id.time, "تحديث " + now);
+
+                      rv.setTextViewText(R.id.price, money(p));
+                      rv.setTextViewText(R.id.pill, String.format(Locale.US, "%s %s%.2f%%", up ? "▲" : "▼", up ? "+" : "", ch));
+                      rv.setTextColor(R.id.pill, col);
+                      rv.setInt(R.id.pill, "setBackgroundResource", up ? R.drawable.pill_up : R.drawable.pill_down);
+                      rv.setTextViewText(R.id.range, "↓ " + money(lo) + "    ↑ " + money(hi));
+                      rv.setTextViewText(R.id.time, now);
+                      rv.setTextColor(R.id.time, 0xFF4A5670);
+
+                      try {
+                          JSONArray k = new JSONArray(get(KLINES));
+                          double[] d = new double[k.length()];
+                          for (int i = 0; i < d.length; i++) d[i] = Double.parseDouble(k.getJSONArray(i).getString(4));
+                          if (d.length > 1) {
+                              rv.setImageViewBitmap(R.id.spark, spark(d, col));
+                              rv.setViewVisibility(R.id.spark, View.VISIBLE);
+                          }
+                      } catch (Exception ignored) {}
                   } catch (Exception e) {
                       String last = sp.getString("last", null);
-                      rv.setTextViewText(R.id.time, last != null ? "آخر تحديث " + last + " • تعذر التحديث" : "تعذر التحديث • اضغط للمحاولة");
-                      AppWidgetManager m = AppWidgetManager.getInstance(c);
-                      m.partiallyUpdateAppWidget(m.getAppWidgetIds(new ComponentName(c, PriceWidget.class)), rv);
+                      RemoteViews err = new RemoteViews(c.getPackageName(), R.layout.widget);
+                      err.setTextViewText(R.id.time, last != null ? "⚠ " + last : "⚠ اضغط للتحديث");
+                      err.setTextColor(R.id.time, DOWN);
+                      err.setOnClickPendingIntent(R.id.root, PendingIntent.getBroadcast(c, 0, ri,
+                          PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
+                      m.partiallyUpdateAppWidget(m.getAppWidgetIds(cn), err);
                       return;
                   }
-                  AppWidgetManager.getInstance(c).updateAppWidget(new ComponentName(c, PriceWidget.class), rv);
+                  m.updateAppWidget(cn, rv);
               }
           }
           EOF
@@ -308,6 +926,15 @@ jobs:
               }
           }
           EOF
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
 
       - uses: actions/setup-java@v4
         with:
