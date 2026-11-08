@@ -3,6 +3,7 @@ name: Build TON App
 on:
   push:
     branches: [main]
+    paths: ['.github/workflows/build.yml']
   workflow_dispatch:
 
 permissions:
@@ -16,6 +17,7 @@ jobs:
 
       - name: Create project files
         run: |
+          rm -rf src
           mkdir -p src/main/java/com/ton/price src/main/res/drawable
 
           cat > settings.gradle << 'EOF'
@@ -37,8 +39,8 @@ jobs:
                   applicationId 'com.ton.price'
                   minSdk 24
                   targetSdk 34
-                  versionCode 1
-                  versionName '1.0'
+                  versionCode 2
+                  versionName '2.0'
               }
           }
           EOF
@@ -52,7 +54,8 @@ jobs:
                   android:icon="@drawable/ic_launcher"
                   android:supportsRtl="true"
                   android:theme="@android:style/Theme.Material.NoActionBar">
-                  <activity android:name=".MainActivity" android:exported="true">
+                  <activity android:name=".MainActivity" android:exported="true"
+                      android:configChanges="orientation|screenSize|keyboardHidden">
                       <intent-filter>
                           <action android:name="android.intent.action.MAIN" />
                           <category android:name="android.intent.category.LAUNCHER" />
@@ -79,282 +82,47 @@ jobs:
           package com.ton.price;
 
           import android.app.Activity;
-          import android.content.Context;
-          import android.graphics.Canvas;
-          import android.graphics.LinearGradient;
-          import android.graphics.Paint;
-          import android.graphics.Path;
-          import android.graphics.Shader;
-          import android.graphics.drawable.GradientDrawable;
           import android.os.Bundle;
-          import android.os.Handler;
-          import android.os.Looper;
-          import android.text.Editable;
-          import android.text.InputType;
-          import android.text.TextWatcher;
-          import android.view.Gravity;
-          import android.view.View;
-          import android.widget.Button;
-          import android.widget.EditText;
-          import android.widget.LinearLayout;
-          import android.widget.ScrollView;
-          import android.widget.TextView;
-          import org.json.JSONArray;
-          import org.json.JSONObject;
-          import java.io.BufferedReader;
-          import java.io.InputStreamReader;
-          import java.net.HttpURLConnection;
-          import java.net.URL;
-          import java.text.SimpleDateFormat;
-          import java.util.Date;
-          import java.util.Locale;
+          import android.webkit.WebResourceError;
+          import android.webkit.WebResourceRequest;
+          import android.webkit.WebSettings;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
 
           public class MainActivity extends Activity {
-              static final String API = "https://api.coingecko.com/api/v3/coins/markets"
-                  + "?vs_currency=usd&ids=the-open-network&sparkline=true";
-              static final int BG = 0xFF0B1220, CARD = 0xFF151F33, TXT = 0xFFFFFFFF,
-                  SUB = 0xFF8A9BB5, BLUE = 0xFF0098EA, GREEN = 0xFF22C55E, RED = 0xFFEF4444;
-
-              TextView priceTv, changeTv, highTv, lowTv, capTv, volTv, updTv, resultTv;
-              EditText amountEt;
-              ChartView chart;
-              double price = 0;
-              final Handler handler = new Handler(Looper.getMainLooper());
-              final Runnable tick = new Runnable() {
-                  public void run() { load(); handler.postDelayed(this, 30000); }
-              };
+              static final String URL = "https://maxhssss7-png.github.io/max1/ton.html";
+              static final String OFFLINE = "<html dir='rtl'><body style='background:#0b1220;color:#fff;"
+                  + "font-family:sans-serif;text-align:center;padding-top:40%'>"
+                  + "<h2>لا يوجد اتصال بالإنترنت</h2>"
+                  + "<button onclick=\"location.href='" + URL + "'\" style='background:#0098ea;color:#fff;"
+                  + "border:0;border-radius:12px;padding:14px 32px;font-size:16px'>إعادة المحاولة</button>"
+                  + "</body></html>";
+              WebView web;
 
               @Override
               protected void onCreate(Bundle b) {
                   super.onCreate(b);
-                  getWindow().setStatusBarColor(BG);
-                  getWindow().setNavigationBarColor(BG);
-
-                  ScrollView sv = new ScrollView(this);
-                  sv.setBackgroundColor(BG);
-                  LinearLayout root = new LinearLayout(this);
-                  root.setOrientation(LinearLayout.VERTICAL);
-                  root.setPadding(dp(16), dp(24), dp(16), dp(24));
-                  sv.addView(root);
-
-                  root.addView(tv("سعر TON", 24, TXT, true));
-                  root.addView(tv("Toncoin / USD", 13, SUB, false));
-
-                  LinearLayout main = card();
-                  root.addView(main, lp(16));
-                  priceTv = tv("...", 40, TXT, true);
-                  main.addView(priceTv);
-                  changeTv = tv("", 16, SUB, true);
-                  main.addView(changeTv);
-                  chart = new ChartView(this);
-                  LinearLayout.LayoutParams cp = new LinearLayout.LayoutParams(-1, dp(160));
-                  cp.topMargin = dp(12);
-                  main.addView(chart, cp);
-                  main.addView(tv("آخر 7 أيام", 12, SUB, false));
-
-                  LinearLayout stats = card();
-                  root.addView(stats, lp(12));
-                  highTv = row(stats, "أعلى سعر 24 ساعة");
-                  lowTv = row(stats, "أدنى سعر 24 ساعة");
-                  capTv = row(stats, "القيمة السوقية");
-                  volTv = row(stats, "حجم التداول 24 ساعة");
-
-                  LinearLayout calc = card();
-                  root.addView(calc, lp(12));
-                  calc.addView(tv("حاسبة TON", 16, TXT, true));
-                  amountEt = new EditText(this);
-                  amountEt.setHint("اكتب كمية TON");
-                  amountEt.setText("1");
-                  amountEt.setTextColor(TXT);
-                  amountEt.setHintTextColor(SUB);
-                  amountEt.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                  calc.addView(amountEt);
-                  resultTv = tv("", 22, BLUE, true);
-                  calc.addView(resultTv);
-                  amountEt.addTextChangedListener(new TextWatcher() {
-                      public void beforeTextChanged(CharSequence s, int a, int c, int d) {}
-                      public void onTextChanged(CharSequence s, int a, int c, int d) {}
-                      public void afterTextChanged(Editable e) { updateCalc(); }
+                  getWindow().setStatusBarColor(0xFF0B1220);
+                  getWindow().setNavigationBarColor(0xFF0B1220);
+                  web = new WebView(this);
+                  web.setBackgroundColor(0xFF0B1220);
+                  WebSettings s = web.getSettings();
+                  s.setJavaScriptEnabled(true);
+                  s.setDomStorageEnabled(true);
+                  s.setCacheMode(WebSettings.LOAD_NO_CACHE);
+                  web.setWebViewClient(new WebViewClient() {
+                      @Override
+                      public void onReceivedError(WebView v, WebResourceRequest r, WebResourceError e) {
+                          if (r.isForMainFrame()) v.loadDataWithBaseURL(URL, OFFLINE, "text/html", "UTF-8", null);
+                      }
                   });
-
-                  Button btn = new Button(this);
-                  btn.setText("تحديث الآن");
-                  btn.setTextColor(TXT);
-                  btn.setAllCaps(false);
-                  GradientDrawable bg = new GradientDrawable();
-                  bg.setColor(BLUE);
-                  bg.setCornerRadius(dp(14));
-                  btn.setBackground(bg);
-                  btn.setOnClickListener(new View.OnClickListener() {
-                      public void onClick(View v) { load(); }
-                  });
-                  LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(-1, dp(52));
-                  bp.topMargin = dp(16);
-                  root.addView(btn, bp);
-
-                  updTv = tv("", 12, SUB, false);
-                  updTv.setGravity(Gravity.CENTER);
-                  root.addView(updTv, lp(10));
-
-                  setContentView(sv);
+                  setContentView(web);
+                  web.loadUrl(URL);
               }
 
-              @Override protected void onResume() { super.onResume(); handler.post(tick); }
-              @Override protected void onPause() { super.onPause(); handler.removeCallbacks(tick); }
-
-              void load() {
-                  updTv.setText("جاري التحديث...");
-                  new Thread(new Runnable() {
-                      public void run() {
-                          try {
-                              HttpURLConnection c = (HttpURLConnection) new URL(API).openConnection();
-                              c.setConnectTimeout(10000);
-                              c.setReadTimeout(10000);
-                              c.setRequestProperty("User-Agent", "TonPriceApp");
-                              c.setRequestProperty("Accept", "application/json");
-                              int code = c.getResponseCode();
-                              if (code != 200) throw new Exception("HTTP " + code);
-                              BufferedReader r = new BufferedReader(new InputStreamReader(c.getInputStream(), "UTF-8"));
-                              StringBuilder sb = new StringBuilder();
-                              String line;
-                              while ((line = r.readLine()) != null) sb.append(line);
-                              r.close();
-                              final JSONObject o = new JSONArray(sb.toString()).getJSONObject(0);
-                              runOnUiThread(new Runnable() { public void run() { show(o); } });
-                          } catch (final Exception e) {
-                              runOnUiThread(new Runnable() {
-                                  public void run() {
-                                      updTv.setText("تعذر جلب السعر، تأكد من الإنترنت وحاول مرة ثانية");
-                                  }
-                              });
-                          }
-                      }
-                  }).start();
-              }
-
-              void show(JSONObject o) {
-                  try {
-                      price = o.getDouble("current_price");
-                      double ch = o.optDouble("price_change_percentage_24h", 0);
-                      priceTv.setText(money(price));
-                      changeTv.setText(String.format(Locale.US, "%s%.2f%%  خلال 24 ساعة", ch >= 0 ? "▲ +" : "▼ ", ch));
-                      changeTv.setTextColor(ch >= 0 ? GREEN : RED);
-                      highTv.setText(money(o.optDouble("high_24h", 0)));
-                      lowTv.setText(money(o.optDouble("low_24h", 0)));
-                      capTv.setText(big(o.optDouble("market_cap", 0)));
-                      volTv.setText(big(o.optDouble("total_volume", 0)));
-                      JSONObject sp = o.optJSONObject("sparkline_in_7d");
-                      if (sp != null) {
-                          JSONArray a = sp.getJSONArray("price");
-                          double[] d = new double[a.length()];
-                          for (int i = 0; i < d.length; i++) d[i] = a.getDouble(i);
-                          chart.setData(d, ch >= 0 ? GREEN : RED);
-                      }
-                      updateCalc();
-                      updTv.setText("آخر تحديث: " + new SimpleDateFormat("HH:mm:ss", Locale.US).format(new Date())
-                          + "  •  يتحدث تلقائياً كل 30 ثانية");
-                  } catch (Exception e) {
-                      updTv.setText("خطأ بقراءة البيانات");
-                  }
-              }
-
-              void updateCalc() {
-                  if (resultTv == null) return;
-                  double amt = 0;
-                  try { amt = Double.parseDouble(amountEt.getText().toString().trim()); } catch (Exception ignored) {}
-                  resultTv.setText(price > 0 ? "= " + money(amt * price) : "");
-              }
-
-              static String money(double v) {
-                  return String.format(Locale.US, v < 10 ? "$%,.3f" : "$%,.2f", v);
-              }
-
-              static String big(double v) {
-                  if (v >= 1e9) return String.format(Locale.US, "$%.2fB", v / 1e9);
-                  if (v >= 1e6) return String.format(Locale.US, "$%.2fM", v / 1e6);
-                  return String.format(Locale.US, "$%,.0f", v);
-              }
-
-              int dp(int v) { return (int) (v * getResources().getDisplayMetrics().density + 0.5f); }
-
-              LinearLayout.LayoutParams lp(int top) {
-                  LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, -2);
-                  p.topMargin = dp(top);
-                  return p;
-              }
-
-              TextView tv(String t, int size, int color, boolean bold) {
-                  TextView v = new TextView(this);
-                  v.setText(t);
-                  v.setTextSize(size);
-                  v.setTextColor(color);
-                  if (bold) v.setTypeface(null, android.graphics.Typeface.BOLD);
-                  return v;
-              }
-
-              LinearLayout card() {
-                  LinearLayout l = new LinearLayout(this);
-                  l.setOrientation(LinearLayout.VERTICAL);
-                  l.setPadding(dp(16), dp(16), dp(16), dp(16));
-                  GradientDrawable g = new GradientDrawable();
-                  g.setColor(CARD);
-                  g.setCornerRadius(dp(18));
-                  l.setBackground(g);
-                  return l;
-              }
-
-              TextView row(LinearLayout parent, String label) {
-                  LinearLayout r = new LinearLayout(this);
-                  r.setOrientation(LinearLayout.HORIZONTAL);
-                  r.setPadding(0, dp(8), 0, dp(8));
-                  TextView l = tv(label, 14, SUB, false);
-                  r.addView(l, new LinearLayout.LayoutParams(0, -2, 1));
-                  TextView v = tv("—", 15, TXT, true);
-                  r.addView(v);
-                  parent.addView(r);
-                  return v;
-              }
-
-              static class ChartView extends View {
-                  double[] data;
-                  int color = 0xFF0098EA;
-                  final Paint line = new Paint(Paint.ANTI_ALIAS_FLAG);
-                  final Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-                  ChartView(Context c) {
-                      super(c);
-                      line.setStyle(Paint.Style.STROKE);
-                      line.setStrokeWidth(5f);
-                      line.setStrokeJoin(Paint.Join.ROUND);
-                      fill.setStyle(Paint.Style.FILL);
-                  }
-
-                  void setData(double[] d, int col) { data = d; color = col; invalidate(); }
-
-                  @Override
-                  protected void onDraw(Canvas cv) {
-                      if (data == null || data.length < 2) return;
-                      float w = getWidth(), h = getHeight(), pad = 8f;
-                      double min = data[0], max = data[0];
-                      for (double v : data) { if (v < min) min = v; if (v > max) max = v; }
-                      double range = max - min;
-                      if (range == 0) range = 1;
-                      Path p = new Path();
-                      for (int i = 0; i < data.length; i++) {
-                          float x = w * i / (data.length - 1);
-                          float y = (float) (pad + (h - 2 * pad) * (1 - (data[i] - min) / range));
-                          if (i == 0) p.moveTo(x, y); else p.lineTo(x, y);
-                      }
-                      Path f = new Path(p);
-                      f.lineTo(w, h);
-                      f.lineTo(0, h);
-                      f.close();
-                      fill.setShader(new LinearGradient(0, 0, 0, h, (color & 0x00FFFFFF) | 0x55000000,
-                          color & 0x00FFFFFF, Shader.TileMode.CLAMP));
-                      cv.drawPath(f, fill);
-                      line.setColor(color);
-                      cv.drawPath(p, line);
-                  }
+              @Override
+              public void onBackPressed() {
+                  if (web.canGoBack()) web.goBack(); else super.onBackPressed();
               }
           }
           EOF
