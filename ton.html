@@ -2,105 +2,353 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>سعر TON</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b14">
+<title>GRAM Update</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap">
 <style>
-  :root{--bg:#0b1220;--card:#151f33;--txt:#fff;--sub:#8a9bb5;--blue:#0098ea;--up:#22c55e;--down:#ef4444}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,sans-serif;padding:24px 16px}
-  h1{margin:0;font-size:24px}
-  .sub{color:var(--sub);font-size:13px}
-  .card{background:var(--card);border-radius:18px;padding:16px;margin-top:14px}
-  #price{font-size:40px;font-weight:700;direction:ltr;text-align:right}
-  #change{font-weight:700;margin-top:4px}
-  canvas{width:100%;height:160px;margin-top:12px;display:block}
-  .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #22304a}
-  .row:last-child{border:0}
-  .row b{direction:ltr}
-  input{width:100%;background:#0f1828;border:1px solid #22304a;color:var(--txt);border-radius:12px;padding:12px;font-size:16px;margin-top:8px}
-  #result{color:var(--blue);font-size:22px;font-weight:700;margin-top:10px;direction:ltr;text-align:right}
-  button{width:100%;margin-top:16px;height:52px;border:0;border-radius:14px;background:var(--blue);color:#fff;font-size:16px;font-weight:700}
-  #upd{text-align:center;color:var(--sub);font-size:12px;margin-top:10px}
+  :root{
+    --bg:#070b14; --surface:#0e1524; --surface-2:#141d31; --line:rgba(150,175,215,.10);
+    --txt:#eef3fb; --sub:#7d8ba5; --faint:#4a5670;
+    --accent:#3aa8ff; --accent-2:#7b6cff; --up:#2fd58b; --down:#ff5c6c;
+    --font:"Readex Pro",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+    --r-lg:24px; --r-md:16px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  [hidden]{display:none!important}
+  html,body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--font)}
+  body{
+    min-height:100vh;
+    padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 28px) max(16px,env(safe-area-inset-left,0px));
+    background:
+      radial-gradient(120% 60% at 50% -10%, rgba(58,168,255,.16), transparent 60%),
+      radial-gradient(80% 40% at 100% 0%, rgba(123,108,255,.10), transparent 70%),
+      var(--bg);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+  .num{direction:ltr;unicode-bidi:isolate;display:inline-block;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 6px 20px rgba(58,168,255,.35)}
+  .mark img{width:100%;height:100%;border-radius:12px;object-fit:cover}
+  .brand b{font-size:17px;font-weight:700;letter-spacing:.02em}
+  .brand small{display:block;color:var(--sub);font-size:11px;font-weight:400;letter-spacing:.06em}
+  .actions{display:flex;align-items:center;gap:8px}
+  .live{display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:99px;
+    background:var(--surface);border:1px solid var(--line);font-size:12px;color:var(--sub)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
+  .live.on .dot{background:var(--up);box-shadow:0 0 0 0 rgba(47,213,139,.6);animation:pulse 2s infinite}
+  .live.on{color:var(--txt)}
+  @keyframes pulse{70%{box-shadow:0 0 0 7px rgba(47,213,139,0)}100%{box-shadow:0 0 0 0 rgba(47,213,139,0)}}
+  .icon-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);
+    color:var(--txt);display:grid;place-items:center;cursor:pointer}
+  .icon-btn svg{width:16px;height:16px}
+  .icon-btn.spin svg{animation:spin .8s linear}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero{padding:18px 4px 6px}
+  .label{color:var(--sub);font-size:13px}
+  .price{font-size:clamp(44px,14vw,60px);font-weight:600;line-height:1.05;margin-top:6px;text-align:right;transition:color .6s}
+  .price.flash-up{color:var(--up);transition:none}
+  .price.flash-down{color:var(--down);transition:none}
+  .chg{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px;border-radius:99px;font-size:13px;font-weight:600}
+  .pill.up{color:var(--up);background:rgba(47,213,139,.12)}
+  .pill.down{color:var(--down);background:rgba(255,92,108,.12)}
+  .chg .abs{font-size:13px;color:var(--sub)}
+  .card{background:linear-gradient(180deg,var(--surface),rgba(14,21,36,.85));border:1px solid var(--line);border-radius:var(--r-lg);padding:16px}
+  .card-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .card-h h2{margin:0;font-size:14px;font-weight:500;color:var(--sub)}
+  .tabs{display:flex;gap:4px;padding:4px;background:var(--bg);border-radius:12px;border:1px solid var(--line)}
+  .tab{border:0;background:none;color:var(--sub);font:500 12px var(--font);height:28px;padding:0 10px;border-radius:9px;cursor:pointer}
+  .tab[aria-pressed="true"]{background:var(--surface-2);color:var(--txt)}
+  .scrub{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;min-height:22px}
+  .scrub .v{font-size:16px;font-weight:600}
+  .scrub .t{font-size:12px;color:var(--sub)}
+  .chart-box{position:relative;height:190px;margin:8px -4px 0;touch-action:pan-y}
+  canvas{width:100%;height:100%;display:block}
+  .chart-empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--faint);font-size:13px}
+  .chart-foot{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--faint)}
+  .range{margin-top:14px}
+  .track{position:relative;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--down),#f5c451,var(--up));opacity:.9}
+  .knob{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:var(--txt);
+    border:3px solid var(--bg);transform:translate(-50%,-50%);left:50%;transition:left .5s cubic-bezier(.2,.8,.2,1);box-shadow:0 2px 10px rgba(0,0,0,.5)}
+  .range-lbl{display:flex;justify-content:space-between;margin-top:10px;font-size:12px}
+  .range-lbl span{color:var(--sub)}
+  .range-lbl b{display:block;font-size:14px;font-weight:600;color:var(--txt);margin-top:2px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px;min-width:0}
+  .tile span{display:block;color:var(--sub);font-size:12px}
+  .tile b{display:block;font-size:17px;font-weight:600;margin-top:6px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .conv{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  .field{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-md);padding:0 14px;height:58px;transition:border-color .2s}
+  .field:focus-within{border-color:var(--accent)}
+  .field input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--txt);font:600 20px var(--font);direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
+  .field .cur{font-size:13px;font-weight:600;color:var(--sub);background:var(--surface-2);padding:5px 10px;border-radius:8px}
+  .swap{align-self:center;margin:-16px 0;z-index:1;width:34px;height:34px;border-radius:50%;background:var(--surface-2);
+    border:1px solid var(--line);display:grid;place-items:center;color:var(--accent)}
+  .swap svg{width:16px;height:16px}
+  .foot{text-align:center;color:var(--faint);font-size:11px;line-height:1.8;margin-top:4px}
+  .err{color:var(--down)}
+  button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<h1>سعر TON</h1>
-<div class="sub">Toncoin / USD</div>
+<div class="wrap">
 
-<div class="card">
-  <div id="price">...</div>
-  <div id="change"></div>
-  <canvas id="chart"></canvas>
-  <div class="sub">آخر 7 أيام</div>
+  <header class="top">
+    <div class="brand">
+      <div class="mark" id="mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M18 7.5A7 7 0 1 0 19 13h-6"/></svg>
+      </div>
+      <div><b>GRAM</b><small>UPDATE</small></div>
+    </div>
+    <div class="actions">
+      <div class="live" id="live"><span class="dot"></span><span id="liveTxt">جاري الاتصال</span></div>
+      <button class="icon-btn" id="refresh" aria-label="تحديث">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="label">سعر GRAM الآن · USDT</div>
+    <div class="price num" id="price">—</div>
+    <div class="chg">
+      <span class="pill up" id="pct"><span class="num">—</span></span>
+      <span class="abs num" id="abs"></span>
+      <span class="abs">خلال 24 ساعة</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-h">
+      <h2>الحركة</h2>
+      <div class="tabs" role="group" aria-label="المدة">
+        <button class="tab" data-r="1D" aria-pressed="false">يوم</button>
+        <button class="tab" data-r="1W" aria-pressed="true">أسبوع</button>
+        <button class="tab" data-r="1M" aria-pressed="false">شهر</button>
+        <button class="tab" data-r="1Y" aria-pressed="false">سنة</button>
+      </div>
+    </div>
+    <div class="scrub"><span class="v num" id="scrubV">—</span><span class="t" id="scrubT"></span></div>
+    <div class="chart-box" id="chartBox">
+      <canvas id="chart"></canvas>
+      <div class="chart-empty" id="chartEmpty">جاري تحميل الرسم…</div>
+    </div>
+    <div class="chart-foot"><span>المس الرسم واسحب لعرض السعر بأي وقت</span><span id="periodChg" class="num"></span></div>
+  </section>
+
+  <section class="card">
+    <div class="card-h"><h2>نطاق آخر 24 ساعة</h2></div>
+    <div class="range">
+      <div class="track" dir="ltr"><div class="knob" id="knob"></div></div>
+      <div class="range-lbl" dir="ltr">
+        <div><span>الأدنى</span><b class="num" id="low">—</b></div>
+        <div style="text-align:right"><span>الأعلى</span><b class="num" id="high">—</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="tile"><span>حجم التداول (USDT)</span><b class="num" id="qvol">—</b></div>
+    <div class="tile"><span>حجم التداول (GRAM)</span><b class="num" id="vol">—</b></div>
+    <div class="tile"><span>سعر الافتتاح</span><b class="num" id="open">—</b></div>
+    <div class="tile"><span>عدد الصفقات</span><b class="num" id="trades">—</b></div>
+  </section>
+
+  <section class="card">
+    <div class="card-h"><h2>المحوّل</h2></div>
+    <div class="conv">
+      <label class="field"><input id="inGram" type="text" inputmode="decimal" value="1" aria-label="كمية GRAM"><span class="cur">GRAM</span></label>
+      <div class="swap" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg></div>
+      <label class="field"><input id="inUsd" type="text" inputmode="decimal" aria-label="المبلغ بالدولار"><span class="cur">USD</span></label>
+    </div>
+  </section>
+
+  <div class="foot" id="foot">البيانات من Binance</div>
 </div>
-
-<div class="card">
-  <div class="row"><span class="sub">أعلى سعر 24 ساعة</span><b id="high">—</b></div>
-  <div class="row"><span class="sub">أدنى سعر 24 ساعة</span><b id="low">—</b></div>
-  <div class="row"><span class="sub">القيمة السوقية</span><b id="cap">—</b></div>
-  <div class="row"><span class="sub">حجم التداول 24 ساعة</span><b id="vol">—</b></div>
-</div>
-
-<div class="card">
-  <b>حاسبة TON</b>
-  <input id="amt" type="number" inputmode="decimal" value="1" placeholder="اكتب كمية TON">
-  <div id="result"></div>
-</div>
-
-<button onclick="load()">تحديث الآن</button>
-<div id="upd"></div>
 
 <script>
-const API="https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=the-open-network&sparkline=true";
-let price=0;
-const $=id=>document.getElementById(id);
-const money=v=>"$"+v.toLocaleString("en-US",{minimumFractionDigits:v<10?3:2,maximumFractionDigits:v<10?3:2});
-const big=v=>v>=1e9?"$"+(v/1e9).toFixed(2)+"B":v>=1e6?"$"+(v/1e6).toFixed(2)+"M":money(v);
+(function(){
+  "use strict";
+  var HOSTS=["https://api.binance.com","https://data-api.binance.vision"];
+  var WSS=["wss://stream.binance.com:9443/ws/gramusdt@ticker","wss://data-stream.binance.vision/ws/gramusdt@ticker"];
+  var SYM="GRAMUSDT";
+  var RANGES={"1D":["15m",96],"1W":["1h",168],"1M":["4h",180],"1Y":["1d",365]};
+  var $=function(id){return document.getElementById(id)};
+  var state={price:0,range:"1W",series:[],times:[],lastSide:"gram",ws:null,wsIdx:0,lastTick:0};
 
-function calc(){
-  const a=parseFloat($("amt").value)||0;
-  $("result").textContent=price?"= "+money(a*price):"";
-}
+  try{var saved=localStorage.getItem("gram.range");if(saved&&RANGES[saved])state.range=saved;}catch(e){}
 
-function draw(data,color){
-  const c=$("chart"),r=window.devicePixelRatio||1;
-  c.width=c.clientWidth*r;c.height=c.clientHeight*r;
-  const x=c.getContext("2d"),w=c.width,h=c.height,p=8*r;
-  const min=Math.min(...data),max=Math.max(...data),rg=(max-min)||1;
-  x.beginPath();
-  data.forEach((v,i)=>{const X=w*i/(data.length-1),Y=p+(h-2*p)*(1-(v-min)/rg);i?x.lineTo(X,Y):x.moveTo(X,Y)});
-  x.strokeStyle=color;x.lineWidth=2.5*r;x.lineJoin="round";x.stroke();
-  x.lineTo(w,h);x.lineTo(0,h);x.closePath();
-  const g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,color+"55");g.addColorStop(1,color+"00");
-  x.fillStyle=g;x.fill();
-}
+  (function(){var img=new Image();img.onload=function(){$("mark").innerHTML="";$("mark").appendChild(img);};img.src="logo.png";})();
 
-async function load(){
-  $("upd").textContent="جاري التحديث...";
-  try{
-    const res=await fetch(API);
-    if(!res.ok)throw 0;
-    const o=(await res.json())[0];
-    price=o.current_price;
-    const ch=o.price_change_percentage_24h||0,up=ch>=0;
-    $("price").textContent=money(price);
-    $("change").textContent=(up?"▲ +":"▼ ")+ch.toFixed(2)+"% خلال 24 ساعة";
-    $("change").style.color=up?"var(--up)":"var(--down)";
-    $("high").textContent=money(o.high_24h);
-    $("low").textContent=money(o.low_24h);
-    $("cap").textContent=big(o.market_cap);
-    $("vol").textContent=big(o.total_volume);
-    if(o.sparkline_in_7d)draw(o.sparkline_in_7d.price,up?"#22c55e":"#ef4444");
-    calc();
-    $("upd").textContent="آخر تحديث: "+new Date().toLocaleTimeString("en-GB")+" • يتحدث تلقائياً كل 30 ثانية";
-  }catch(e){
-    $("upd").textContent="تعذر جلب السعر، تأكد من الإنترنت وحاول مرة ثانية";
+  function dec(v){return v>=1000?2:v>=10?2:v>=1?3:v>=0.01?4:6}
+  function money(v){return "$"+v.toLocaleString("en-US",{minimumFractionDigits:dec(v),maximumFractionDigits:dec(v)})}
+  function compact(v,prefix){
+    var s=v>=1e9?(v/1e9).toFixed(2)+"B":v>=1e6?(v/1e6).toFixed(2)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":v.toFixed(0);
+    return (prefix||"")+s;
   }
-}
+  function clock(d){return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+  function fmtTime(ms){
+    var d=new Date(ms);
+    if(state.range==="1D")return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+    var day=d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"});
+    return state.range==="1Y"?day+" "+d.getFullYear():day+" · "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+  }
 
-$("amt").addEventListener("input",calc);
-load();
-setInterval(load,30000);
+  function fetchJSON(path){
+    var i=0;
+    function next(){
+      if(i>=HOSTS.length)return Promise.reject(new Error("unreachable"));
+      var h=HOSTS[i++];
+      return fetch(h+path,{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(next);
+    }
+    return next();
+  }
+
+  function applyTicker(t){
+    var p=+t.price, prev=state.price;
+    state.price=p;
+    var el=$("price");
+    el.textContent=money(p);
+    if(prev&&p!==prev){
+      el.classList.remove("flash-up","flash-down");void el.offsetWidth;
+      el.classList.add(p>prev?"flash-up":"flash-down");
+      setTimeout(function(){el.classList.remove("flash-up","flash-down")},450);
+    }
+    var up=t.pct>=0,pill=$("pct");
+    pill.className="pill "+(up?"up":"down");
+    pill.innerHTML='<span class="num">'+(up?"▲ +":"▼ ")+t.pct.toFixed(2)+"%</span>";
+    $("abs").textContent=(t.chg>=0?"+":"-")+money(Math.abs(t.chg));
+    $("low").textContent=money(t.low);
+    $("high").textContent=money(t.high);
+    var pos=t.high>t.low?(p-t.low)/(t.high-t.low):.5;
+    $("knob").style.left=(Math.max(0,Math.min(1,pos))*100)+"%";
+    $("qvol").textContent=compact(t.qvol,"$");
+    $("vol").textContent=compact(t.vol);
+    $("open").textContent=money(t.open);
+    $("trades").textContent=Math.round(t.trades).toLocaleString("en-US");
+    if(!scrubbing)$("scrubV").textContent=money(p);
+    syncConv();
+    state.lastTick=Date.now();
+    $("foot").innerHTML="البيانات من Binance · آخر تحديث <span class='num'>"+clock(new Date())+"</span>";
+  }
+
+  function loadTicker(){
+    return fetchJSON("/api/v3/ticker/24hr?symbol="+SYM).then(function(t){
+      applyTicker({price:+t.lastPrice,pct:+t.priceChangePercent,chg:+t.priceChange,low:+t.lowPrice,high:+t.highPrice,
+        qvol:+t.quoteVolume,vol:+t.volume,open:+t.openPrice,trades:+t.count});
+    });
+  }
+
+  function setLive(on,txt){$("live").classList.toggle("on",on);$("liveTxt").textContent=txt;}
+  function connect(){
+    if(!("WebSocket" in window)){setLive(false,"تحديث دوري");return;}
+    var url=WSS[state.wsIdx%WSS.length],ws;
+    try{ws=new WebSocket(url);}catch(e){state.wsIdx++;setTimeout(connect,3000);return;}
+    state.ws=ws;
+    ws.onopen=function(){setLive(true,"مباشر")};
+    ws.onmessage=function(m){
+      try{var d=JSON.parse(m.data);
+        applyTicker({price:+d.c,pct:+d.P,chg:+d.p,low:+d.l,high:+d.h,qvol:+d.q,vol:+d.v,open:+d.o,trades:+d.n});
+      }catch(e){}
+    };
+    ws.onclose=function(){setLive(false,"إعادة الاتصال");state.wsIdx++;setTimeout(connect,3000)};
+    ws.onerror=function(){try{ws.close()}catch(e){}};
+  }
+  setInterval(function(){if(Date.now()-state.lastTick>20000)loadTicker().catch(function(){});},10000);
+
+  var cv=$("chart"),ctx=cv.getContext("2d"),scrubbing=false,hoverIdx=-1;
+  function loadChart(){
+    var r=RANGES[state.range];
+    $("chartEmpty").hidden=false;$("chartEmpty").textContent="جاري تحميل الرسم…";
+    return fetchJSON("/api/v3/klines?symbol="+SYM+"&interval="+r[0]+"&limit="+r[1]).then(function(k){
+      state.series=k.map(function(c){return +c[4]});
+      state.times=k.map(function(c){return c[0]});
+      $("chartEmpty").hidden=true;
+      var a=state.series[0],b=state.series[state.series.length-1],ch=(b-a)/a*100;
+      var pc=$("periodChg");pc.textContent=(ch>=0?"+":"")+ch.toFixed(2)+"%";
+      pc.style.color=ch>=0?"var(--up)":"var(--down)";
+      draw();
+    }).catch(function(){$("chartEmpty").textContent="تعذر تحميل الرسم";});
+  }
+  function draw(){
+    var d=state.series,dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;
+    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+    if(d.length<2)return;
+    var min=Math.min.apply(null,d),max=Math.max.apply(null,d),rg=(max-min)||1,pt=12,pb=10;
+    var up=d[d.length-1]>=d[0],col=up?"47,213,139":"255,92,108";
+    var px=10;function X(i){return px+(W-2*px)*i/(d.length-1)}
+    function Y(v){return pt+(H-pt-pb)*(1-(v-min)/rg)}
+    ctx.strokeStyle="rgba(150,175,215,.07)";ctx.lineWidth=1;
+    for(var g=1;g<4;g++){var gy=Math.round(H*g/4)+.5;ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+    ctx.beginPath();
+    for(var i=0;i<d.length;i++){i?ctx.lineTo(X(i),Y(d[i])):ctx.moveTo(X(i),Y(d[i]))}
+    ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();
+    var gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,"rgba("+col+",.28)");gr.addColorStop(1,"rgba("+col+",0)");
+    ctx.fillStyle=gr;ctx.fill();
+    ctx.beginPath();
+    for(i=0;i<d.length;i++){i?ctx.lineTo(X(i),Y(d[i])):ctx.moveTo(X(i),Y(d[i]))}
+    ctx.strokeStyle="rgb("+col+")";ctx.lineWidth=2;ctx.lineJoin="round";ctx.lineCap="round";
+    ctx.shadowColor="rgba("+col+",.5)";ctx.shadowBlur=10;ctx.stroke();ctx.shadowBlur=0;
+    var mi=hoverIdx>=0?hoverIdx:d.length-1,mx=X(mi),my=Y(d[mi]);
+    if(hoverIdx>=0){
+      ctx.strokeStyle="rgba(238,243,251,.25)";ctx.setLineDash([3,4]);
+      ctx.beginPath();ctx.moveTo(mx,0);ctx.lineTo(mx,H);ctx.stroke();ctx.setLineDash([]);
+    }
+    ctx.fillStyle="rgba("+col+",.25)";ctx.beginPath();ctx.arc(mx,my,9,0,7);ctx.fill();
+    ctx.fillStyle="#eef3fb";ctx.beginPath();ctx.arc(mx,my,4,0,7);ctx.fill();
+  }
+  function scrubAt(clientX){
+    var r=cv.getBoundingClientRect(),n=state.series.length;if(n<2)return;
+    var i=Math.round((clientX-r.left-10)/(r.width-20)*(n-1));i=Math.max(0,Math.min(n-1,i));
+    hoverIdx=i;scrubbing=true;
+    $("scrubV").textContent=money(state.series[i]);$("scrubT").textContent=fmtTime(state.times[i]);
+    draw();
+  }
+  function endScrub(){hoverIdx=-1;scrubbing=false;$("scrubV").textContent=state.price?money(state.price):"—";$("scrubT").textContent="";draw();}
+  var box=$("chartBox");
+  box.addEventListener("pointerdown",function(e){scrubAt(e.clientX)});
+  box.addEventListener("pointermove",function(e){if(scrubbing||e.pointerType==="mouse")scrubAt(e.clientX)});
+  ["pointerup","pointercancel","pointerleave"].forEach(function(ev){box.addEventListener(ev,endScrub)});
+  if("ResizeObserver" in window)new ResizeObserver(draw).observe(box);else window.addEventListener("resize",draw);
+
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(b){
+    b.setAttribute("aria-pressed",b.dataset.r===state.range?"true":"false");
+    b.addEventListener("click",function(){
+      if(state.range===b.dataset.r)return;
+      state.range=b.dataset.r;
+      try{localStorage.setItem("gram.range",state.range)}catch(e){}
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+      loadChart();
+    });
+  });
+
+  function parse(v){v=(v||"").replace(/[٠-٩]/g,function(c){return "٠١٢٣٤٥٦٧٨٩".indexOf(c)}).replace(/[٫,]/g,".");return parseFloat(v)}
+  function trim(n,max){return n.toLocaleString("en-US",{maximumFractionDigits:max,useGrouping:false})}
+  function syncConv(){
+    if(!state.price)return;
+    if(state.lastSide==="gram"){var g=parse($("inGram").value);$("inUsd").value=isNaN(g)?"":trim(g*state.price,2);}
+    else{var u=parse($("inUsd").value);$("inGram").value=isNaN(u)?"":trim(u/state.price,4);}
+  }
+  $("inGram").addEventListener("input",function(){state.lastSide="gram";syncConv()});
+  $("inUsd").addEventListener("input",function(){state.lastSide="usd";syncConv()});
+
+  $("refresh").addEventListener("click",function(){
+    var b=this;b.classList.remove("spin");void b.offsetWidth;b.classList.add("spin");
+    Promise.all([loadTicker(),loadChart()]).catch(function(){});
+  });
+
+  loadTicker().catch(function(){$("foot").innerHTML="<span class='err'>تعذر الاتصال بـ Binance، تأكد من الإنترنت</span>"});
+  loadChart();
+  connect();
+  document.addEventListener("visibilitychange",function(){if(!document.hidden){loadTicker().catch(function(){});}});
+})();
 </script>
 </body>
 </html>
