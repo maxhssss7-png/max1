@@ -1,5 +1,5 @@
-# GRAM Update — ملف واحد يبني كل شي: الصفحة + الأيقونة + التطبيق + الويدجت
-name: GRAM Update
+# Price Gram — ملف واحد يبني كل شي: الصفحة + الأيقونة + التطبيق + الويدجت
+name: Price Gram
 
 on:
   push:
@@ -115,7 +115,7 @@ jobs:
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
           <meta name="theme-color" content="#2b95f2">
-          <title>GRAM Update</title>
+          <title>Price Gram</title>
           <link rel="preconnect" href="https://fonts.googleapis.com">
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap">
@@ -235,7 +235,7 @@ jobs:
                 <div class="mark" id="mark">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M18 7.5A7 7 0 1 0 19 13h-6"/></svg>
                 </div>
-                <div><b>GRAM</b><small>UPDATE</small></div>
+                <div><b>PRICE GRAM</b><small>GRAM / USDT</small></div>
               </div>
               <div class="actions">
                 <div class="live" id="live"><span class="dot"></span><span id="liveTxt">جاري الاتصال</span></div>
@@ -703,8 +703,8 @@ jobs:
                   applicationId 'com.ton.price'
                   minSdk 24
                   targetSdk 34
-                  versionCode 11
-                  versionName '11.0'
+                  versionCode 12
+                  versionName '12.0'
               }
           }
           EOF
@@ -716,7 +716,7 @@ jobs:
               <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
               <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
               <application
-                  android:label="GRAM Update"
+                  android:label="Price Gram"
                   android:icon="@mipmap/ic_launcher"
                   android:roundIcon="@mipmap/ic_launcher"
                   android:supportsRtl="true"
@@ -893,7 +893,7 @@ jobs:
               android:initialLayout="@layout/widget"
               android:previewImage="@drawable/widget_preview"
               android:description="@string/widget_desc"
-              android:widgetCategory="home_screen" />
+              android:widgetCategory="home_screen|keyguard" />
           EOF
 
           cat > src/main/java/com/ton/price/PriceWidget.java << 'EOF'
@@ -1144,7 +1144,7 @@ jobs:
                       }
                   });
                   setContentView(web);
-                  web.loadUrl(URL);
+                  web.loadUrl(URL + "?v=" + System.currentTimeMillis());
               }
 
               @Override
@@ -1274,11 +1274,11 @@ jobs:
       - name: Build APK
         run: |
           gradle assembleDebug --no-daemon
-          cp build/outputs/apk/debug/*.apk GRAM-Update.apk
+          cp build/outputs/apk/debug/*.apk Price-Gram.apk
 
       - name: Publish APK
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ github.run_number }}
-          name: GRAM Update v${{ github.run_number }}
-          files: GRAM-Update.apk
+          name: Price Gram v${{ github.run_number }}
+          files: Price-Gram.apk
