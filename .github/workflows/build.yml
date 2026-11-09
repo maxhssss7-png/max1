@@ -1,4 +1,5 @@
 # Price Gram — ملف واحد يبني كل شي: الصفحة + الأيقونة + التطبيق + الويدجت + التنبيهات
+# الكود كله مضغوط داخل هذا الملف حتى يصير صغير وينلصق كامل
 name: Price Gram
 
 on:
@@ -26,982 +27,649 @@ jobs:
       - name: Create all files
         run: |
           rm -rf src site
-          mkdir -p site
-          base64 -d > site/logo.png << 'EOF'
-          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
-          z1gVBVpJjyQAAAAASUVORK5CYII=
+          base64 -d > src.tgz << 'EOF'
+          H4sIAAAAAAAAA+x8CVwT19b4BBARXHDXvipjUAElIQmrYVcRqYo8xa1qZZJMFkkyecmExYgE97rb
+          WqvWKmpblapUrRW3ivbVta51gbqhVWvd95WS/70zk2SysPi99r3v/f7faMjM3HvPPffs59wLEqNK
+          LeMr9JhMjSN/0SUAV1REBPUNLudvYbhAiAgjhaLIcEF0uAi8F4oEoggEFfxVCLEvo4HE9CiK6AmC
+          rKtffe3/pZdObVSotAbUhKpkaJCU0PAxrUxPqGR8TKdTq6QYqSK0QWgOrjeAGzQohh/JFwWhBb5M
+          N9Tki4JLi2lwgw6T4jQMktDydXqVFA+iWsErnUqND5Vlo+ER1BsZLseMarIPoZWrFAwMeLEmTZO5
+          hQUvjUoLYYkibG8ADxU4yZoAXgzSfQgZjqZpSVyB6/k6TG/AwUPw0HwDiWv4YBSuzQkOSk3L7D+s
+          97ghw9LHpQ8b1DtlSFAImihGg4TguycqFAicoaaDFaNBIn4QaG4oMEFQCAWmgPppUCm0Kq2CpoGB
+          RQS5Kg+XsZ6pziShx/sBIoJWNR4clI3n88dnGxiADr0yMIMhl9AD8ukU8ig8SiKMEkRH9AoHCiYV
+          9ooAa4mQBDkMA8CS1SrMAEZAQgNroHHp8HZQC1jrlEATk5mvw9lrlOESo8J5jWyCOJGHTxHFBX6B
+          739agf7LLwNOkoDKhr/SBdRj/wXhQoGz/Y+M+j/7/2+5aPs/CNNiClyDa0lGJfW4jjCogDVRQa1F
+          FQShAFYnJBbVYDm4tg/oqMfU8JkWmwwKSgahJ+FbSi9luA7XynCtNH8IbiDURmjS/6fTUAAhAzL0
+          xHhcSvKhu0Hj0aBMQptBu4b/NB3/Wy9AfTzsL54D6nh0ZGSt+g/vHfVfECmMQtDIvxgv6vr/XP8p
+          /qsJBcHXaRV/0Rx123+hICLaJf4XRkX/n/3/d1wfZqSnNvN9B9rPZmn9+w5BEA4CPz6e4Ct7w8hM
+          8GDOGJiZIlj1DLypqakJXXZ3+sFXiMUSuvgGUgh+Xg/95Dq4hzeLr3926jWCWE78Xt156dNhJaC1
+          AimxICUlm355k/r1c2RYSeintxML947c+kK18wVSWGj64SV/diVSuLfnostha+8n7rW0WH52d9Wb
+          YSUlyDBLj8IzcYUvCwstAYVXwub/hliQnvMv91xwJXHv3mHDSi4//OM/S7x/57Uj13IffJnJIelD
+          LYjlDwvnJ4+hvE1zNRaOxeLp5+kJfrb2slg8LC29eL5e3hZPT+9GHj4op+dIL0/Ln4tLq34/BCNI
+          81tpfZMz83659Pnv+gsxrcx/8y73/OLwrW+6jdoSeiGt++Hlb2rCtiP9P18Y3OrW9P5XD54Zfm/O
+          nJqKoE3e7bI29Pu1rGblk4hBj+OG9pj1ct9M7pdb4gafPlZW0/7X+SnvSrRJ1W9E8xTDFzwaM+CD
+          D5tV7zf7piz+4slgP6zdQf0hZNap1a/vpq1I2f3zzC1xSy9YXh5c16Grmbti6fzo9NaBse8WGMsE
+          8yyd+nRJm5t2aNSYpk3NYzr8fv7w4Rkzcn4d2fajF5daNPdKihNZBrbeFp2r62A6WPzRmeprwZ09
+          AIwOx06cvXy+6ElFz8lHmk1p9H0Isu+gJfxKgSmpgym+wn8dJ6uw+h9b3jw3R303YUG3vU0nr16J
+          /HRw8JOZ0gGF/0S3fCW4HYCoEgaUzPwicUujT5YlBr1pVN417sPVi2oyWmQOsRxegQR37145+9aP
+          V7iIpok4edmRScgSUdRhzw/3np8cbDmZvLYx8lTxcnhhgU/UeK9Cwat7B5AvztVUXXsQ2uX091ld
+          iSZZm59U+0/MvC94NvfDBIQMfl8R3WpvPyRu9J0lea2RHw8pEy+m13jGLml3lTOQWPeH4m7SdG8B
+          9uTuzWsP7qIW2cfcrsi9N0O//uPkFKzP6q2tzJ+9tpydf6Iwq7E4ZImXBzr7l9eron+YMHnv0gHT
+          znQyz+vV5MGn1aO76Q7PXbXr1YjNAROi7k44vHNXx6TfzuS2fvb3ml/aayv6DvFYUJBpCfQS9+xx
+          Cxk4avmz4dUbO1af53XuvfbB3uEnpa++3tB/Y2xLc/rhcWeIV7lpp6Z6lH+WXjOBP2luUuu8HxoL
+          Nl4MKEd8lCNiUrwzJjZPqZlVnnh3a7lXRv/FLcBDklaUE4E8jj06PbCwU/PK3A8bJb23eJ/5eul+
+          TH5zrkfxkmaDanhFo4o4SQ/eNE0Ht+2O9j3JtXQsro71qEGudXlluSJNvuuHdk6vTlzZ8lg1srvZ
+          CNArOgAJXNx8BIA/Ab+zoWW5usOzE9uOKG/6Jt1+nXvy8QivA3PveJ5chPx0tvxGtFfS3GXfNV91
+          mLPMC8l66LWle6rPiHYIMn1wsbDD/hteWSc5VRFt/jmWc+hl/E6/Vz1TY/aWZXu3D8zKCXo82qMy
+          pa15QMeMSdGPo3dxyojGukvNyvMbC+bd7z9pQNKgESnZyAsciY3+RulXLELMsYELVlwKNRtedL68
+          xuTlv2fl6JAZhpaCvbGv7ix6mfo35IUSiQ2cORpZMufMHo+MNe2QfrlDPMf2n9HvPNK/1/z7QycN
+          yKq5oG1Z/RXy4hufk1WNf5Ujmwe+2nNk3Jt9owKRw20uRiI/Dh+EfHV3Rdvi51M+PopcHz/nFude
+          0f6wy55PxMsON74y/DEX2e2/rvDmKzxkat7Tzq9TFx9V7M7/fHmA2CMDDUFm3JC+MouPHOxWPHDQ
+          g9Zjzpgbpbcsv9p21OtlRUlJWdvntP+N0//VvGJkeVjaP7f7LH43tdH1UYhwuocubwL67uDL72Xt
+          SZr4gad/HFIYEtA/9dW1wej7y8+aG/X2qQprcf2HT83DiggFUr3I1xtN9OYYdV97ZJxPPuKPHFHc
+          /9rjsz3tzQWtru9pvn9vglfHcTsKUwSxjfzbX/Yt/7FPcZeYD/7us+tn8w5Fx0MrAyY3S4zO+nhV
+          a6TRk/lFeAzyZW7X5SuXJI15eaBc511FeHVv1W5rIBJ45dJDQUtd4m5ukXFKYgvOy4NJH0xvlPG6
+          pHz3vKltzX9f+HJHUs1r/zyfxLZmzaCyuR5HBtf8NqPqh599Mvf83efskFsrV3SuCokzBw0OE2xa
+          nMoztzjRu8N5ZMX7p8fo5xhbfpO9yi/Mr8q87PrEq7yhvg+Xbf3onE8ocqKDeTxybXbNvm47Wt59
+          PmtfZ5+HRya/n759CpF9Z2j8nKSjo2/0ztqK7O1gDrgy+nbm7+0bb2jvNbpxXkh5YHfziMsp6zsX
+          ZJpLj432q9rVafJyT2KNKW1sO+1gPyViWdbp0Yo2RaP3nvvu2x4F15KGcxZ88IlA37LMmL3x2Xu6
+          lc08eHHKwVUtvRY2K767aeTxjpubTe3ZDH2u55SlVF1evy2dP+D+9j4eE0rPFIQgu3zinqrO4Kvi
+          42MjkS+2+pXzPVrslb95+rhyaZIM2VBxcSzn+9NnX957cjTo/uYe3H3S1KYFba+/HL14bJ8ZQ7sj
+          AZ3vXP2i7aQZTZ8sjQ3zm7utSdlXybe+RksvCveL3ykqkHsuuXM44yL35LkXx7vk/L7O49SueR7H
+          E/xNnV5+u+X3Ksl7L4xC3THPf8wuf/LZ91+G736+A43x5tydu8ASX8NPbPz3Iffb/SJAurfYXdCy
+          LC7gw6f5u4LEgd/0XFO+/Pi0rHZFXypjvNdb5p8PKpkzsnSOaObYycgKzqL5YedP+xfc+nZuSExX
+          z+4dvbf/aP5o+LPCEVM+TfUIFAzwqGrlpdNXPd7Wx/dI6a4p9/tl7Tf7IYu4JztMOv97wt5r7xQ1
+          qvJvJNRXtV9bcWG34ul1BC26/6V/v+Z3x+z3/UlWvqiPd3mz471PIsG7vk5qXslrk3ThTvvtrzdO
+          LB9W1FT8YNbVNpwvZ7eemh30KCDW8sXt5giviXap17fNp0yYeO/7ZJ9Tx5Bv3/PMjV7w/tkUXIGc
+          GsQZ09NLvNhTi+xcy6noic39qvxC+6nN932pfT7xTeCqA22OD36Ysmiq4reLyO6pu1qde/a6coAP
+          kqm49l6h9M2RLj7I6qELO89e3fnsgqMf73vpd+3slmKibJTex9N8W/ZwM/J520E6n0bmW/ryw+eW
+          FCfG32tqnmn+9ea6N0JOLhLh9cGOrWtavrvfA+1SlZO0/9clM1sgrTz4qbK4+YfNb1r28vCYHNvo
+          nauTMnpMrlneMu6I967l3z8S9/RJ+O2LR03UmuIBrdCJzZv2fLirR5eZQ4qaJ4bu1jYLPlTN92uy
+          OrO4KWkKNYxsF9QtI+DTwibGaRGNH8T+PLlq/MQ7XctHTOJNOr119JPnRwaO9nu4N3Wl2bKrZZmX
+          eMyyx59cyc9dsijp1U8XepiT8oYENZpzfusCY5LXR3vF6D7BihZ+b/KQxdXeSXfz+t9+7uV1YMOx
+          LiFfjFjUp3XSwitjliIbgrxmPJ164FFy2obUiD6t/N+9N3fYw11R4kO5U+dtmoOYUk39Itpwip7v
+          Vz6dXfR0V/QETw8Pzc7X+//pe+Dy4P6NupuD9u4QPeGUzV//c2v/d58tvDotqqjXzdFHznh5pRZk
+          j/3M/H3szNfL43icol5DOx9e/9vZypNeuhulpccPVHRqe8vHZ94fx/PumgoSgjn7Tl35ZVx+YrH/
+          AnPSiuvPOdNK1ns9XWEuX7EmfUpNSl7fbm045KsX89e1Uc+9Mozzmbnq5Z52B56Fi39pHVz9XatD
+          d6a+fPJzi5B7K04/LkhfuByZVm1s0a84e9O01CTdsunhW7wz+q83F2/zbcdJFkZvavc1D9lwrlVf
+          L+X18+enJ+aEvbcp+BrSjrNP9fpe9ahtXUs7D+P5pvz8waGV5uKln87jzHjgGyb4dFpGk4zDpSuH
+          vtspfkPc2tuCGwD27Zuzn+3an7j0diCH++rYqSWa3/a9U76hOHvrrXRz+qQ/yiZMPI1N/ubE6p6c
+          5KguQ5u0P4j0H31sZ0t00bjSGYMrQpAj/Ux8L6+1d3eVbTPvafLTktttOUNenf3+1e3kzz7fG2Li
+          TS+zXD1jzruiTEtvg289rPXyujHw6dZriSfIZa/7XdSV+YHu9+ZVVMqz/X6Z98O9Jj6nVe9uHxM3
+          fnvqRcNOHkfyythl4qpLK6qTL5I7O3GSYxv/MbNq2vTZsjvcSz4ZRwt33OiefjRlnMfkPI9fPNu0
+          33U8/ffYE+MCk/gWVePXHx84SpzSNPE/SrQtXvVoyyb/Q8OKFyJ7qsVNlkdFjhu3cLjXeZ+TR0tb
+          ND564P6Trf6Xzoe19F/+/YsJPX7th4hTDlX18/I41KJyc+M4z6Qjvfb4Lu+G3rKU3N8afKMt0nVt
+          o1/8fbpYVD5xfuYfA42eHsnXR3zcJJuDTg2I64Z6VO9bY1zgjdxN9UnMm5hcEzmz+s3wrccQ31ed
+          G50q0qzJsUy/vfH6/Mu/rm6LfN6jkdBDUPrPT2783HPqy9G/NauKQ8by5ck+Iwf4PZ3xLWfOyNHI
+          j+NL9vv7RMzhzJFWvpPUqcnLeE4MgXyKTB3Z0aenpZFnmU/5Ga/cPuWd58wfFY2IOqfm9i7ex4lA
+          ygKiy//2blJr865/eO4KXzWW8812Qcg/ZqaYo2+COGvemaomS97RJYQsR87kpr082alqedpN7/IN
+          /s0/My9M1OiQ88it61j49Yysm9/vWMTZ5lG8J1U0xuOiNxjuWXx/wPEZPQt/qkZuBRyakWZeucJL
+          51W8/aioA8rRtjY3edI4o+lHSbzCIsTc9tFDn8zHB8/fIDyTHrRrNjep295FTRsjH1+5dxsJ+Mhy
+          tOJF1OPtnsUjjsxo49fDEuY3vbG57cq7K1f5r7tmUcS+uuBRwW/xcNWhRE3PEdmI+Mt3++KZZxOJ
+          pgHm9B6hnMu5L0rvXGmyBik+O37j607Nj10/s3NPTa5Xcft2NXeMMd9eDbvftTAaubl6oXHa7oP3
+          56f1a5x0pSTrsxVij/CvlT90v3T9gW952X5j2LHyEsvO2W8MXlk97u7OlZdnP5vfMR7Zk30gqmSc
+          10/qMwdkd7sgHcJfrhn8Xtbaj/44e+yNiSOY911i2sJBk4acu1QdjyzBV5+YFMzJfTZpEtKjW0Z0
+          alZQ8ZCbX9V8gDw9t+r4LPXR9EkDHnU58sw7fd9+z5PC1MSDSx9dGNb4k+fzl86Jn/qQk/Xdca2i
+          cey9cXkfVjU2H164ecrf0G8KRafXn+i7ZbTHycupt79AIya/X00MTC/47UGz8q9WBkR6dB44ofON
+          1i2uzPctnzR9cz//rtwz14Kk5+RXgpoiw3ut7nsqO/lZ+8z9EwsCopBOs0p+8vHp+PD96rmVmz7e
+          MA4pWXLo9Mbwqr6nU/Pft6yv4ZxcmTL47oiP/kF6P3uguhT9VUD7DSuRu3N7/jF/7iPvvO8y/E4M
+          e/ZIerFjoKdg/DfffFUc8+L81Ethyt8PDn/tYfr+FvLd+PLTezqXReZeblIamYh7Baxsai5Y8GPe
+          7y+6zo55sMF3hqXJ/C2yPW/2XUUEX2UFno3Z5j/vy/GBO/b8vqzb+lMTe/0wokCPtNt/a82E9fzD
+          84ddfQ1TwhG9zq0rXh4YgnyG/hievXOlYaMfSDOLpDGdcrKjh+R/dPzguaU/XRvZavCCd5JutG0f
+          MNqy7fIXaSsUJb03W6oWDhm1qdvg3y5Y5HHvT1tywcI5MbJto/fT5neFuW9aSnrfTb2zJv+5GfV/
+          7KLqf3CLVUlq1H/RHHXW/4RCgSg6yrn+JxKG/1/9799xxXWREVIyX4ejUAASfOPgF6rGtIp4Lqbn
+          ojKVPp6rJ9Vc2IRjMvClwUkMlSrhRjoZzzWScl4M1/oabszEc3NUeK6O0JNcVEpoSVwLuuWqZKQy
+          XobnqKQ4j3oIVWlVpApT8wxSTI3HC0Oto3hyFRkvJXJwvRNYUolrcJ6UUBN6FuRAkaRXpFwE+5Iq
+          Uo0nUDtCaKoe08SF0W9849QqbTaqx9XxXJ0eB0O1uBRgp9Tj8niukiR1BnFYmBxANPDpPShMpzLw
+          pYSG+3ZjgSyRKik1EJXqCYOB0KsUKq0DEAOZr8YNShxvEAJhUoNBlCjHNCp1fvwQwAA8r2eGnhDn
+          KpRkUrhAEBsBPpHgEwU+0QJBd5nKoFNj+fGGXEwHsaemS/BF0bAe6EAsnzCSYtSg0oIpAAnVRo0W
+          VWkNpN5I7crpMC2uRq+ZF6FKXE+g1GmAUIrXZCiqB0IBnuAaDahCr5KFQiYANpG4Hu0RBqYQQyWh
+          d/Z4PIlCHCiUR8ll0ljwZDDq5ZgUF+sVEixYFBkZav3whaIQVgeeyE0XugcgobvxoJGZkcwjxYFy
+          6qIhStx0j46hgMkxlZZ00xwZaQOHSaWAJmyI9BuAYmC4ABPKI+E7o04c2Esml0tj4JOMyNXCEdJo
+          qcwKB7JVzKV5hwLecUMN1HERnlEVyoMHXnAe/SKUOxRXEDg6LI0bmokpCQ0WasC0Bp4B16vkVmh6
+          nlohFkXo8mKpB41MLIwCD770mYgeJgmRxzOoJgAOiyWEXobreeBNLC8Xl2SrSB6J6XhKlUKpBh+S
+          ViUxCRhr0GF6sDQIYrRSJZPh2rEmRpLEWkKLd1FpoGpidBdoI0IlhCzfpMH0QL7FglgJJs1W6Amj
+          Vga4HhkRJYmJpaHnYPpgijUhsZAQPFqUmdfwTQiESAHzZc728JQ4RE8sFAhylPS6dZhMBpcETIU0
+          GJ6xMWBynAdwxnhAfHGwMEIXKtDlUYd1IuC3BssLhpQJdddbD+FT/UPQWkFKCJIkNFaooph6oapx
+          OQOURppFE+bgChRhTM+Dm+YqQO5gYYxAhitCGROGCrqFMiqDRlL3FCHh6aNuLiB5bPJKFCFWCeDn
+          6jEd4EsebWXFkSKAUayVTyhmJIlYK2flajwvFv7gATMPrJqK0IppoxCrwHRiSEgKpNaoMdl7qEl9
+          rFGrkhIynCdRyVRilYFQYyRuA6vSwnXyJGpCmk0zHWCpArLDA4CALEvFJCYxqgEhwLMhVo2TwILw
+          4PExyGIeXyDENQW+tMnKJHRg0Yx94QMumxyQx4Aga3kghtEYxFA3cX3seODRVfJ8HuMgxNSxNJ4E
+          J3NxnFmXiFmXBEi+rF6A1BABMwQQMttEUzYcSEQsI6rUPaNvkLlGAzWLjSTQXMaCO4CJA2xnOXFj
+          HoG9onRaiQHjAjgIpA8VgulQqq9QEBohCBWKBMAQRobYUERVGgWDJpSeWLtGdXOHJiGBxyqg4xVT
+          jtdOHVRiojgITAouFkaDvtRjLg0POBxn9vEFIsg923iDBlOrbTSmZYItusBKM5aBnkLoNEWEuymi
+          mCkwSiINDWJhDMNBtSoHb9CAKBZ7IZGsNkiAUjRzJGOvXrQRduCmdYWUZwthRojBClGgMSoZSrdD
+          ZXEgAYTuTCIKdRnwrjRTo+24RbvgEgmZ7IwF5fBCbBTgE1oanktHo85J4Oh/tLTFhAqjwEcgBJ4y
+          JBbTqjTUWU2xzqg24KjIAIIJOYzrcPZEJmdPABuTsvF8uR4eG0WpwaZoQTeTy7zRNjm3zywIKYBy
+          7NrZFUnQlUIEGCstT0JqrZorcmKtG/rVxavaWcwcd3VyfPVZAalRDyJFsY5QwUcHjFFDjk2RWQIJ
+          7x368Q06Fd3ZzhTqFT/GwLgdJ6rDVhNJmCj3Lyf0GhC9gdAODw6Pgk4JUo42wf1hKEjbXxgVmqx6
+          QBkh4CJQKy5qTIKrTXUpdzjTkwosWYZFqsY0uuAIACxUGJGTGxoFvaiDGYDhLeVVrATgCyIZrwZ9
+          P6WsJJ5H8ihlFlMOnuYGtT6V1bcRepQfZbAjwZerMYMSCL0D3lAHWONgBOQyBIZ6DoPgC/fDpEpF
+          Q00Ue03Q6dDuGfp0MfxBY6FiWVTG2dYFNsIuNzCKYRsyQR2GzJFvztywYcK30S5QKMJioiIdYkE6
+          eLZ3ZlEtUCYU9QrHausOiAYMvMRgcsLD1TLSYtoH08sMjJxKwb2pbrcqcGOPG+B9oczD6NvF+8Ke
+          tP13ICeNJwzaQ2x0tykvRJOn/DMiGoEDRFQpskfmLPJFOLER5o21khMmfdawC7LBAUurWFmXBO+d
+          6S0Ihf+o/M5NyFGXgS1gJjUxnRzSC6hV7iMIuB7KN6Os7OItJB8Kl6slBniMhuErD2T/BgMui+eC
+          bBnnjnX1nLYUNsQl96EgGaR6o8SRjnWzli0LEsyAQ+I4GAhIdlbCJLIGttRMKD+HrTtRtegw05c0
+          NSQCoUoBMKM0UQd3oZXT4yD4B47e5pp6sRIOqC48qC6CWJIwSpU8OmIT6zAtLx9ClGLaHMxQW6jq
+          EDayEMA1OjLfjgIQT3jCGI+l8jAgLvU6XNba6MDInZei55LDmsZbMI3Fnxgrye2hrevMVoUbAssr
+          jMJRpRaTE6dpadQDqaud+FHu7TlLVJ1T0F5UBsryYKGB8khpRKQw1OYKQ2IJGHmT+WJ+LwqJbC0h
+          cUN9iCiMndyHK3UHqdDys+2nONxmGKxVJHugQt3BlDOYB/Nk+CMkFmbfFFSWB4bvUH6kAZUaJSop
+          YNEEFa4P5otC+TEgXwoVOhl3aDrcZVYRtPBTXOGpJer/oTjQ/txByxzhgpgM07oEUE59JE7JVB32
+          PcrJvlPBKAshBoHRsMirJ9VjreJlpzRVmx0ZLLRJ6VCq+kdLKdQuk4OqwR88oGg6yBweXUoA9l6u
+          R8HH0VORKjX+17hoaG6Ebl20iyeyemeNjOWdrUaVFmOBDVuaOw3PZEWsldbFNeekGnKtvsgWJuly
+          NVguXayjO9he4mq1SmdQGWJzlcDsUXkzDvwmHUAy7t2xcsuHlVxTA+tCzmGqdaFyFa5ueDml1njB
+          Hdsdsq96WSig+G81PpEQX5ZRYMYzyYDIYMddLCekRgNgPKkEuRG7HzMNXQAOsY8A+a7OCFwnWKtY
+          yJYal4jFFsoQRpKqZLtRTSqIAexHYc3OIYihf2nSoQTHkglo5uovtLGw5oM4xzmurstwUKJdV7xj
+          pXwk1D3X0Mpae4GbEiZaJkA0I7eKBBMs8KCbAJHCBJ5KK6MIyqTrLGZS9w0od7BwY3sV9xL1NuEC
+          WwTgcupM0CmKw/iBxawGhSAwVHBMd2PYKmeNBnC93jUFperpRpIEckLLc47KoJKo8VBKVh3fmazS
+          KHIiDLNMq7TyCLkchlaMqidpcJkKQ4NBSCzH9QaeHpcZpbiMpyGYqAQ+hph6sIoRjrsIzmkya3/B
+          aqF6Y1otgM3YJwn11HDjYrPmIsYb1GE2nBTBke6RBfbpQaorA47N5JqxMuwMFEhEWATWwJTRWrB1
+          AF6Pf3czgA9shxsLxO4JuAdX5eJvrSY3ph6T6zadgfU0e4LmmuGxS+Msy2zNQyhDBwnuYOgcEzC3
+          DoyeGtZigEbkOzCDiRQZZlgrCbA3teHlzDhrR3qYra9CSRjcFEbrTO/YSTPcJ7c5VgOucE2d2eXk
+          8LdKne22tY7UGczJWIA/NYOOqi+DjnGfQdvR+ZMSaViP4MuNarXJKQypOxZ3HEtXGGi9sfIP/gar
+          HJDUWu+kIxpnpWJ7fnviSte45LyGRsUAKtxNBLZArg9BHZ7qjLKYKazIWYOcCLfN1vjEIdq09gO2
+          vSGI6nEdjpHB4aEOONaLJIAOIpacWm2OwG1ZyGa3BW6icAbqW8bhQkec6rCvkXVH4tCL/AuBN2sB
+          bvbE6tgCi3REg9qwc0zIQS7uXL8uQPlaYHrcRgd8EN6SpvojEKdShqNjjLIqTbIaJBJWP42peXoi
+          19Xi1SYodH+rMLuJo63yLXA3oHbxtnaDTsoNCLXKQDY03YlyrcpbwcDY409MeGrVBHrH0U2JisEB
+          3OgZUyRiBaEi92WX+sJdp0Kg84avkxN1xsNlP6DAsdl1B8ARQq2xjK1HnluvVq/rYLIJEWvbXuS6
+          bQ8J5BSEuInA6AJk3RokckzcGeJa2QqjQoHtlAOYHLeqEKnnwQgiFNy8RXXFVmFxKjraqhA0VHc4
+          O5eo7D6e2d2zkog+EVNXzV5v2x2MojcHG3D+wyGtdcDVXQtl/cVaUsmTKlVqWbAoJNTa37XJNe9y
+          gKLGDCTd1wmGvcHkUnpxW54j9XyJMZ8eLFfpbaNdjTLoCVJfdd1d7ZYadNfiuaw8itp8pHZ1ccyA
+          Q3fitK9LdTDJ9YSmnvJaTEgBSbD7sA+CWYvNQCypw0TWYD5c4MYJusaodOpLEoCO9kIx9Sd87HVa
+          Rpoaev5KBLeE3dSARwbT9d9aYnsmI/NlnyKjTaqr7lO18jrKItARNyy1Cw+xVTFE0HlbT2P1gvVp
+          V5mMC2OOacaFMYds4YE48AUCKFQKGGqI58IggpsA6RrHJBhMA9BbbgK1PnZ36vQN896xBZ4P4qIq
+          GXOXEKfSKFCDXhrPtf4dCC6Kqcl4LmgKA+PYMBLiJAkZQ9L6pKCpQ5IHxYVJEuKoYCYBPqJh6LCh
+          fTPBYqhXrMHsWxYmzPEdt1jCsyM0ltQdmAcojLVRRpAQOfiKabB2zMwDLRUbKtZWbK6chVasrZwK
+          bksqtsE76wCHRdGJiRWw9TgFPTPgsx4gQSUt1OGGeG7ltIpvKeBTKtbb8AZgDDkKFB5g7k3kxXPh
+          URRRBPjPhX+tC4yCGRcXNZB6IhuP5wL3AnWsD32QmX5Ly0c8V2R7Aa2qFNPFcymZdng9Hjgm6/uE
+          OKlKL4WnecHEwhguKs2P50ZyUX08N5wb5tAaRTcKRW5brWOFvezNOoxUooAQg2L4USBX50eqo/gx
+          aMQgYSQ/Ao0CjzzqGXYNAxSwETWMpmqDiKzH5SAfVDqSGbBsY0Vp5ayKr/+XENlGCZEQBGNYL7QX
+          mB7c8kT8qAhAhfAoB3qBXuE5UUpeVN2ksYkirfe4ntZvthpTBRyULvXQBAP3dG2Mi9L211WxSKgF
+          QFUrZ1XOBMpQitrpicJncFNKK69VdwBQSnUqp1dsrdhUsR6tWANHgP6V0yqno/Yz9SjUpYrNFSWg
+          oaKkcmZlEXhY76paTjyHR5mYio19FUAEEuyYsUnDAHJPDKaaRcMBD26pQeFzbVmxi5UAA2gjsQ5M
+          OxOszW4g0P3bUYDJDrCi79CK1YAOm1FADvAMF7uxsghQs4wB6IikgY5TrIjCc1JubDIl3GBmGiRl
+          MikLtRpgAaamjadbS0kdPEJBuEQvmnrkJlwzL6qlv1SpsFtVtuWEh3CANDFgpKSTYYUz0GAZflrX
+          6gIIkxjs+IAHbj2dwbI3QWMMqAy0FpBgLSDCevYYljIw5HRLW3jExQ1t6ZMv9kUrRQkUbTfSthoo
+          mMidmzHgwNvpCTWwGDB40DlZ++mA4ztoJm2u2Fo5jW2NGAEHionxNIQMhw5Ia3UXjjUusPaK7c5W
+          0S0IKfDaahcgckxtgFC+BcoIEHKxr/V6Wlj1QmHVq47FwlUCMS9lOTYnJQZQuDSywEEI+9eGpY23
+          dXoBR2B9awEGLVjltLcCNaIWFqwBiK1zS766oA2qnRczKja/FahRtRIMWN31tXgGJ3GFh3WcdDbH
+          rodU83AHDWb3JFm9Mu0BVG0mhDnqQw+iHoHjtcsGfXTH3ggB0u/cKRrr4A4LYAr1zArYgDcAMj4L
+          WAm70l0zf1W/hNsP6zDkSWDkeSsLEgrYvxaIwcaKdSh4xxh62EybZOAT1gAsgMhNrihx8Rw6kLsS
+          sj7AtDqYS2cy/kvmC9otIA3bAVKTrS7IwV6C9looQB0RcRtLU6c6mN/lA5k0mIXVCA/z0Byh7hjo
+          LpG/wyzwIAobnt2iUWNt5Ac6Vwps6IdWEknYhKNjdiKXEVeJ45zMrFReBFbglIVzHSfZAThdxyTw
+          N57cz+JOrv51/lGxQkUZCI9m1cUwplRvZxlliK2tVIETZmewxEnLnzxZA1QY/rYmTREuXf+kPYcM
+          l4LwCrCFqugpCTUIJ0GU7OTQpkDtAuEdHXzsAKJWWjnFyaCA0JmbQOd3jGRToxuOZm9j/luiadU/
+          yM5vgVaurVjlkneBYBN024666+tmAV3dYV87Jwgj6aA7bCMyGRikaTAmZoK12iVNJx8O1uZe1FhA
+          NwNDs5ECZ/VvtQPsi+XbAVKZtbP1cc62XdWQNd8UOGdd82VCC/pW89VCVLjJwIXzTwFWHdhbIHqO
+          YlcxB6VY6sxNtOLLim8q1kJnsBlmKvAG9KksQumFVE5hLYUPWgE4SuGA/aYCpHWgeRbsAA36Vv6f
+          apnXVS6snAFsWp2aTe8+NFixMTWVX72lzgCR/JqKqGejQr7QSdHZZC2h0J5VOaPBauI2faO20Jl4
+          X50sk1Eh1XeQK7YJGhTDMNsvVkgD4X1thKRkiOnYn5YnRjZYThvKwlQqeKBFrXIGavUJdPbKJAKU
+          uoEEj8J2BpAOKj5YC1O+bQBSKXyeQQslM8kaoPpT3Y4Ab7bAJjCCDwFsAK+mQMH9FkBaC7HaCND5
+          EHaYyXABOHVIpMkwl9wKhHdhxeaGiibLTTj4dZUat3nCjQCHadapSsH3TIBfMMwpQ2pX93/kEG7N
+          1VvOAtW6jlnedhKW7K4Fel0C/q2t2Fg7fEKHa99qAsBsaFbgBNtAVj8ZlgBqB0+XwV0n+JfNibXE
+          4IQHtCtsPaWVgImErL/XwYVhBjB00GjSUt5bpcW0UrzuqJ7Z5nCIn2hyd2XHuwmMgbUHC66tDkFy
+          bbNRlLNTkVF2VhfcOQOgRYvJAmyh/59IdDot2AjwXwhrwrVbcXgmtsE2XKWF1bH6TXgOpjaCZ2Ed
+          cdlbhmPs9BD+0QcaMF0Msya//ytKp9FoRI4wCnyJBGpeOC+cvoM3Qng3PAJ+R4AmNJy+Aze2+qlj
+          fFMvM4YZZPXzwk31Yx2Qvp0oFUFMpeqDcP9gszuOAMtaZ4TpJKgsLlFJKoUnna5ScwHXAL6nQwvg
+          pM4UPOsXW7ng7hqjW/QtUwC11iXjQKKv0pEJvsFyo5ZCJTgE/pEFrtGAQ3appCQXbozlYHp0SMqg
+          wZkp9r9FosHylAZwRfN0WgVfoSKVRglfRcD3QtvfC7KNTs4YYB/KdIZ/vMQBCj1Wj6vhxqUhDO7d
+          GcgwuNWpJjBZGBUC8aAS8TFdtg10/8FDM4fG/z/2nq65keM4PetXgBuJ3DkslgD4IQu4JcI7fZxs
+          3ekiUjlfUUgKH0tgQ3zd7gIkikSV/aKknLy4knJenThK5LMVOSm7YqfylPyJ46t+Sbp7vncXpC6S
+          XJUq84HYnY+emZ7unp6ent4TBb0zi/wuRw3FWfFUDtlZzGz0cZ1OnLYE9eQIAZ0nWBiGH0JLBqTG
+          m7u7OyK9xX+SAD+FMk/66R+nUe8sjLf1O0ozx1ObVfgTkKkbGfC8Jy8JXPX76OnDwEEBgIu5nrHD
+          R+++fRRcoiGuceLUABX71baHpjR83YP3N/fx/Qm9Dx28FY3vD/F9F9+/Q+WfUn7f8Xb299orCf61
+          QBFN1GeXcZjO40mpP+1RpBj81M3bI/qUw73le30somoeBufRBKbVP+SfCLq6msxHI5mL4WPC4JIs
+          2I2q1xsO4P+sl8J/Mi00sMMeMmqD21M9bhJNGidtD8/ljyLMQlw53nnyXv8CamL6MSBRPB51Fgib
+          rz5Yr0MuSvAEnXyVPC4q6q90lE7jziAsuZ3ZjH9BxyudwhYnoav8pXRa6oIyn4QxM2uRr4ZEUSkB
+          fLhnjIcwSePlZXTqHm5uHiKe2CWOexHQCxRqQt5iI0CkMIHWRXO16nXS3tAN2eVKARG5o2mvMxK9
+          RBjvpeEY4OgaohxCxMorq2cJNuotCvqWYN/ohwo0OZjirlh9SGQfoJZd2G76LxKgnjMPyAdBcCwI
+          TDXlyFvfPfrgEf8sk7tgjX5uVH3uEY614yqvTrPPr0Q5hM64urnJ+eEkrrYZ0RjPD+KqpLyxVRsp
+          jFeG9EDY7q+u+IuwwgtAtGqMq0Q6anAkcl0xubCAvOYKKcya4cjHNee+iFCV+nFIGzd3++PXTj7u
+          +167vD3wFHuN1VCdj+f16v6+Ux6X+eObzorAicWc7MXNHgjQ+Dgah9M5dADb9FPWFA8BzI3MM6S+
+          hoH6wMqr71er3GtZDQhWRZgA2ZXFQVCrtuoN/G3t4E/Vr9Zau419a4rHoDgsjWrOa0554afT95Fc
+          wiNYYyYD1wknlY+OHA8daaPxfPxOzA/+34pgqUgavGEPVoe1mStmE1Y0mIR9o1kX+9dyyk7DqTis
+          zHv1EPQOvEAO5ezq+DkyaMRdeHh/IboQrEHSKcABh2+23MU2/DAYyjvoteLWWdm55xA6wn2eu2/n
+          PhS5Ozx3R+fWIPd7kKsSquJSiuw978bVlQN9T5pZNhqOXUMAK+TiLBsIfvceIHg4nccNp17pI/Ic
+          dNidp6FOyKCxh46n3xRsL8HYaP21jZ2OiS7dcWKgux9MwvPSW3iTE9I5UoAjTf4N6KTp6iqb9pYj
+          hSfhp6lhdpaBHgnCzo4ESpgDATYdNpxkiAHrVvbMZBt96rSgctkpOeU+SuJ3QOI+BW50QXBR+n//
+          B2SpDlkIkCLuchG4C5prLRdOrn9auf5525QKPc1T1z+9/ofrf7z+2fU/XX96/c/X/3L92fXPHZ+8
+          iz44hYIrC9IvPITj+I6SsdTyO6BkpchKFtOfhiBsUQK783gkJgYmYPvPSKlqNbZ9VNIoU6KbqmCK
+          d9nr9IZAApNphZZNwJ6fDsOJFjwxw8VmI/anZywdokNuVXYq9ml1YCtj6qKgKkJPyP5NQI66TH4m
+          DmBFBwFphP4onAzSoezU43g6jhKYqhADGblIVW/H8TR2nfkElK3esNNFeS7a4q0NOaSTqFxuy3Rr
+          jMPyNzhKn69rOCDRi5VJaXygnGhyGsoH3OHhBvUjTEUZdzox+AuVoYAvw3zVwwTHI9WDdwKWLe1B
+          weQisTGdKGacTjY3sRr/D0sNr4I+FMxa55w1HhXrHCn4NofYRUkB0YTiHqFJdvr9txfQBpoPQugp
+          9GDClUN7Z0MdRlUFk/xZPE2nvekIWRe/mthwmMqjyIt801N2WovAKWP7/mR67grMhBiUyEAsLb7I
+          U+SudDjCz5+RykPl13dUOKuYPTWg4nJMPJCb9GPaFOTmnFYpPMCFvcVAaAQmKWBAwSWv66YeuoHe
+          R/o1iGIWlFNfhHaElQdUMpJylMKHbiQEsyZ/A0Ud68GPSACdnQD1Us3AXA/i3ikKjRaR8KV5pmU9
+          9mBzc7YRBPxpI9tlAkFbXkQqcPh4ughdR8btgQ2gjscDjS7wo6RQg19YfIJWi2YRHJgpd3aAbbY0
+          rIYNS9Rbq1J95V6tvN29qsX2iK35LCD8ge7ioV8O4a6XyoYpXg418YjCn5LrjlN257OWQ301e0mF
+          I+TiB8cP3w+28l49W7zmlz/59xLqSV/+5L9KoG64fAptVeZ1YdhwlIxABx6b24UOxklCCxM8z2UF
+          Mw7lIEuXoyPZNQUxz1gVZtMk4IkHBKTlzioc2rbL08Vrw99T8Oksm/lkNPXR5Tjg+iC/wMQfo4lb
+          8wA6Y3dqoA7DuPWAyTBu90+qjdBDzPVA19XjubE4ZBriFo3Va0aOebqksJ7aZanrZFrDCrwIW6Nx
+          ay7bUCIDxbdwEynqhOTMZDnpYYwAFyUeaBqxuhrnaqiaVcXWkTLgvXfGLwVpcCQy5DY9yMravJiV
+          OCALGTMo27nRWmauN9rl0WSGLWCGrQOnzJVftfAwmH6b6mF8upsVPQA0LhzUMHS1ElB2Zm50sIOG
+          jZmRSntyc0GmPXBCcxedLt2UGbLCVtjQVCakO5Pf0NQqC2lyDtrIthc728KsVN8dxq1kOe7CSuiU
+          j54+zOovqRqIuXgIEw0yLvSRrHNkp5GLx/0hqsWPwxid2MmOY+d4eEGAsz2vjJzaEOzNU5T1DPkJ
+          s57Np2n4p3ixJfRE0oK/IWc0BIfwysK6gwIIuCGVeuRqnRIl7tis1aE4mfNSLq3xxprZnV4EkiPp
+          DMNkLZp93h2plmJwQksc50880LJcIqcGctBV5z9ofP4duueiEXdLGWWoORuq1fC4MzNm1IvUnAr6
+          2LLPZUqwHKR0E6Xl4H9YEbrzJS4INPTNzQi0JthSg2J6DnmQsSXPjLZwntV6gRt0eAf+2bKOiLbK
+          anZhXtebBAp3/fVVHlyGYUlN1IUEtgQJ+HgC4TpOfhcGyz5NsSJ6C4nzSTKMTtGsk9mLWrN7UKuz
+          guSgVpfNIclQ3p8EJ21OqahBxIG0hKr+PJuH89DuEa/oz+bJ0OyIhmJJWwN4sZ4iRRCHejqN3waJ
+          7Uo80JUa3s9mtp8WR5CiKvDr7VaredSSaOKFbxdNVM6SSmVncxSNoxTQ6GQlVCcjann1oAN6F36O
+          HcS3Tf8XavN8OWuUL4S2+wwfn6VLL21c+CmM00PKb2xsAFMl9+bLMH7YAcm3Wim5bcsEY2VS+zkD
+          0etkgS03bpEK5OryK7F8mZ6QxvkwkfpaOfd+tKDTnbAzvnHDiOVgc+fh1chL1Nzwmg0zdNp0OsCv
+          McNWy/FgV9kUZfIbP4DQzBjYKEi+sSfbcJ0nYfcIODikszixX2K0F6KeEHY9x7yoAJtJPBJ2mC0E
+          kbnOE0n9y8vzhKxICr775OjohE8EnQ+8Du9iLtqwZVP2ZaNIudw0mEd039vBNd5u+zzxpxNcgwJ7
+          O0dDQBbxHH0s7/AzEVFrHCZJZxDqimODN5eXSlqSqToZBIZdfOzjoRLz+gFk0PPVFTw1VR3AcN8n
+          ExUu9nwBd5iGWbyy9/0eX9H7/mO+gPf9GV+2+/5IrNd9f+jx5bnvP/PEw0Ksx31/qtbhvj/RjAOU
+          iftno2P8TMvqkyH7kE2x8We8mbTR948ld/b9sQVYPGVPKUxcw1qRhEVTJKnsU/LS+UL69Cl7BdDa
+          VyMLs7UQLU1ma5wqfeqFa56QrKTQxBMUvPq36IwyIqRQ58SJO6iTzmkqgHkZBIhaeVw5LTAp8PAk
+          RRaF3gLVG+7GzbxeehH0FmjgJBa/AGW13of0IV78BLwElVozI03u80M6dQYmjAY8NTizxbO2bV6m
+          jd5Jte1NG+XeSa3tDfG33vZG+LvT9nr4u9terQpW8lPAH43ItQz4Vst4viMF8d26tXDK8XIXdGae
+          j+i9ZydIoHvAJ114kIAqNUzpDQO3W+mw7Q7uHo3tao/28cpXnDVnPUtcur2hOq0Avao3tPfeYvsB
+          lfjmle6xBqKOukkMdY2rwqJOP+6cu8ULcw5RcSAOzAwbd9s7C5cB35ic+U7ZyNLjI3NoX1gVobxp
+          TQRs8+zNTf6r9GGDRHgOa5oTKMQr2dzWTAw3dWUzbQPkbdcInKZldC1QTM5wE5pTTCLBq5AQAz0o
+          VQVfa+2stnKmtRWTMewBG6KfH9ECJjPbwLVcc0I8QwxD3MJZBfikvWKM5QTjjbqKYBRDWbkBv+uU
+          E343qlnApZwk1/Kn15/F0l2AfxzoMXDC6EM00l5d1bwnKId6I4xUSqY874FOeBDqIN+QyB2UntwB
+          iE145RfWgwf8Pb3AQ+tjeXvchUQKviF+GZWgg9UPUXHBrCfeA2MXUCxDOD/gSALjqFgfIOtS42gS
+          vMdj4y/xqDOoyDdhAVGauTnfZMOfBhxaq+ePGj2QPMNIpwwxpUlW77vQBsN2RlNMGEYH0A7DtoaR
+          ecoSDwIXb6RjccTxDFVub9YNalVvdgH/M2cw33cjRXmzi7L7pFK/M7tgd6JtV0tEtrIrPTVOZ2dp
+          2X1QmaWVWZfdcWsVd0Ftb8cDUYumh9zHjriTY2EwUIcmCfmTSCGoiX5OYxeHNYCEwd3d5qBc5ogb
+          LE1j2YM7g+1dVvb3CEo3HESTx5Dr8qlH6+3xFOZ9sGSqGUh4ohJ4/5SkouMqQ+jhdCi2J4vBeaAM
+          jjVPIm1bYuxO1d+vKymAY8DDr+iuzG9GOAxLKezBEhS1vYsAJ8SbzwKY+QP4N9W6URaR+I4efvwN
+          zb/iW0WwfIivFDl27Rx6ZcYajBkYvkDsek9dIEpmIbGwzIhl8GqNdVkLnmqDLYzRg8Ey5i3rKh02
+          +Crd7iqOmNj4otI93657y5rXPfeM2VjWK8uariXEJC0+rxaP+JZ5ilrGcGl6nro4Wdi3hoGtTNbK
+          aE1VNngKJZCVV1VJpFvanSOaj2nOe7D7S2HDiaGe35WRnnm4Iag/iPH0g9w7j9LpDDIKGG7nO8zJ
+          F60VFK0yfVRiE9yAS15McK0iv1/UWqIFY4NkJUldvX/X8FxVife1l6s5CB4FhHAjJJYd25ED4KXu
+          jeZxsG8TfCa3mj0eGkeBVLhR95PPDU0g3hiFwRgGPl4GOPYxDV6JJaM6u1yHkPzU76q+465pEr7V
+          SYbuyY6322bFIvhGCTG+kOurmERIeMAKUGE21rYOy2yqKuixwna2D524h+2Nl96bQPtvsBw9ZkBr
+          6lgPae+rQeJBJW8DtlMEzHZ2wsOaQ9h+ktLzfUuF55u0e0iaoDPepxIk+ZiXVbQmgearU3dSoMhE
+          5nIpm6vEdHpWgfV32425klWpV2Edn1RQhEZB0bEa5HmRFLBq1xg19cG1vc3iS5valxWeTxUqWC1+
+          aoWLQNkplb785MdOWSYNMenLT/5Wp4xYQ5e3WzvOtCbdlXq+ir5cvLkKJ/0jBABKrrk9zh7R3zwq
+          MsiIsRgprOF8+YO/c5rrOuk4TdEraXQW5xTqsjb1F08N8o4JIroZHSJr5wS0iwmCC31JcqvbwSCz
+          22BQa5ZIuLqCEfGCx+iTDxM4ns4T9LBc09iJBExn6eK5h0d8I/0O+jq02s6rzuGCn8DkuhsuPDlh
+          oiHopvNhiPGePugmsMnDQCLaPomGRTvXRYwzf8pfXWgFPTSTcL0HSEz1HY8q2k6k6JnkJuHIO52w
+          y8M47iy50wpeXJCjAg4GuaAcr5/Nw3h5FI6Ay6cxeqFAdYb1kQQInoOBTY256AqR0UURe5jC9rI7
+          T0PXMWMROF6X7IpQwo9heoydf4tfIWmIaAUynnbBQGEGe2d5l5wClz6jMUsMlSyPO6OUeWTK/X49
+          o6RSIgrHf8EuL24c+gX2KDtMbXK0TVkn7aZhT7HOHOm/6IKOefs1ZkIIOy35voG5MMSo3ZCJYnKO
+          9nTRLIILR/d18awFrInRvBFTfblg7ekGtD92J7jN1r7xL3kCCakeCKh3MUwKhoyj3mbdkJWPhD7n
+          MKW3SdmKBeQVBpSBdIlBbFYDbuoH4S1ukjGfrorRuQu/zyRSgih51HnkDljLcRo01MEdo1mvblnT
+          yNHIBG5AErDN5gTwuQY+3zaB7wqnt1dp6VR18wRI961srzd7/Hz0TY1EPudGH/8vQOdQMwMzR0E6
+          ynORKXx2anlMzk6BRjrjtOEAZ86X8KP6yeMxSMTNTn0oho69TcrDIAhGHtSlvIzd/PH7Loj/hYef
+          d9JktAjoBPbqis/GgpG7mbX0k2IQWg5i6OaFyh2kojupuJ9zFHVH6PdTmJpVJ6zDrkyTyus+3yy6
+          pXEX/Nk0Ad6ehAMpnMjoNw4KW9esMWbJ2GoM8dEy3PrRM2Gxjankq2X51r+O+TnFLOe2pBVnmCfN
+          EdYsMpxjM8+YxZzLB3GEnCOAya6u4P9d3GxRXQwFwQpmjU87FcHgDkxY0I1kjMEgk60pWQOXa47Q
+          uCkItG+V3Zou1hsO6M3UOSsqixkD5mME3LDNTfh/UGW53uYAYWlKxQeuI60Zopi6EzEXnsB7gWKH
+          V9EEIuDxK0kIue7p1Q1ZOmNqJw7PEgPxe5YKVmytR9wNi5aIkZ2VNxxd/HaalDr8zfHEHhixzzXD
+          KKFf16zEmAXipG3LF1CPhSMe46cMCnpm/DZMMUBZtVnAVwqsYiqx9RABHXLMwmG/jH8UBlqQoUKM
+          GBOGD8TtzlGiVescpWPZaeezoONjJKMAw9ThLkY7f+Qdp0QM6sx94A65U2X8ctFhSvvcco9bJ+PW
+          pANzmf5SVEeGoBCRKX6I1+1LAEWki/gT5C7xvERwuxl3XyEUhDDAhrsyVpXR2FYm0seFCFiG14q3
+          yh0/6sNA7JvSn7/41fUPnYP/+XsV7uMm9yupNP4Rp4ySf2FrxC+lvZKdoh+Uteoa9Zs2F5nzfhqN
+          QFG0pl7MKg5sIwiiPrCrySZyCAVHWbZfa1bls+k7a1sZRil6gp2F4Uwwqc38eUkHXXXdDGW2ZgeB
+          mM/G7K58ZC2A3kDQjDuNdZRSjd2DzKJeWUjDygVowKpFHTMmI43SUZjloJbD4/zYtJshyAYvlCHk
+          TCHzmFReW51M8RMfTD641AXPyUSEoaCaEhx+wzB7LFqSVzixesZ5lPu8U5CbokVmDXnyC65KeZBR
+          fXLqg1Tqrq4WpCzwfjgqUpIcxW9efH79oxefZ/2fstsMo/4nUP+3eMkG477+Rp7OGkgRQXAKQC7U
+          RtOGCgKX5M1fyjg2t0PjjhOXUb+hnVk8TrULDwilsTgwzV6CaBoOSJfpubMq4A5B1gUkmsdz4AgJ
+          zgeQI02KMfU5xvZZGwbIJtgFkOoNlYoJeCG1pxzl4hcU50nm1WUbfD8I+hzQ3KEfh8/mYZI+wiJu
+          lnhXWjNghAAKjZQ9rLdCP0nPYkxUQYp44nN4ff7iP3EMX0DKv/LByGBFOvKvT3jNqAZ5Vecj8Rkr
+          Hqt37R6dpCkva+6fD6+uNg59dOqEQvfR9JAVpeNoEgbVJuKVHq3Sbu5WvDiX1p4eZiAJI1RFHMLW
+          5SsErMj5psaWPIznEy4B3pukrjA1xH7aGfz5BDZLmWufH7+FNzVBDa5VlaTD2+zzyeYm/CvDTucA
+          x2gcBMN0i1DNBdOtgjfXfaeMAJziaM0v/qZEQZV+AQTxXJK7ydHoFycv83E97Dlf9Usvfn39I984
+          M+b9yd4fVNfSSKhKraDIW02LWxEQ+iXkrcla6I/4EV5hVY/u4ePvrY9pYF8EhKJrVfcjDAJ/gyct
+          Zh8b11RpuQ87fcu07zqFQZ+ltDAFb9n5GLDQkFJMXnIGiGWHAmF9hhGJDWg0bb+lKVOPMGm/K4mY
+          p/KyDA9s+lcYUe/FL5HxeYQ0imf/a4qdBmSBbj0/XicBEOwv+b2b679uQO8l3vgM8nD5L7lgpoGB
+          wbzIpEyKUoEP6A+/bkbxVKuziAaddBrLapkEl77m0UjX0KK1iGEndHUYwKw77cR9/zyGDQD1Ns1K
+          Ar0SP8dQs8SMJZKyn2HYSh5gSH89ALW0vFzP019a5LRpbMf0fdRLk2LklWg8PTgxvUY9w37tmU77
+          7dtYVIbqf8kp7gbpMEqa3YL7ksksUpc2u9adzW7mrqYsKoZoXMLViNPuicc33XpWXorH0k3xWPCe
+          6SUtcjx18eFmz1tpa7Eu9motXEBjhVfarPtpYRxvGdcALPdk5OUfyLtuXIr/DGjpCyPM4aekBP4b
+          /jfvs63UEIyTC3Py8V357dOLuUBjgjqCyk8+fU00GkXpsjfkpzMZX0NVly8Q7PJ2N2bs8Yph0zAO
+          EcgKNpz8uyjbGH7q4NVX/vD3Nf+SuLf9bbeB7uhv7O3RL/xlf+m5tler7+1U39ipQ3qturNbe6W0
+          9213DP/msPbGpdIrMXDlTeVuy/9/+ofzP+5Ek2+TCF5+/mv1/b0/zP/v40/NvwjW9rDzv+w9XW8b
+          SXLv+yt6mXgxPNMjSpZlr2ydlyIpi2eKZEjKzt7eghiRI2kiksPMkPrYtR/ukByQy0MQBLgAeUoQ
+          IPeVvQQJcMFt8nS/wvu6vyRV1d0z3TM9JPVh7x5Wg8VanO6u6a6q7q6qrqoee4eg5tjno+FNfQMJ
+          vLG+nkX/9fXVJP0fFIFdWPGmOjDv+Y7T/8lTIDQTGvRWbtUu5pg77vvoT7aVm00P7z3KPYUNdyT4
+          gkH1cbjpcG7hSR8xnSJICyMntMV70qidyQkoz+GKeCfTss5Al743cQMQTkOK4+HFm2M6TJQA4gp2
+          rdGtthvVbo6tXBVEu/pn+9VOt1d71mi2q73tUhdAftxrtrq1vdoPS91as9G5BvhSuVztdHrQx5fN
+          9vNep1vqVq8BrtWErjaa3dpOrXztvrWr5WrtBYy52ez2ys29Vr3arVZigCjyelwXjpR6CVQY/GMF
+          MJeqgnd5beU+GnmTkTNZ8fq9oQNi3LEbpKuSY2Ft+frhbIJ3woft6VCksU1VAf0Lh/1R1AR9L1e6
+          +NbeA8E18Jyh3fBLJFduO9pNFejucQoSawKF0M4bl0RZLip0z7Ev0W0yERgdXTiUPcoxG8L8Gbpd
+          Jzwx1wU0HHpHPFNCuJXzA3R+Iyq8AmHXdccd7zP31Yl7QVrnLknNSu9pBB6Zfu7xQw69LBphJovw
+          xjavY++Vao2IJzQgwBrukR8k0ZQAI2vZ9dJ+o7xbbaeAPVnJ6O6TFUkJ5V3g9l0PVqUkcYgVQUE8
+          wjDiy9Emyco3iUyYRGfUKYnPUqv1slZ5Vu329lsVdTVYiA4qHLlT5x6ecC383iTwT72BOn2SI4cl
+          2J8FfZwmsHav8HY9b3zoa516siJxfjkydPA2iGvSAq2UX371M8yz/J0mCt2scU3SkGW+LQoz6fL2
+          VpKMfeaq4PY+7rVK5eelZ9Veu9qql8oGmHOWFh1xsNTEux1aEaRU8921JETy/184p85bUgIvr/+t
+          rRU3bvW/d/Ho9Eex/ea/cQX6P9xYv6X/u3jS9J/6N20Mujz97z+4pf+7ecz0p9OQG+OCy9N/fWPj
+          dv1/J888+muipI0VrvaNBfa/hxurGzr914prDx/e2v/exTNx+id4+QVQ3p5SzmTKAvyeN0J9gSm6
+          DWgWTjDac8ZQPXhsqkDOSkK6XlgBTR9jd7iw3rwPtlyKe62R9J+q0eeuMfZ24DuDvhNGrJxZU2Q7
+          yixf8CHyFBm0AvfQDdxx3w1TNf3Q3p55w0FU4AdHlCHcRt8kcu82FzUPMK850GUyOwAFhp8VM22C
+          Mug54CNkqfGyzyOPOmh66I2dIeOuSay8Wy0/Z1ssp9HfLtWrbdDisDD3eE7jUqNRrWNzatYTzuV0
+          Fs/YR034dgB6MP0SHaeTfn8sumYJjLN+gXHkMi/PYm8n/jlZCe9n2WJ9DHkuxXqcTFGlJIHwDpn1
+          PvXedv9y5gxDy6NG4ng5r34CH9DG8XR+NnTxDhgFEC9U4xPj/GOyd4IJ2244G07ZJIAuHvklDEFS
+          u4SBpN3jwHUGlMKyPRuPMSW9leyKiqZgNk6V4zMNLtjn/Hye95e9ZnSEzqwupp9HwMw7GvvAjdD+
+          Ne/oEBtNAhuzzoQYiK6MRB/Xa8ybrIY3vqeyQIrL+Z05MSnVLgtfFKJZqqGV4wn1C5LC9l6zUu21
+          2rUXpW7V+PFomjDOa+avcgRFmfXP4mYW72s/Tx0SkYAyJoLlPvkU7wiI0Vk977sTHqmbz4IYIVLv
+          qbY2sYln7qlkemAahMp/WjAb9L2Xpnuegis5DxNzK+wlfX7Uj1JqALkWIMyHBeYVEnV26qVnwhzW
+          K++329VGl70y1ant7e13S9t1M104v8bTyDhYdQNhzgjGbKmv8oJNLsKpO+q4AWaDkoBgRSq193qd
+          avtFrVxNTHUEtUW3H+VTs5XKOasA0bkfPEwqqF9MTi1nZPMAcwuopSWViTFsWgaGPqyFmIf0AkZ0
+          n32PbRThf5iErx5XB+CU8889d/pA14kLaAPeU8dvt7vl3svS8+p+q8A4FmxxFR+mItjzhkMvhL7f
+          VT5Q4B8uMLXLBtLwxUKhCt1TEbKYwWNcxHMMr2mFMUX409GKpSmMqkwADSTaFHQN/BmuT7iUK2Zk
+          vvGoK2bcDYxOEBNEnXbxOuwHzPLENCo+hn+eMK1z8Oru3SS5422VOdCOGkBH4teWl2AB0XNYGqEe
+          4gXrV+hl4tID+Rz4/tB1xox8z3Gf5E7ocldybH8SrUIDL8glmU62P/boewTlKaDu+1uyF5vw64n8
+          pTdGGkFD0w4iIidgTUC85RnvSd3HfngDWAlhF75DHFYs5gup5sTQojPGUA/gUZW23MmV9zEPXTZG
+          fsxrY+6COeTDCGeSxOxrio42oAaZzZ7MphhukLU/Rn9Fu4k78GC7xHapTYUATn3xPp+3ycnQ0hZv
+          dcpkTWFBM0ViIpYfFKQ4xuNg5C90lFNJb5Cp2ZjWYEPJ3KVYPZnOWJHHc1Zk9XNcGoaeHOjt6bX9
+          otruwDfsTuV5rwb7EnD92kaSnQ06Bax2YrkwFFpCaoXdPhkdEXETUM2AFLu212q2u6VGudrbrT3b
+          TfDHeCTSbpk+2j9OzmxDDyU2cF6KXqp5b00cOx9M8pu4BcHc8ANveqGR3QaZq9mudT82DYyaVdxD
+          B+TbUG9Wqe6U9uvdXqmu9fQ9rSmdEOK5v9W2MccDiqe21+8dHuW172BdyqZlFc93dlZ3NnYqZVMN
+          Ekq6yOwidiuzDqoFNA9SNUqzqV/mmz056maBEAKZuqBgeAGoH7qEwCVOYAExS3FaHtgHSAgrQ6JU
+          BHQx5V9/A6dQ8+w/qifENcw/C+w/a2v3Hz5M2n9W12/9v97Jcxn7j2AFoymG9JWK5wz9o2/OvDJ2
+          6SPow049zbIdYb2GOz3zg5Pa+NA3lu8H3mLzjVaA+YFMJbuUOSjdCyiq+7CaGEta/hleR2Duv/Qv
+          sDvuFNWINCbO3IMTb2q/dA/awtOArsNbol6bBx7OqbnER1947tmCYp6sLqvSD2C14U7/lCb90CGm
+          1Ixf6uoU2b6iF9kmr/02Wawuf9G1GVy9WS4RQLphbmVFujv2HEy4MBcCKY6dRrP5wypqjnVQ6tbW
+          pf4Y6Xi8ocAaA/zwF8qEYwMx7/A9By14jh2Lf7mUIN5anO1QwkMk8l+4TRntdoE/hfnkDqTprkxC
+          jsX5nR2o8lg4Q7BRlQNlgzzCuB5MkGaRGYNHvW47Qbzhr21/+GBnLbtJgwdjcUc+RU54sL6x/Uhp
+          BhgSwxU4szD6SK+A8LZh5Tsin8SU0BHXVdidhQAW26JgLN6pUnyIQJFvO8S3VbLvDdQ4oKhWxR+J
+          q5Tn1aKbtdCb0FJ6YdebpUqv0eyVS+XdarJJaTj0z3aAEUt9WB/DJFgxcm0GWgqmxJukiK0zhHyM
+          Bt0Bv3VTcutpgaWXFhZob6kF2ddSuhiqAoHthTt+gIy6EzgjtJh+8AF7n7gXozzzim7FzZbhS5jE
+          lrzxMc9ObQw2wro0V1Nq3fJjlep4eOzPhgNZEyDX4QPYgwXjNo1RLCMzYC7jmB4bsTLThrpoLcvl
+          2atXbGZGj8yFr4bsxo8Mpp0ZOiJaxqk8Y5xGfyW4zxkMDEs78eB2gPK1lQfFTMQiqNaUWCSnKQ2w
+          EpAljfnFoMAlT2mlv8vodk/4d45FbZOpnCE4QhI7ApiwL2sjNkgdrE/ataEkzzJ163ITtL5yt/YC
+          dbG0bo2PIriwMVq8+pGyDWOmfzbhnTzwOHWVBkl2kgZtj70vIMDcGnsw5US3YWnSVFCjXdwEUmcK
+          zUDOVwzBV5L956PXbCYX5ulSmSwRL2rVlwUGYpu4NGeWNPl4yH07QweWbdWwXZLoblRf9rqlzvNE
+          M5o0Uq7QbIJLKXX0D5dYOIcrQ/vIMBeiQnV95dHLmtyB7JLC/WzcHO97y5wzJb+QddZkpsdladOp
+          NiqGBSSmDF7OcDFxrRwOa2UydLxx0paqN5jMptXzaeDID1X/vNsu9brwT4GjJruxTlDRnptuyse+
+          H4Is5MEipMZqKzHwKRutfJbgBq26vmJq5pPLM4icThqLzG6ePzSp20bBylZ2iJsbFJo2tbQeie6Z
+          WVKsPbDytbhaKxZci477xDtaB+OfDZIpCqyYV/OIJI3Fi9c95fvFbMPxpZAgyAh9lcvkiXuRsd7q
+          54XcLp2ilXrqiffNMOXqniv0jy9NWu8i8zNPeZTo65KdTBnTCTCHmLae44MikbS4y8MVxFU+8UnF
+          0p7hRHBNbAjz31IW+TRGROuMrkWHNXMkmfjQRn6cvnrlQYmua5mKEkPIttc/YffvR/JllNzIKIHQ
+          +WTHHR62osg1a8nQODp6TNqKJiNbXwLsVrW9V+tg/3rP2qVGt1rBwyvZKTyUwlit61FfT9p0JTwl
+          sPMWN3TZ2xjjIX2Bk/yTTz9fEv+vC2x1dTkTt/rM2yoU/C8wRqDXzUhHhjRCyKKEkV6X7dzxIHaR
+          UMQXXIgK2jliygVDLWxXd9rVzm7+csIhPsJAY0/8cFpxh86Fe2MOQsDPKm0vRyJl0wL6PigWdeVo
+          AVlaziw0U0WUPE4hgGeEKTvD4QFM3BBUwD1+YSZwZbxLic+nfZAm8DetTYoQYHA4QlbO9DdKan7h
+          2Pc/A3pom6+EP2cRfiJ7g9stHarTBlaMv8B3TgKfgC5bxntgDGCuTwi3I8b7Y3IwB84Ulq6L5skC
+          TVY1PLMJqbDqqzm6a6v5strOUFrlTWCxqvrqFfwCRbOGDAgI2Bb9A7YceZ/RzhemxLQb10UldjCs
+          byFq3qGSL7dFDV9cqYd1DTimr9gvo40ZlHhDT2B16nTbtXK3t10qP3/Wbu43KhSjvt/pVRvo0lV5
+          Kyp+cv1RoOBe6IU75IlIVi4cnsXN2Kopgr8BLukc+2fcfcLs4vW+yt5oH5RzNycKcimnzxBAYqou
+          0PK+jG4yVNOj8WSJv4WXP8aMeLm0Ewqmwv31V3+DmSN/+dVPMJeampbtZ/wuY7zJWGRaQ3g829qv
+          5L2J/wbV/hvBYzanX2C+tjdfYG7Jv1ISsEFxlKExysr3E8rx+R8czi+hLt18+eZX9o/GPxrzvlOe
+          th+/+U/xNUzsR3ndoMHv8WO/e/Plm/9hf/gNffUXb774w//apkFKDBZYcmMyaoioD4rJzPccbW9n
+          4lpgIFk05zR64dtMYgGCYAC/xTyVmNiOhs6T26n5LeeSDJD2Oxw+JUPEmOM0mK/+GrD2e0qDh/yA
+          ubUIYRp7wB//jnRX3EYU1ON13UB8DfHw5tdIXAkbEE9NOfJl57Xx/Oub39Cf/zKvvxlkI0RegmYV
+          qG8gWGpaEymMCs4oPCroh2O0bfE3sg/MwTMKlb5i2nPzkXKsFfmxcGFMSqNtcS8uZXnoySwPvTpe
+          99njLXsEJe3UMddpRIgbFozC4A5CviKEQ34NfKpGyw89tLZuU0ZszPfI6SpIkFRQeEcjdcJujsuY
+          QC9KqbZIvPd5fWsBXDbgbmKIcI55m2ieNtWkBtRw8bQtHhDlofsC76D/6m+/RYMSUhSKT4sGxW18
+          qvAp9hdiaV3CjKxq0VJ2BQN1dGgnzKDLpKFJGa3xvBCnZmzZzgmnjU081kiJSNcxX6e2euHsZDrv
+          NNv0+SpyA7iKcBSJLJVSt9STsgyiCmSnbrfWePbHjjOt8g2grtRq1aV/ZqXaLdXq3xJUZZyOzAsU
+          Qim3xS+QSkmQeOzXd8bPfKwEXeOn8+LXYy5pSL1TgyNn+jfhcPcte+b5/6kWjmu4/y30/yuuPkjE
+          /z58eP82/vOdPDcZ/zk/HDNOjwPrHeeqOcCSVVvC5W2OcyG8H8NfuE59cy6IR4EzOfb6ob3tTUfO
+          JLscJMpTZ057/fLm7HotmLxzi6fH2aUwHhNOTz33zDb78Al7pzvypy7WiEdw2VBWUYYLi+35IOwf
+          IlIHbVfrkiyujflxkOuMTDXQY3N3Op3st+vSAqLEIEdVoFh/SfaYDrwZunhXxY4fjJxE32ZTb2hj
+          oeE1v1Ew6ZmorJuxY2KSkbM9FD/5lO02O90ObPKfa7cVHPC8z5hcEYMVZRFd16OWYzZmf6xepJF0
+          WuzWys+rbfRaRMArp/dXppSLeWVt/Th4Gl6MDvzhFlox9juV7hznx+f1WqPaUeGcoLNMmATxAV3X
+          euoMt+4XRx8MvZE33Vp/NAewMKinI5NFgakpqgT7LQwBQ0++tdKjjQcFVmm+bIhXldW1D++XCgz7
+          LF7xJxNWr157ttsVdT+s7OyUH3GIWgG8fliu3FzQs0ABBqVpYcu6xSu5iCrCn5bkLIo1IxubQF/8
+          0nRK1fdnGIRqjpLER4RJJuNL8DGdYulaWSrWST6XCaeO6186OByfZaOxkzRcfKg24wnTby4sO43A
+          ZHg2vTMFB8UnYZzvMGRsyXM2jW8rXsi9VI1RvQaOSfCHHsymbdTswDvSwKox1lpN7H36PO7xXOCU
+          T+9K4ClmKeMbuDbwAZujnBMTk+EJQWq2HmEwMAAERGkTQfRvJPiYN6oNQgsR1c/LEGbQzNJV+HDj
+          Sibs82hgTp93HaT9vgwJjCOtcdvJClzWI+ip5uVi6Oce38oj2xTq58fQr73lGPpvXwS9Ft6eHdqe
+          HdO+4OBSBLCLf5ZnCBmHN48n/DRTaP5Ggisu7ReaxSqRIQQ+tFqAz78lVkl7hk1Azp8b1R+/w9tQ
+          GKd2PCKKoRewjtkml0CX87pLyd14jwiyZqogT7SAVxYuYNRlch+Ma5j83QGaiMjESsg9/mxqrReL
+          xezKqCMsV3M/dCnQIhSG/TkgubtMgNEyQOIctAzulY6AZCiN02KDDqLAkybXVb5NjsUJLmw88F3u
+          2QjL4hr0kBOPMBTRysrtdrstimk3tjV8R9ejmAz90V8LV5eESiX7pxSQO/5+d+feI6PfK2cYGcQd
+          ysAb7bWJpILRUFdIF54deyAoWRaWUlQEyml18sHPx3tIeIBmApg4VM8kicLs9nVfk6iIT18AkRVn
+          kZUBRswdV5XS4r84BbGOadLKxBc80cWiDBwiNYWvJL4QaSlw1if1Nn7LWFJxy6eXLJ6uglt6ReoK
+          X82FI9JYzFt1eEYFMZpTQ7YfXg9vDgVl2uI6sr3fKbBT9gQ2D/S7+9M7Bfv+Ibnd4Z9rhzCFTo0f
+          5XYUFkKPT8RHQUEWJ0B9jNzShFE8FsJ9ar1YYJgFYHVD8cY9HPoO6BTn+L54WGAT3NJW1w7jGuJr
+          yMj8T3FoxH9YZwC0IEvKlMLdLrWfbfcewaMgmxt3WP9UUI//1gLiBP5GHi6Vg0+KnxbYyDkXfyfW
+          ZYlrQBdqDrSWIC6hcV5AOH0s3n4fweQFrFND4pUAj1qx+B421eUALCMJniqtxoVoRmJiQuKA8LeW
+          goUwO8RvAuKHF5SIRR9EIkHLQAqpptwsHBxCA2LdZdYZdHYNJI8JjOx70HwFcCIl4XtsNakYUmvs
+          g0V/5pkFlAYwxxLMBYKxVuGnNfjE+5SjIg9gg6NU1Ai6qgisIAJsdFPr+tZ5gV3IQwZ6j/+L3msg
+          CC3njzlaLpIKWITeQ5CJVPQm1jUslh8ZwleOM8omprLUUkhmQ3Y4iT7oYZoD/L9danRrvVK9Vur0
+          UBRRQU0odvM42kJ0I6UFpOf/wSSxaG6yD1jxvFjkdpY8iDrF8w1h/tddFtK1C4x/yO7CdoBhkHa5
+          XtprqfTpn1JCCcIWDrMAPUyNcXi5MQ75GNHFQNSlv+1Ot918XjVUDPwTl66ss9YPM4p/gNdhc2D4
+          p03nmRl1y7DM8KrwV0ZNHrDKFz8zNpAXYB6msTG4HDYGyvcyKbouKJruS9kL+oBHZNchCPe06A4m
+          GfBjg9xCQBuL4KQCec1w7tsPkpDEHnaQqaEJC49R7TDkxousUgZv1LP5qe/wuZ41QbHTs0BuRspL
+          q68ExshImLY9dC5AcBbG/gxw4RXB8UsOVISfIumEq4imCVlt2xvYePBWYMasK+HVm6ZVmcVCF7ea
+          JzcIJZ/ZIuEKJcOWJmAlgFDioqVENH5zTMsN+qh/ZIAb+st0yj+b26djbwkgx97RsRmK9LCd0UQ4
+          xiROifgoIchBMdR5iib8TTKy67WiSJQzqWQkTm1AV9rdHOHJSCRx5qUMivUr5PuTN0Kd9FGqz5Rb
+          c3dCdie8A2LqnTsAn7qZ+/rn/0Xy69c//7/o3V16Az9T+Z7CiSFHGL+XFMekxDVpzfjkwERGOMEo
+          oRFxNvFAgWUkN8tsRXskDDazPl9BlcpAGGPl2liDmdMSKsjAd4kXJe8TVu/By83Uy4F/Nl5yHAHy
+          Pnz065/+A+nGHA1DH81JOWz49U//Xik49pZF0NQbEdx//DtqjoRZAlO8FR0xbVQ3aPvSaX8lIma2
+          yiBimE1EMa/EqdWmcoSV7KrZwqOkYkzlYcSFkR8DmgwEscImGooXJ1Fuxk/TjZZQF0hqNy5LJzKJ
+          I++ep8Y8rpu6iAJ+pEx8H5SJjPMdwfcj2NqQIEIjJCyTclqQOio/YcwKE+ZgEMKL6NJcDcoLOnyv
+          dWqx8U99EmdBy0X0LOO2Jm0y3MIB61Vi48qlwkXxUUUCNwiuLWLgA3DmTU/qoQwSwIX4n/6ZZiu9
+          36TfSQOcAtE4b/kRrrnRlcQLfEbIl1MPj/j4NcqR2GZlHu8U8KvGWBCT2jiyZwnAHEwBuEwBkq4m
+          T4qAZ2Ory6033HfwWdL/j5+HXtEJcMH9D8XV9P0PD9c2bv3/3sWT5f+X5dBEjBB5NameTp/fLiB/
+          hE80//Gm3rf0jcvf/7NWfHB7/887eTT6S4Xsm7//awP9v2/p//YfM/0jhfxGroFftP+vbawn6L9x
+          /8Ha7f7/Lp4n4bEzca9xq3t8XTcC2soFbn/q4N3X8r730B9iMHh07zWoX1u5P5Gm/vgi8r4fjN0g
+          jK/IdQbeLNzKffjhYEK1nqzQJ767d7W+jWfO/P//9r4Cqspta5QGAQXpBjcgIIibBumW7hKkN7Dp
+          BkFSJEVCGklppKWkOyUF6UZAugSp/UA85z+2595zvf97zzkGjLH3muvb35pzzVhrrjWnneU/Iv3/
+          kvwDGX/f//kl8Fv+//+Gr8v/x1CdruEvsf+sTKxf2H9Ght/y/yuA6yzllPX1D5We/nUl8FGEwbYg
+          s79UXz9XLT/QD39iG348RfJnhw9Y3ABGNuBflMzZxQfBjzrkPGP4/zSehUJB1n+0nh8B+J9W0MdE
+          32dNH3KGf1lH/lsqiJH9owr6BNvmw3mNP5Edzs6AcAMYzlA/13ZMTJ9puw8P+EOfnX84Jx7Xjf9h
+          yK/QdF+V/+vmFvqW4P9m/V825t/r/18C3+P/RytgaQ36cCHUAaRr+S/9xvf1PwMrG/CL/V9WVqbf
+          +v9XgLyYiEg1MRSUirCArLIsu+qZykE//euHhjqEguKXlL3FBw0FBe2eYjZaMK9prCrMpLfffUI5
+          F0NAPlpi9nrvKIOnM3dHqBGO+q3taO1BVdLdGp6eGGVPiYWLr9pC9SUJc59uSuEVPt3cwS+5wwCH
+          YI4eXUf40mua83JdNXQlqXEfejySHroP8GHNTnPvKO7Ixbl33ajzMiVqMZBW7ZMp77RlrgY1ef/0
+          22C/dMo2d++s+IwD++SRdF+CmwDjZb8MKhtIBWQcsua2V3M4ebx+4vDNj5CgTtrk3Ajf22+psmpO
+          n4IlR3OZEp4Lvg9LRlD+ukxqqGNoCm1M7pbQYx4u3aV98oIUGbZbMceSFEvZREvLWDRzzIJMOs8l
+          euLrZTaYMm4tyb2C5rDwrw6IpW+62d6ZoUs6CxLyozMvfzOXnMR3gf7ZM8Iq7Vnd59VZt+RgTylL
+          pkoEBSXrBxUHfe0V9BEUjxlrxC0KcsAVSluwo/tFPz3zaTMr/oAACcruu4t5rlaj0JOIR2isEJBk
+          1ei9UYje4V4aZP+khVfiEMo196Teqds15TD7JBCi9wp3m3QzoXhiXettzZ3jDojHEXgf6mT1ZLJf
+          cEhlT2FI8H3NvhYEAjku43U8QYMUQbqOp97lnX7RPwYLSS8lFec1ghTYT540pGL2V8/bpL9Fw9Ly
+          gPjMry9bPOS94Fa0C7+r8j7vMveTUbZVnwzRvBoxiM0J7JZhr8TROn91vTOUQ5sjzb7bUY0l2gJk
+          wuU2bx5k/CS7O2iRdKnGhAcWEutmshy+xE6AlxQGLBFAsaCq11QfIC8VIcRMyKHpk8N/cgyWNtau
+          eroUYX1pCSnkJEixoqFIfpTfh4jfWpPrxr1r3DD3aM2GOGz8zQydPbP0MhupNTQorKAHjLDaH7zC
+          lkwfso6j4ep+N8bD72LW0LHBaAI0I0CoMuUgeRSxicfQy7C8yI+l82ow9c1k8eiYGFfNexBRjNt1
+          1yO/1xRCeEvknsIyYTUazo0Pe1+RGXqTXhFk3IzswfOAHMYOmlkOmuuYib/hVTgI05ZVs0UE8rH3
+          BwHKd1pAZOmYEzDGnhGeAJbr6GP9WByZyqtcIgvjaU+olzWOXABdStFN67fF5cNi7HB0hqAiAMcn
+          Ifh39yPkeJDXi1zbs7wKsJlQNzY3sxw9SYNHmZXwt0MTLHg9qUatC9JALftxy2KnfVNpTv8ll92S
+          gW4rJp0Onn+5W/kAonn7KUPBBlI/ozhzli7DpUag5wM1zzYfyu38A23ixP3eAHvdgSeab2gQyNxO
+          VgfLll7jG+adeN7Wk0rQ1JwzATGVN1yyUDt/t1QOxFAgKdG8vG7RO+Sp1y3ZLg+QWwdI00AB0tUm
+          RuXt44iv06fy4VAkYpqy2as65dE09UcaVclzO8IFTlIdGFqtAhL3e8YkmgzQrJtc9dkuMMsoWi+4
+          Xh2d1y8XJ2c6Ze9rdtKEpEYYAuCgc2qVPOOtVsMlI5A7lkhB49Dd81dIvyLCwD3kuFyd5tUot+M3
+          HekefyxTNTinlVW4WA9hMmbqSb2PwVC3GMd+od891RS3Zuk933zCrrbycxqYMG4ymr6wW5uIPYMs
+          cBf68xecX1GRiwMf3zTHz80DpyEqLdEHlyOWVCD01GsSyT169Wgcz1Ta9Xm62M0cItOBdfK6Gk8W
+          a1V1mJTc0jUPKgpjdIbJkheSBHHRowkDZJdQRhwdn1706x4MG84840PKMxwXVbVkVpxLD6buAMok
+          bSCo4Qo91dm79pcOtKwZonEBHGvCcnJ4wiNOcTpY3a8uqGdR8JxgVtGFLxGIAbL8NiSIe4KKg6nd
+          1kxwns3skQmpcumOTOdpgalGH1Jt3I/ewYMQK5WYbnA5iqm4J3M63Bnds5gvTr167fV9acOKxCPo
+          GvvjuNvyujmOzG/AWjyECey5LmxxGVBQJ+9QiS8LJ6R49AeFvpShO1EpI2ef7Oe8DU4T2SI6OqQx
+          eLrIfbxGldx6p4WEuH53acpDhqb58sqqhp09RxfDEHm3+JRMn6zL/f06XN03OWloTmZCMHNpN81b
+          pIaWKojZ9NJWbGdtlr1aIYra6xTQwqR3g3DrRxUtllla817WajS70rLHOoJ5rqHTcS/jzVNapFff
+          xrA1gCm2k5Y68eKFnOyaGr0qKEQtL72vRrXb5EB8WdC/J3vFcF2QWz51A3zV7OYopVAhDt19hxlj
+          S4wrTuPLDHm4yo87OPbm6pZx1gv7MyMMe+k5N5SyEOVbi7s3V990zqwHjJf0jUMIEltKKGOT60uS
+          TOtTUpJ0yxgu+Q+V8spW2W2SsEfCzXe2ofCl2Sn6XounLylb08e+aJ9cHCWEi7L2xs+7B9jOnH3H
+          mMF0Hei/LSztSRkePREsoCihZ8p63/VtP5hlmAGXpLfNFq1DGcnMtWhJLjt5MQ63/6Xiitc7jrxl
+          P9sCbuRL0PY4dmmGLiVhg6qatOp+3HQdyy7cHaZJ3WtTSRe2GjBLuqnvB+orLbG5kCa2XgxiJzl4
+          hJiSSv5WHRb7/msE9ujuOyfwasP0B+Sr61dTIIvSLSwXBt2NazeuLpQMju+q9IehZNRYvBJUb0vK
+          Riwct33KzzYiNGZYCZPOPCEUiZkmbV555SkL1uNsVtcmDSvpVkkbvETTRkttiCKHo/JJo40Izm05
+          /f0Zp/xFQ3j6gu6cTBxu4ugqGk2G/ByNTRmpGvnZOxPbGMtCkF0SMUipOwplhodb39H99S5pOBuE
+          +Y1IXa9wQQDPrD1DUvY0eqQdPx9tmSL69VbhFvHoSQPONPRgoEoWXPne3stZKhInvw0rzQ1+YGOl
+          cwkytAcxipe+ZgCr7ARbowivFk2FDw2WCX/ZvEv849JEOnqGFlslFVcdWaf2Ui2FpmmfFZmuw9q2
+          Fxjsb9bYnSJpRuO16u8nFt7PYWmvj1tPxJdt1lnqL8+yefmKmBoKPu7JfJ3CAbeB63CyDMxNrPVs
+          XIqjFmGMNNyxe50gSa3eSoMX+/REs9kYwCSm52gKepME8MMO0/F7BAx46k8xxvIrGKqx8qmLyDgG
+          O/AqxZ/W5pVmw5lA7rwpCwQcnTwSJFdoo5sy1ay/652NGN6oJD7g6lrvgc/1RvNhivMrBBBR/VDt
+          22PUwjYTVIZ5b7m3JZNwExEIx7CYUpsjr/LrquwQgGb+91/Ty02xFXRLmLoZL+QIaQIAowTDljlM
+          aI4qXEcDjodNL1bFCKLvWY7YWOvgq85kZqTBjIQut9sGjvey+/SaZ0QUxbPv4mIbaVXCidxexLRi
+          aaQP95F+OeBZzTrytOEZUWab64Tm8EKDUjfJmiwGmtNyZqBR69i4l+JYKtZTSFqGYyARvZdjzqPj
+          NqIbTZFZ67AUldgdXOAxjOckdUzYqOh+r9Cqysf1oqKwywvyWME4OnRRVt1FElzwN/M383Cq1LAD
+          vDNp15zfmG3RvIY9FHy4HMR1HHsFUKNqe4en1F4GKrlMBQfeyeReOLNtX1Fz2wwZdVuWmxpH2T39
+          FA4vZ4IRwLN3FNt4BKRXLYRlyCqIggCiTZnRIDyBQmrpG7vqYcN7E/rF1SU0+XlqhrhKMK5U71gy
+          L03hzPFcCEHHVH+0it4FZpUsuJDXQV34DiGD5hhWMzTZ5kC+VkQQDE+zIHCdAV6iZMIhMCTc2BqB
+          HVMfkifn2aORaqH/vG/X1aivRaSizdQmbLhj2VHFHrMdaQqVjUaG6YAn2j13DmLg5VNCceRTRNSG
+          HUkalPnm/fpEgA8tdxFUsjvO1WvCjw0ALg9E5Sld/HVyZMefJMHFasZVFGGb4Ozwr7MsDN3n6FKS
+          eFuChZQXqd+P72e1sjdbIFbZZaExEWeFQvf+wV2AJ+skp0k76nYiGvW2ej9wUvdQk89v0jsCGVRX
+          q8qTab4wV88QdgRTsX2zMXQ4bfJg/1CHg2jYtFIpQjDpCB+8rihIWxgdiMN/MWbLP9XzBg6aM5Qt
+          kxCae3AA0/TUFcIlg2D+qSph2qdtvGyXD2s5sL3UllCrzKQPEBokFd7AptSFSELT2w6PEA9l5UuZ
+          iHCjNQKg7xS6PkfmcVOc5Tfd1xqyHHmlBWINzcjkRpTZkHdrgAuc7Ea+eUuSOZ2HnXwHQthLv5Sc
+          XNpTaR1eDpY1uwJHQsH9oAL5Pbo4Hp21V2cjvowrtF21XxjbVhTM7YVte3JnJGEYwOOMdU2KiOXt
+          lg5dM2YVi6mVLKPY6/2+3Lk6d4s9vPs9Q5ApN/3qbYzSNsAOHqVub1vSrLzS7ifx6d/HCLdzieB8
+          ChUysrnWCaMfx8gw/PKRYLdcwI3qCyj8zK1celUPsxWW8xdaRqvoGvaPp8TqpBot+6OzKFCncAaP
+          Lk1aGieyj2vuF3UiiDzGWXjV5cHuGBMtc3NXlASngvnS/nPMQ9rcE86raqbJPg+T2x8h2Tx8rTkR
+          p7w4fIICeEBh5Peu3V9YVQUzjUma08ASoZweiFC8ECjS5VatX91w9wjrtg9B2eJeDBRTywhzt/ps
+          hVEUTBWqWdPQC04aPllGT65uQXJyD2R9Cr17VH7rvki32ywJic5WVdDCgXaHvlbae1Gwu6MlUC/i
+          HdYJshKmB7la+Kb53zQX4554T2W0IDmxCU/KVsPDs6aH2qGwuFyj85pAtClMHfe4wPCayfIesZxe
+          oCqY/+UO0l4Y8y6eJs9FSJA7m/29wXqEu3RtIW9hi0S17gS4hndHImJ4qHnIRhPqd5vC5ynXROeE
+          p/bcIvF58dTKo/lWSweczfPxzj7/XWP3Rpg4hcJnlinYGz3N+E0pLTrF2sfKkw7h1iu6nVEHx/JP
+          LniTVY2ReiwlFpZE9IUVxL/ESHrmNzP0bBvhqrxibA3BNWQmjP44BoFrWT2UxoQrOnEYmoLhsJQZ
+          Jiq4+0ZVlP1mUdv74gxud2JN7y3mnqgoLglPchd5uu2g78BaNHo6ba45jxDgNr5S6DzsyrAdu9BH
+          uDm0S40lfKfL5zAs8T5rOS3Q+ylzrglKHwtcv5nwrUbMmbGrVHYmpQ51tsr7tv7OY+DHr55Xu3vD
+          tt04qW7hXzleV2/rAUucSM3fxJ6aWXazeXRVC4vCogLf8vEeeaDAli/kmpSRHMdg9lOgkG2cvh5+
+          KkWf1W66osyuy8out0XtWKKIq8/LE44eo1HAuDOlQf7FRRbz9YbKhpWXbIolFTefEAwldppE9o/1
+          qtmIuMPNvCufP4FpSqdzt+/KHNOANWt7hcVQyjDHhxGyUJl+kwvLEGkcuq2ydqsFTN9qpIVu7IZl
+          hcd35JNip3p5AW8ctX6MPIGNdNCYxYKwoydFvN7LRIzNjGxDk8jTHjdVaiYtV2TiaHeYbemY3Ewf
+          72aJ+bjEQmFkeK9neNSUxkj8dfkNz+wKqYC9luo8j2HdbtQUhzvUkZ2kvA+DlpZVXvsIBPYWv+60
+          5JRpjkijoAwv3btdJgvQF99wU25/EIB5L5ko2y5xwyNYm3PQ/k0uJmTW5oGz/wnxnl2JweJyp8MT
+          6bqm58/422yfNOR23kcsk5ogvL4bqfWschKLd4VEPbFONuK98LMQ5Q7TG69Zb49ub+lIrnvVvPUX
+          I9OczHTykXFSxV7qw7rX+Xxs3KaRBLr7QQPOTCUO+iNWcOvD8YWk97eZYn3C9KaiqcxRWlBthqYv
+          MjYcDW7kjIv4JFYE5eblWbbfZo+dleim0RLZL5pevrLntVKfSs2UfLr0HJK7HbS6/catQEzeXz/x
+          SIafsvu4W0StZsC1oWQx8sFzTpRLq5K9PB2ioCaiAmjWLHkFFJjMB0+LXK1l0U5uNg9hRblz0Y+g
+          yJbRntQJgJryRLvWJwb3KIIO7z6ldlbJ87q07fDeR7tdakPTdNcvTZX3sT72bGzBS5WwpxE32Qf9
+          j5F7dR5mDPod9a+QV2QEZqqabI0D+uWuvHmmc+jn1I7Zp6LNf8JCT1/WfO8J+eRKsRUy7D1Ca6pY
+          3QrBthUVepNWHxrOPrGGi0kJnhy4oVSedhtXjO3xDbYPnfAfRBy8GHUxTWyYFhkRK9NzTXb109i8
+          QNjtmf70WDVhnqTJGaFlAbC/hyd7d0CSNq8ATfSanX7eM3K6EGrYopRNhRgZpFZNVbmAq4u4xyrD
+          kympCoh3rskS3YMH5kzylF3Tc1lc5fmw0dMLt96avNdIwa9cfHNDV5+9f48F3O8OBXX/YXHR5by5
+          QacbcJqv5jlePSKP4SqX8pVY6AmwX02treuQCPDYkgw7qcPkGb3oWWQSRyJcpUZWay5GuiE5874N
+          KywnMGEdx6c5Mo5sZu70eTB7JhfIMt/SWRC7toDhtYUh8M3rcrQeN6gm3h/zd4ci8R1ZEcjpt9rt
+          KPvRCxsbt0EJWrBMSmm0cbJmppU2W89gFwBgOrFIYXNsqluqIcpZ8QMtJMnkXGsXkSZYIqtrLCMV
+          ZwUUsej4vaOGkuGqFU5iGixlrWR0oJJUQ2eXcKS3jq4Kheiq2+ZTxAJziLtp12t2CKv4VK844nOq
+          JALmXcRHBVFgenVAd8JqQue0UZ6/XL0nFtjco20cXOC4IzQ6jEyFbdNUUDHxJv9SVUNn37NpOoTa
+          RAGR2BZGQDReR8QWi40xhtF+PMe0It4uIR5LiXlViEXSPqA13Wg7VDEubnHUXjZqCqgXOovQeGVm
+          OknLJGKk3XI8/qHF8hIXfGF0VFUCE4TSYcDPQmM2Q3fHpqW0cRzqGYCThnhFAnb4orXQSCA+1zF7
+          zZIoidviXFC0qFTQKCcaffdGJZ+vv7Ga9cqbXrcM17siW+Qx+CnmgyMFl5zbQ7qWomimHg0hnLyx
+          SQL3BVbqQ0GhEPgNXikTRnrU9Tp9puXKpJu5dpCq+BQKtKgI85RThsbye888E4v7PJqtofWZegux
+          iAruSLDeB2v0h4oyigIC62gVz9C6YxkVRAykGUbZtx/aty653Z16QKXet0JHunNx0hZpASSweDFM
+          ypHC0H1TBn8qWsj+BunF6YACE+6Hhxffyi5Oz/DZm8lMyM74ysxFoDDNiObuCOdWHmkzFy67dDWM
+          VD3bI0jPWQ9X44BR54wsfMz8ZGlTJXqGy5mUTdLwMnEVklJi2K6c0VQqid6iW/OdunU8NydE64kD
+          V0DsAL/b1axCM6Z1Kg09YXNqRKIMrbEwf6fxoFHHBmEkdoYiep+1nR3tKARSHqyUdPa8snB3/TTp
+          WnqhyvoU9AEyzFe6YUyJsL4+npslwXAgZOodzC3+Nfdtt/gRg4AJjxKvZF0lfdRwWL/t7suLFs/q
+          A90Panpf4DRfLvWVK0AVSW8WbveEGypCj9/NpSs8oeGDghYYGLDXKQywOqC5RCIYlrCKgXI9OCDY
+          AEgUaCW3JWCcpHtM4I6Ia8xY0M/1MJtQW1imMncIGakSe16nJq5XVOUeknysFOgksaImQl/LQKzr
+          UMRIaRxcldEf/oDwFdw+WVEPxuxAdzPDlfVSXp4LhtS36vUs1MO7Lm/5CXQCySvxS2eSoriKOnxH
+          BBs1hpdp17dpl+zUseTypzgvXEYRdYjC4ClaCn67TXMtZGGRH24cSwaltasYXiP+3RyEqLTbaZrY
+          gDIRP4Ttrd6L681gjXeKVqShOPdkofi2Z5hkMpNuUYL2sxFbkW3ZrsrZ30IYOGwmAvEDGibf4Z1s
+          CktHueParEPsEf2S56O0WLNeU1spRfnupeDynmoCqOQx6pybfpX67sMtgrscueqInt0CXgz6qHY3
+          dduDaa48I8+ojdzxC6uIGH4igCJiOthFioHA+QCBe7MaOekiYWXHauyNZjTBIu+1XkS9J3LyuR2W
+          /pAaIQ1Lgvzt6q2jNiyMijGHZ8daz9hgYju7FOTVBVGHbZaR6XlVBb2ydaHX6fPonuGVWlNnkeZo
+          KDein/jWCOVd62UF2o/HjsFvbIe8vYOj2H083trewlaHH++Pl6vHHmrULJAJN1udP13AK7qthNcW
+          w/sKJMpD3Xey7CWWBEy+Gt6vdFUr1ibt1r5aSXEAQ6TAqmkPtPjh5VsTQ1IAcSXGgFrUvnz7RS5y
+          7tmQ1Ybwco7O9QSCzOTjHKhgk/BBwdntK5uh8jriVACwuYWEsPFyAQpshKVrnRuqGMNt3EdBpc2g
+          60egidore2SwhOTvD6Xb7y2oiNuWd+xcBEpVYTZrwsFuWFyJM0J5Ml7EITli++yx3e3E+BGqpkAB
+          caReJpv1FeqEy5ti8zGrXV2IKDxCQeh01+RU5NTirVJ9J98XXLZCeNXT32F8fy6FmKYLSH2Urmj+
+          OEgF/nbr9VE3e2knF86eeXW5lxz+dWoPI8pPAOSOTdMwoiXlrnydkCwsO/hexkLl5xzIjxPDYDLm
+          0YyeUFhx29zs5hpWWeHyLeGeKcVfe5wwJ1ylDE5Q3AkOJA4o2MicXMVSGLdHMeTcbbKnO4ggfmcQ
+          jfDOQ3vjXtrNYlxa49Jm8iq1RK7Dtx4iWFt0acyeRJYbh0A2CxYHgPiVu8Uvl0G8hY8RUJ/q6F1o
+          g8EIoIvZVuaWgtIdJGtflqgczFx6YG6fZzOUjq1Ee0eUzQPSwccoSipKE2qf4SdgJtMlEL7l0ZyG
+          7ExLbQgZr+2fUMxgkL58XVFDm0RJGlWtrjHnLn4gUKPBfM5uXUln1dRjyladQ9rZVJW3d6HFvrzp
+          Ir59i3m3Ba3CzTSjFGw/tUQlucNMuKLt2z1c49wr/cb0rNq1zCYwN5fJFKQYGoHvva6NHJddfr8f
+          0LIUIXSJjNn2FfCkJGjbppgthGJhvAcG20ELgahbAMI31JCLQrxiGZnKK4VGjsHI+BpczGWu10OL
+          /USbdhf8+GlH/8t5DNy8hf7WRdUnk2W1vGmbYutL6kiXNgsOalHYyuqt+QeRq2qqrF/b4QcOyCVK
+          h9NWMYXiBbGZD0xn0FqJ3VUkifbkI7jLmFkYclijf6RtJjtOU5SVYSQNQSsjGgknprrYmw2tt+rN
+          R8y+eVSfq0Dvx/VYycvBRQOixTmb3BQfMBU5/pbbdl9TFhmqy69vDf2k6O0ez/Plsmmh6Nwa36ZM
+          ujutgXOEFATrPEvEfXVt5e0vURpWLVJeLFhMy15oErTOsNFG6LJET0N5XjdEQqFvJphSxUa3SjSG
+          RVBpLSq9WzCY5BpCsh061tfoeSd/wPJFF3fyI4UI+MExGvqZq3Q5r8U64KppShvLvNKp+w8qY7vm
+          Eb1wGY+PM2IA9sOOVXad6m4XFoJ5l2JGCiB95Eab0yWBeTK37XxX4A/9/HcNaUJ0NRd1e3Z2gpVt
+          xe2Avqr4FYMYkqaVMsYPTQXwNq9TyATdsUi8F93JoeL10huqwz4oxIZ1jsN3oPrGlEUlWb8NydSR
+          Obs615YMVOd27Qa+OVn1dPtzDK0iVmcLZZBB4/OrkQK7I5Ftd7Y222NHbudDR8w80BLuM6C6kfg8
+          HONOoNBO2mV/ZFYaX4C1yYvipVtmRaqdveHkmo3L+TMCZNFFGko3nN7EhEQpux6jOQrnXrrxmnO2
+          xvsQv/IeJpXghJWsd/v6NbooHaPnrRMKlz0V3mhYZhuRRSftV2ItpN5p1F8okhaMiO2Aok0I0+VV
+          1jnGUQkiw7sKs5htnNP6IOrixaeRQABbQ2ghFUNRzgbJq+lta9Q89jI6WnMeeriKgTSQMTUdWfP7
+          vmKrl6IV4o9s+ipZcH1SEqoGh+8OXVhUgutkvLzPz91kFNGnXhD3rqymkdulpVaIPaNuUJWHxvE4
+          +1INurhFnIoi9sz7sSs8t/ztNlFDiC89QbKPtSOcbY2Gz7FjCTFbDHUJh740uIohHucGJEFnMq3h
+          o1mXfwTrmKVtWVRO25e8ZxI4L5qfLXKteHLY4nns06A6oFz2YrV1UQZJb+V2rxKs6dqQkY09HHX2
+          COqtrv2OKlGuOqTVnSz3Oi5z+CiWi4R5/AuwR2zvKLt4L+3uNXKyNi1ji48auBREF1/NrvX1JF5R
+          i8p5dhP6EUSuYKLxNsQ7wAeD2fBkNvrNeBMffzeCB6QpYC4qudNGhoj9tdQRvCGxthJ5FDK2nt5l
+          ofksYef16femBAE6jdFrhVQbrGJU6+Bmu8LxFDwRr1oUmKP++Jcm86xEuUUmxjDQ0qmoRCdoGbG+
+          vsbgXRKgpJ2j7jKGOGzvTdljjMUmyuB97VpBBr2l6tb1siNqJI4cTC1cH5U5kUxJqIMI2QPD+GBL
+          t+fHK+sYuhy92PTpaswlMEb3GqC0gBhuJYWL70V9a545q4xdWHFLPwGNzXSv8Y5Q79HtV9HAiFhA
+          emWmnvxb8d+fiP9/uCz475wC+MH5LxY2ls/OfzAyAk+/+h3//wVwFv+fQvky/k8LDaV1Hv8n/BD/
+          Jx8uMQah7cI+JbO5oPXOx13wLUZ5RUUFZ+X28cRefvixbxTUe2n7SxbcwzVHYJMy8kw8FTp8d6b5
+          zSgmVKrkWFYsqmR8ZiJncqSLrT2x/EuGI/lP3lnqa5NwvMSL6adHSL8/rdZDRZoAb4ufeOc9ai+X
+          80O6ecZbNmMK1pGgKHFkdnCwModaOKqiaswt8FtAqklEWK+CvL2W2N3iZEjAyQ3Pw4iwUSV5ZZ9b
+          +MaAVBoySnQa+VYx6pfWjNdYLOWv+GGKvUidY5UIo16gITcsb/TdMscsDJbxypDlUWQntn6ipzch
+          jKhP1O4SE3D5bqpAtSCAZ74m0kdT+GZdvRcgYU5bo4DOpOYQcoeNCms2NKbZbxkyvCukYJZ5Dxbq
+          LLYff0o2IMtZbJ8OWhuKx4w54lYKIPkKufWLW+4X/aRGsz1AKi/oSBzdOAPQ9ruvaoq1iPYluNtM
+          H4yvZO/45LO9lZGwWIx3542BZB2/2JOB2BzUrcn0wB50H6GJWejeGNPSRqPrnuD1TBirGes27j45
+          jh3dIL1/pz27FCLXMAlFS8bpw4c4cInG9cUypyzmTnqyiLvrs3fox5Z4ja3jV9s7fbG3tmfYpRXm
+          FxotnyRRNUkqUyLpe2ETbNUs12iP5hntlcLIr6y/BKBXGkwO4W2k83ZwBj69SdistvNeYSG4l2lD
+          c4K2oqQaf5xrI3Do3eOOJxv++xxuHcH3ZlahXjwyTOuc6I9/GEQbUZgK+5ZGluF0VbNdv6FSMERF
+          cJdi4u08RtR7dU2JcpWGmcuxTO+SI5iUfS9PuDlNFLRvEQqUiQhJPrY0bny2aAA7zImsp0NPNOZP
+          HDxqm1KtJYQU3+KsQXMjeDLe/NbFRXnkNmmcLQkpui4ZdLt6k6G91IK7L47IPVbXUDeDs6LcIGcw
+          yFGaxH898k0Pc2XITeTAGsKipFJxifm5Wz7DORdfyJMgphmzBpetd+RDQZ0M58Gb43uLmAdaypK6
+          gV8EI7yQZdt1S1GIuop7wtY1i2qyVXDl6AGOt5dq+pid4sh7tRc351EsmYVulYh1BShxz2ETCcVR
+          J9jPjLWTDa9sog68YdK9FbddHoLmJlFpvdpb7ZDnVxNJK5sZJucgGvVEuR+snVyUwQ3Ouqjl0P1s
+          yCCIFudtWaDqISiOZT9qzGXepey2BKuaKCwzGQatDHR8B9yDFQLtS7GMg4sL3vcjxFSckwb0KGFR
+          k5NWwgVZVK7vsghw3bGQcItv4XUSX/W7buZRCduvZM6JfIXHig2KJORFUWmBsCyfubkcJet9Wjc3
+          tAJ5UI2QOr/D4RHrFavHoXoT7Y7ray9n7s4f33yJnAAycd/J7L0obFiu5wXmmp5cA1/t6Zr0fpFb
+          jrcfbaA1MH+dpqS3Whon5pHQm2dNSvEtus4B8q/f6MJD+8NI2rFnLmBw+Y9AfAdPhub8bBFnqzoN
+          vepKZVaME8atgrtXyqB6F5qv25CXWt1weBnpSonK+koR0ZdTvvLadq3qQtsY2utLS2ZiO/Kb7SjB
+          k71BTtACfvIRdpeH79/DK80oVPTgbwbLweiwkc9OYANd3vRURCuFG+uU+lsbtXNvUnrNXtjtW39U
+          Cjc4GM4BZvCje+r/RhLaEENowe3ZiwGHV10kzjm7vZu5LBLmef4ovKnHV7AAFfEdmwXH/FDQyUnH
+          N+MJYiy63CgYOYrnS9DLgvWF1o9WZ1yEJ3lhwRiY+0WD1WC3skwgWVEBX2R0T7RpYZs0qTedFbvz
+          qxwain6ZMN7BTri33sDp/Arb9CRXhMvjysyV6lJJkF6/LDT5zPKW3APO90XO069wno2NSWmJ6uH1
+          wDiFzJ0Qku8/mZGEk1K+Xbx4sbRdUvLd0oqYYkjd9uAxgWTGMJZMdqJh5Ikxd12eef71q5md1XWM
+          isejYbMOvQox8JgoDgdYdFGYSm4g9Gwsugnu95HQx8XOS2Bc0WCDUXvOuvs1BsF+/s5V6+vAue12
+          LWEPvxJk86SnGcN+195WZIrt3BMVvPBYFomy3iisHKcDX/oS0KxN80KfvkWczizNakdUDhB1AA6W
+          TW8eFTrtmg6UpAFxw+igajqvG7CKpmC02LqoL+wI50D95B4NuOqxEUL70luMUFLOp9c4R9y7d/Qq
+          UgZ5AcpuONl7Es26r/28+PARYv3dXHqnyx/kBw5sDJCfbKw8nXGKgIIOFUrW8ZW4NPUgfUwicV8z
+          NrS9IoMQEyHMOVOTPepqX0wlVa0ZZJ65Jj9BOCjBv2hpvwVElSS2UfEIY8/eRMIKYyjvUZSU0gGt
+          iPlLw2kfrydj72KiE2ceYsa5GfTdj6YL1MthiiNNVWb2yeLtzMgo1+Dew8OqTpZhQMthcuS5WI6O
+          5O4iLg+Tasx2eKNNZ82XeGZr+jpEdB2ObZmpTJMzboL3ea3aHkA3Xxzx+b61xdBxxsbB/r6YUy1K
+          xCK5HmpEcI0jOd5o8ZsQBvZiFMiVa5X5e/ReWRCOtT60ukOV7r3JPbTbSAdc1oQE4pAkRbaUdg4e
+          LrVLLtf2Oa4JL4/CF+vBTAguPyDWzsdIsRVG2aYDc/mT51utPcDpsJsRQsLW7o0bBz10ReV+DNYN
+          ub5uf3JXNgOhNiGfpF+BNbV4DNMPSJ6OztLOoYhyeXloyinRHEExkGWeyKLuiD97RcJ/VD7lDT+h
+          jT5xmvR7fKSagdeNyJhMWaTtgok8LDGMkJ3HDwWyspyu1FiZ38RioMR90r4iPMc5wzswhG050nPi
+          nXgQZEs19ygj7iEqYEr23suE+SqBEcwRvyBtLSpOqm4EbeWl10+GVMrlabkWkgBIk50MlhR0NTR3
+          nJJf7AqnJvMfNIl0vky14m41LBGReAxvoR0zTWkZYNQDKKg/2JQiIgKELCnWRl3fKRzy8YSnhajP
+          YOFu7Kr1abAxU7y7f5kDoUdPA741kAFDjepB96N8q1yA/cTaLkQTF25M3qEFOXDVL71GRgAxO3kL
+          WNMlhN+qy/OGHLuVJ5AgSdMd/E5Wj0a2BhUaacE+lDrIARDALTCiS/XAsNzvOG4rfJ2qiHhML8Bm
+          +L4fwu4VmOKVaz5DsEjRPKJb7Nk3Otqs9zB9NDqFUEK2alBV/MTgIBjXtuXjLYOCapwKq/LlJAgh
+          YmHxmend7w0eusw4heqjLa2O71Z6ioqtzkj2jLqJ7be8Njfjo4K2TOVtCLkvqLCC4702wlv9vHLg
+          xib2KP54b1oLrLJ4DJSLcdyO5tzjLAvOniieVNOa/Ruj94ddF6ddTqD9qi7HK7zjjjVRG63cFXhy
+          JK42VLFrxrsqZsCBoNFMpAjbuxlIhrx96MocN1slV1YRP6urSkA6EEm6Mymv+L6CKz6vU0mK0Ui7
+          cug4n+COhKb6YnmT3DgOjJ016WLi04uiKs2uERMY83eUOlHNltBdoUeRkP37XiuQH0/UUKpmCHqj
+          ujeM7jMoPe51SSYk5tZjKpt4NHErn/pk+6EoOBV2J1fdn4piPdfJgb7PMaRFajhyNCvnkVVNSxOu
+          r8zwtTD2V7krq8drGVpvGQPL2147XT5MuJtfY+Rn3V1I4pRWcFBpaX0FqOYGMnDeAbXI62mPyVCY
+          Zi0eqgIwZW6sWThqbYmg5Ww3RqZ6br21nn9hXjRTqaaxxoZ7x9oS69iXqfIA6nkkq59JTgiFauTR
+          YnDnm2HT4qeHRhl6I3qU8bOgvksn9RTbpFYlfIqKCc058/bOOwNyGQxj5eWw6kNkUdpUg1mv9S+k
+          sxKbh4ftQ3xp6aSxNRTft7NHO96i1R/jXmt+lJp6gXvC6B49TVemJzJvGmpQtjevt2GBM2pT407+
+          HBAfT8wz2b+/CAabinx6rqOTvhB2xBAe5XpTTOMzTpednH23Tbiid8yU2vXtVPQJOG3gJ97Pl7ua
+          bNPoIqYCb1aHRdAV28AVB8OSy9unyuTDXRspD27v15vLxxV+otaeiuKdynw7CIbOitIfIkZ4YwO4
+          whVeZMOdUCKsm/ogdhNBpi/0sgQzabBBr4k4aX5dLSriFid3cTfrfUgzPVNW+V3oxA3C7NFJ0UO1
+          jhdyjwxrv+3/f7L+O0/K84+nAfj75/+ZmNiYfp///xXwNf5/LPL0z1z+hPrh+p+NmZHhM/6zMAOZ
+          f6//fwVwnafwlfzA+X/jBtiHS0x/XHs668tHC9a/cUa0T5vOp5jWx8tSZmdZybQsdc7KQnwVzwh0
+          Vtb3e4gW1meXxj4U++EG2IOsbcF6Oqafoljq6J+l7pIEGZw+ieHsLtfXmuXPf+mb7YoWlqetrN9o
+          FbCwtbUwO0Vg/hzhfCRCYOvzCgfcAFNb608xdP9MnHhKti/vYAJ4znP0fcKqP2+R/Sxhv0NcB2sd
+          S62PJe6+RP6EwEann5xOMf8g8V8RDa11zmpfcAPO7+Fp/cmMv1x5+zN93idX6b6YN6YWhhaAr6J8
+          Okwm4B/U/sEQv414qgD/SvWzX9bS1Tkl/ad39b5K+2+/2M++19dJ/7XnfuzA8F0sMx1rQ7C5wtkl
+          yVPUb77E12Xms+uNf6Tf+yID4ddH/O2R/EvD/2uns/zI3ICzqgbfxxH85G7593EVwE6gUxKx2Fh+
+          G8/g9MVEdMzApqdz2kbH3Oa6DcgabHDdDKQPtjP7zhhBZxWjFSx19E71wulUoAcyf3l59H8bdc/q
+          RZDVl5IJnNcQ/DlCn6c7/SlCA20sP7v8+leJ+sv3XyXMFwriLEHFzyiIn5avnxfIr2vrjxkzvt7l
+          UwP0TbH8zBD9CO+DQWL+AdIfdumbeOfsn3EP+3bzn9emP9RU/DbeR1Yzfi5T/4I8fdIFpGNrZw36
+          o8o1N8DW/BT9z7wRn02k8y+/mEVfzqAP2ap/YEa/bxn/lhn9REN/YB37X1nyKTsoPuHHz+i4L/nA
+          xGzzlef/JA9+TP8vKWuuZ2qnDxI57SF7Pve4AR9KKn1g1TlbvjT/X/DlQxbcH/Hlb7k3wK/R+dtm
+          9W8yzOYsS7ji3bPUBgZgW1W1v4z2v+Ov/eR7/6Nu3c8p7Q9pu39Ga/9q7+mjDvR+THYqd2Tn6cN/
+          SiN+zQB+RSMyfFcjfl+8/opupuN4NqdszgbyiTH9Ofqf5Tv+LxnNcwr/Nwn6LXvx+ef/9oL8F8O3
+          93/Oz338E7tAP9j/YWJk+nz/h5WF9Xf+r18C/2/t/3xux35ow76zT8T4g32iL9r/iY2eDxrqJ7yk
+          TzdIvk5cxq/a/c8I+3WkH2+K/B3n5nsO2N/yaX7WW/vqBsjPbn787Ar00/XDt0f/H7OmFD/lonxt
+          M+RLi8oI/CWLtq+T9JsLh/+EE/Rf3Dn40jNn/P6q/Mstr3/DZ/o1y/KfZtlvP+x/BXzi/5mBLc10
+          LP9XxH+ZGX7Hf38FfIX/13XM7+pbgq/bM7L+M1Ph7/OfhZHpd/6/XwI/4D9YT8tUx878dAFg/a+v
+          BH+w/gMyMzN/nv/vA/9/r//+88DFe8pWslM32OaDP8xADwSQgcz1LM7dMDtbg+vsAN5T66yjr2Np
+          C7YHXQefujj/fqbY/1kJ/ekk/LHaOPXTPqRNvXH2S2eroj89BgMLa9C3O/25WjmdswZ/6WVmYW6h
+          Z2RtYQb6yV5cNz4Z7P/brsgn8m+vY2r3HygD86/Y/1P03/r/F8DX+P9B/Gx+2fkvIAOQ6XP7z8T2
+          u/7HLwEu64+1Wm3+TMN/VuTbXMfsVDv+oYF5yJmA/AwiLFznU+NMRf6l2397CL/h34Cvyb/Nh6qf
+          /5wC+KH8s3xx/pOFleW3/P8K+EL+bT7W2f6gAD5uTeuDbPQAPENFQ+VDBWRnm1JkQ+nDXsMPhjKG
+          0oeen343/GDY+4+jQ1wf589vLfF/A3wi/6cC/5+oAfj3/T9G1t/1/34NfMH/jyIPNjew+KcMwA/0
+          PwOQhfFz/c/K9vv8/y8BLh1Ly3OWX7e0trAH64Os/6kosBnYXOVjTRR24OfB0tPGW39E8xi+1ioP
+          sgE7gf54APO3Uf58DPALnFPOng5MEGRq+vE5zN9q/+MhjJ8iWH/4BSkLfdBfY8v3vh4+Pi+yLQuy
+          BlvoS4FNTcE2H0Z+Bp+Fx83BZ2XBzyMd3AC+T45dfBZzPs+68SEi/JWY8cfmT/ucWWtrsOV5gJPv
+          3Bjf+Ksl/wT7vEHw9M0NLazvng3TDKR1+gAQyPyeCeiuoZ2Otf6HbZH/9kz9Df8J+Jb+P0/68s9Y
+          gR/q/y/q/7EBf5//+TXwa/T/VzX8Hzr3O7r9u/0/Vf9fPuUL7c/4I+3P8F/X/udy97dswCfpmX5b
+          gt/wG37Db/gNv+E3/Ibf8F34PwsDgboAuAEA
           EOF
-
-          cat > site/ton.html << 'EOF'
-          <!doctype html>
-          <html lang="ar" dir="rtl">
-          <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-          <meta name="theme-color" content="#2b95f2">
-          <title>Price Gram</title>
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap">
-          <style>
-            /* Layout: single column instrument panel — hero price, chart, range, stats grid, converter */
-            :root{
-              --bg:#1f6fdc; --surface:rgba(255,255,255,.12); --surface-2:rgba(255,255,255,.2); --line:rgba(255,255,255,.2);
-              --txt:#ffffff; --sub:rgba(255,255,255,.78); --faint:rgba(255,255,255,.55);
-              --accent:#ffffff; --accent-2:#30a1f5; --up:#9dffc8; --down:#ffc7cd;
-              --font:"Readex Pro",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
-              --r-lg:24px; --r-md:16px;
-            }
-            *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-            [hidden]{display:none!important}
-            html,body{margin:0;background:#1546b8;color:var(--txt);font-family:var(--font)}
-            body{
-              min-height:100vh;
-              padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 28px) max(16px,env(safe-area-inset-left,0px));
-              background:
-                linear-gradient(180deg,#2b95f2 0%,#1f6fdc 50%,#1546b8 100%);
-              background-color:var(--bg);
-            }
-            .wrap{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
-            .num{direction:ltr;unicode-bidi:isolate;display:inline-block;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-
-            /* Top bar */
-            .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-            .brand{display:flex;align-items:center;gap:10px}
-            .mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
-              background:rgba(255,255,255,.18);box-shadow:0 6px 18px rgba(10,40,120,.25)}
-            .mark img{width:100%;height:100%;border-radius:12px;object-fit:cover}
-            .brand b{font-size:17px;font-weight:700;letter-spacing:.02em}
-            .brand small{display:block;color:var(--sub);font-size:11px;font-weight:400;letter-spacing:.06em}
-            .actions{display:flex;align-items:center;gap:8px}
-            .live{display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:99px;
-              background:var(--surface);border:1px solid var(--line);font-size:12px;color:var(--sub)}
-            .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
-            .live.on .dot{background:var(--up);box-shadow:0 0 0 0 rgba(18,168,101,.5);animation:pulse 2s infinite}
-            .live.on{color:var(--txt)}
-            @keyframes pulse{70%{box-shadow:0 0 0 7px rgba(18,168,101,0)}100%{box-shadow:0 0 0 0 rgba(18,168,101,0)}}
-            .icon-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);
-              color:var(--txt);display:grid;place-items:center;cursor:pointer}
-            .icon-btn svg{width:16px;height:16px}
-            .icon-btn.spin svg{animation:spin .8s linear}
-            @keyframes spin{to{transform:rotate(360deg)}}
-
-            /* Hero */
-            .hero{padding:18px 4px 6px}
-            .label{color:var(--sub);font-size:13px}
-            .price{font-size:clamp(44px,14vw,60px);font-weight:600;line-height:1.05;margin-top:6px;text-align:right;
-              transition:color .6s}
-            .price.flash-up{color:var(--up);transition:none}
-            .price.flash-down{color:var(--down);transition:none}
-            .chg{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
-            .pill{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px;border-radius:99px;
-              font-size:13px;font-weight:600}
-            .pill.up{color:#12a865;background:#ffffff}
-            .pill.down{color:#d1293a;background:#ffffff}
-            .chg .abs{font-size:13px;color:var(--sub)}
-
-            /* Cards */
-            .card{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 24px rgba(10,40,120,.18);
-              border-radius:var(--r-lg);padding:16px}
-            .card-h{display:flex;align-items:center;justify-content:space-between;gap:10px}
-            .card-h h2{margin:0;font-size:14px;font-weight:500;color:var(--sub)}
-
-            /* Chart */
-            .tabs{display:flex;gap:4px;padding:4px;background:rgba(0,0,0,.12);border-radius:12px;border:1px solid var(--line)}
-            .tab{border:0;background:none;color:var(--sub);font:500 12px var(--font);height:28px;padding:0 10px;border-radius:9px;cursor:pointer}
-            .tab[aria-pressed="true"]{background:var(--surface-2);color:var(--txt)}
-            .scrub{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;min-height:22px}
-            .scrub .v{font-size:16px;font-weight:600}
-            .scrub .t{font-size:12px;color:var(--sub)}
-            .chart-box{position:relative;height:190px;margin:8px -4px 0;touch-action:pan-y}
-            canvas{width:100%;height:100%;display:block}
-            .chart-empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--faint);font-size:13px}
-            .chart-foot{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--faint)}
-
-            /* Range */
-            .range{margin-top:14px}
-            .track{position:relative;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--down),#f5c451,var(--up));opacity:.9}
-            .knob{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fff;
-              border:3px solid #1f6fdc;transform:translate(-50%,-50%);left:50%;transition:left .5s cubic-bezier(.2,.8,.2,1);box-shadow:0 2px 8px rgba(10,40,120,.4)}
-            .range-lbl{display:flex;justify-content:space-between;margin-top:10px;font-size:12px}
-            .range-lbl span{color:var(--sub)}
-            .range-lbl b{display:block;font-size:14px;font-weight:600;color:var(--txt);margin-top:2px}
-            [dir=rtl] .track{transform:scaleX(1)}
-
-            /* Stats */
-            .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-            .tile{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);box-shadow:0 4px 14px rgba(10,40,120,.12);border-radius:var(--r-md);padding:14px;min-width:0}
-            .tile span{display:block;color:var(--sub);font-size:12px}
-            .tile b{display:block;font-size:17px;font-weight:600;margin-top:6px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-            /* Converter */
-            .conv{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-            .field{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.10);border:1px solid var(--line);border-radius:var(--r-md);padding:0 14px;height:58px;transition:border-color .2s}
-            .field:focus-within{border-color:var(--accent)}
-            .field input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--txt);font:600 20px var(--font);
-              direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
-            .field .cur{font-size:13px;font-weight:600;color:var(--sub);background:var(--surface-2);padding:5px 10px;border-radius:8px}
-            .swap{align-self:center;margin:-16px 0;z-index:1;width:34px;height:34px;border-radius:50%;background:var(--surface-2);
-              border:1px solid var(--line);display:grid;place-items:center;color:var(--accent)}
-            .swap svg{width:16px;height:16px}
-
-            .foot{text-align:center;color:var(--faint);font-size:11px;line-height:1.8;margin-top:4px}
-            .err{color:var(--down)}
-            button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-            @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-            /* Banners */
-            .banner{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--r-md);font-size:13px;line-height:1.5}
-            .banner.update{background:#ffffff;color:#0b2a4a;box-shadow:0 8px 24px rgba(10,40,120,.25)}
-            .banner.update b{display:block;font-size:14px}
-            .banner.update .txt{flex:1;min-width:0}
-            .banner.offline{background:rgba(0,0,0,.18);border:1px solid var(--line);color:var(--txt)}
-            .btn{border:0;border-radius:12px;height:38px;padding:0 16px;font:600 13px var(--font);cursor:pointer;white-space:nowrap}
-            .btn.primary{background:#1f6fdc;color:#fff}
-            .btn.light{background:#fff;color:#1f6fdc}
-            .btn.ghost{background:var(--surface-2);color:var(--txt)}
-
-            /* Chart header */
-            .seg{display:flex;gap:2px;padding:3px;background:rgba(0,0,0,.12);border-radius:10px;border:1px solid var(--line)}
-            .seg button{border:0;background:none;color:var(--sub);font:500 12px var(--font);height:26px;padding:0 10px;border-radius:8px;cursor:pointer}
-            .seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--txt)}
-            .tabs.full{margin-top:12px;justify-content:space-between}
-            .tabs.full .tab{flex:1}
-
-            /* Portfolio */
-            .field{min-width:0}
-            .field input{width:100%}
-            .pf-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:12px}
-            .pf-grid .field{height:54px}
-            .pf-grid .field input{font-size:17px}
-            .pf-out{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
-            .pf-out div{background:rgba(0,0,0,.10);border-radius:12px;padding:10px;min-width:0}
-            .pf-out span{display:block;color:var(--sub);font-size:11px}
-            .pf-out b{display:block;font-size:15px;font-weight:600;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-            .pf-out small{display:block;font-size:11px;font-weight:500;margin-top:2px;opacity:.9}
-            .pos{color:var(--up)} .neg{color:var(--down)}
-            .hint{color:var(--faint);font-size:11px;margin-top:8px;line-height:1.6}
-
-            /* Alerts */
-            .al-row{display:flex;gap:8px;margin-top:12px}
-            .al-row .field{flex:1;min-width:0;height:50px}
-            .al-row .field input{font-size:17px}
-            .al-row .btn{height:50px}
-            .al-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
-            .al-item{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.10);border-radius:12px;padding:10px 12px;font-size:13px}
-            .al-item .ar{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:#fff}
-            .al-item .ar.up{color:#12a865} .al-item .ar.down{color:#d1293a}
-            .al-item .t{flex:1;min-width:0}
-            .al-item .x{border:0;background:var(--surface-2);color:var(--txt);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px}
-            .empty{color:var(--faint);font-size:12px;text-align:center;padding:8px 0}
-
-            /* Trades */
-            .tr-head,.tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:12px}
-            .tr-head{color:var(--faint);margin-top:10px;padding:0 4px 6px;border-bottom:1px solid var(--line)}
-            .tr{padding:6px 4px;font-variant-numeric:tabular-nums;direction:ltr}
-            .tr-head{direction:ltr}
-            .tr span:nth-child(2),.tr-head span:nth-child(2){text-align:center}
-            .tr span:last-child,.tr-head span:last-child{text-align:right;color:var(--sub)}
-            .tr.buy span:first-child{color:var(--up)} .tr.sell span:first-child{color:var(--down)}
-            .tr.new{animation:flash .8s ease-out}
-            @keyframes flash{from{background:rgba(255,255,255,.18)}to{background:transparent}}
-            .trades{max-height:330px;overflow:hidden;border-radius:10px}
-
-            .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);background:#fff;color:#0b2a4a;
-              padding:10px 18px;border-radius:99px;font-size:13px;font-weight:500;box-shadow:0 8px 24px rgba(10,40,120,.3);z-index:20;max-width:90%;text-align:center}
-          </style>
-          </head>
-          <body>
-          <div class="wrap">
-
-            <header class="top">
-              <div class="brand">
-                <div class="mark" id="mark"><img src="logo.png" alt=""></div>
-                <div><b>PRICE GRAM</b><small>GRAM / USDT</small></div>
-              </div>
-              <div class="actions">
-                <div class="live" id="live"><span class="dot"></span><span id="liveTxt">جاري الاتصال</span></div>
-                <button class="icon-btn" id="share" aria-label="مشاركة">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
-                </button>
-                <button class="icon-btn" id="refresh" aria-label="تحديث">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
-                </button>
-              </div>
-            </header>
-
-            <div class="banner update" id="updBanner" hidden>
-              <div class="txt"><b>يوجد تحديث جديد</b><span id="updTxt">نسخة أحدث من Price Gram صارت متوفرة</span></div>
-              <button class="btn primary" id="updBtn">تحديث</button>
-            </div>
-
-            <div class="banner offline" id="offBanner" hidden>
-              <span>⚠</span><span id="offTxt">بدون اتصال · يعرض آخر سعر محفوظ</span>
-            </div>
-
-            <section class="hero">
-              <div class="label">سعر GRAM الآن · USDT</div>
-              <div class="price num" id="price">—</div>
-              <div class="chg">
-                <span class="pill up" id="pct"><span class="num">—</span></span>
-                <span class="abs num" id="abs"></span>
-                <span class="abs">خلال 24 ساعة</span>
-              </div>
-            </section>
-
-            <section class="card">
-              <div class="card-h">
-                <h2>الحركة</h2>
-                <div class="seg" role="group" aria-label="نوع الرسم">
-                  <button data-mode="line" aria-pressed="true">خط</button>
-                  <button data-mode="candle" aria-pressed="false">شموع</button>
-                </div>
-              </div>
-              <div class="tabs full" role="group" aria-label="المدة">
-                <button class="tab" data-r="1H" aria-pressed="false">ساعة</button>
-                <button class="tab" data-r="1D" aria-pressed="false">يوم</button>
-                <button class="tab" data-r="1W" aria-pressed="true">أسبوع</button>
-                <button class="tab" data-r="1M" aria-pressed="false">شهر</button>
-                <button class="tab" data-r="1Y" aria-pressed="false">سنة</button>
-              </div>
-              <div class="scrub"><span class="v num" id="scrubV">—</span><span class="t" id="scrubT"></span></div>
-              <div class="chart-box" id="chartBox">
-                <canvas id="chart"></canvas>
-                <div class="chart-empty" id="chartEmpty">جاري تحميل الرسم…</div>
-              </div>
-              <div class="chart-foot"><span>المس الرسم واسحب لعرض السعر بأي وقت</span><span id="periodChg" class="num"></span></div>
-            </section>
-
-            <section class="card">
-              <div class="card-h"><h2>نطاق آخر 24 ساعة</h2></div>
-              <div class="range">
-                <div class="track" dir="ltr"><div class="knob" id="knob"></div></div>
-                <div class="range-lbl" dir="ltr">
-                  <div><span>الأدنى</span><b class="num" id="low">—</b></div>
-                  <div style="text-align:right"><span>الأعلى</span><b class="num" id="high">—</b></div>
-                </div>
-              </div>
-            </section>
-
-            <section class="card">
-              <div class="card-h"><h2>محفظتي</h2></div>
-              <div class="pf-grid">
-                <label class="field"><input id="pfAmt" type="text" inputmode="decimal" placeholder="0" aria-label="كمية GRAM عندك"><span class="cur">GRAM</span></label>
-                <label class="field"><input id="pfBuy" type="text" inputmode="decimal" placeholder="سعر الشراء" aria-label="متوسط سعر الشراء"><span class="cur">$</span></label>
-              </div>
-              <div class="pf-out">
-                <div><span>القيمة الآن</span><b class="num" id="pfVal">—</b></div>
-                <div><span>ربح اليوم</span><b class="num" id="pfDay">—</b><small class="num"></small></div>
-                <div><span>الربح الكلي</span><b class="num" id="pfTot">—</b><small class="num"></small></div>
-              </div>
-              <div class="hint">اكتب كم GRAM عندك، وسعر الشراء إذا تريد تعرف ربحك الكلي. تنحفظ بموبايلك بس.</div>
-            </section>
-
-            <section class="card">
-              <div class="card-h"><h2>نبّهني</h2></div>
-              <div class="al-row">
-                <label class="field"><input id="alPrice" type="text" inputmode="decimal" placeholder="مثلاً 1.10" aria-label="سعر التنبيه"><span class="cur">$</span></label>
-                <button class="btn light" id="alAdd">أضف تنبيه</button>
-              </div>
-              <div class="al-list" id="alList"></div>
-              <div class="hint" id="alHint">إذا السعر اللي تكتبه أعلى من الحالي ينبهك لما يصعد له، وإذا أقل ينبهك لما ينزل له. يجيك إشعار حتى لو التطبيق مسكّر.</div>
-            </section>
-
-            <section class="grid">
-              <div class="tile"><span>حجم التداول (USDT)</span><b class="num" id="qvol">—</b></div>
-              <div class="tile"><span>حجم التداول (GRAM)</span><b class="num" id="vol">—</b></div>
-              <div class="tile"><span>سعر الافتتاح</span><b class="num" id="open">—</b></div>
-              <div class="tile"><span>عدد الصفقات</span><b class="num" id="trades">—</b></div>
-            </section>
-
-            <section class="card">
-              <div class="card-h"><h2>آخر الصفقات</h2><span class="hint" style="margin:0">مباشر من Binance</span></div>
-              <div class="tr-head"><span>السعر $</span><span>الكمية GRAM</span><span>الوقت</span></div>
-              <div class="trades" id="tradeList"><div class="empty">جاري التحميل…</div></div>
-            </section>
-
-            <section class="card">
-              <div class="card-h"><h2>المحوّل</h2></div>
-              <div class="conv">
-                <label class="field"><input id="inGram" type="text" inputmode="decimal" value="1" aria-label="كمية GRAM"><span class="cur">GRAM</span></label>
-                <div class="swap" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg></div>
-                <label class="field"><input id="inUsd" type="text" inputmode="decimal" aria-label="المبلغ بالدولار"><span class="cur">USD</span></label>
-              </div>
-            </section>
-
-            <div class="foot" id="foot">البيانات من Binance</div>
-          </div>
-          <div class="toast" id="toast" hidden></div>
-
-          <script>
-          (function(){
-            "use strict";
-            var REMOTE="https://maxhssss7-png.github.io/max1/ton.html";
-            var APK="https://github.com/maxhssss7-png/max1/releases/latest/download/Price-Gram.apk";
-            var HOSTS=["https://api.binance.com","https://data-api.binance.vision"];
-            var WSS=["wss://stream.binance.com:9443/stream?streams=gramusdt@ticker/gramusdt@trade",
-                     "wss://data-stream.binance.vision/stream?streams=gramusdt@ticker/gramusdt@trade"];
-            var SYM="GRAMUSDT";
-            var RANGES={"1H":["1m",60],"1D":["15m",96],"1W":["1h",168],"1M":["4h",180],"1Y":["1d",365]};
-            var $=function(id){return document.getElementById(id)};
-            var A=window.Android||null;
-            var state={price:0,chg:0,pct:0,range:"1W",mode:"line",candles:[],lastSide:"gram",wsIdx:0,lastTick:0,lastSave:0,trades:[],alerts:[]};
-
-            /* ---------- Storage (app store, falls back to browser) ---------- */
-            function sget(k){
-              try{if(A&&A.get){var v=A.get(k);if(v!=null)return v;}}catch(e){}
-              try{return localStorage.getItem(k)}catch(e){return null}
-            }
-            function sset(k,v){
-              try{if(A&&A.set){A.set(k,v);return;}}catch(e){}
-              try{localStorage.setItem(k,v)}catch(e){}
-            }
-            function sjson(k,d){try{var v=sget(k);return v?JSON.parse(v):d}catch(e){return d}}
-
-            var r0=sget("gram.range");if(r0&&RANGES[r0])state.range=r0;
-            var m0=sget("gram.mode");if(m0==="line"||m0==="candle")state.mode=m0;
-
-            function toast(t){var el=$("toast");el.textContent=t.replace(/\$[\d.,]+/g,function(m){return "\u2066"+m+"\u2069"});el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){el.hidden=true},2600)}
-
-            function dec(v){return v>=10?2:v>=1?3:v>=0.01?4:6}
-            function money(v){return "$"+v.toLocaleString("en-US",{minimumFractionDigits:dec(v),maximumFractionDigits:dec(v)})}
-            function signed(v){return (v>=0?"+":"-")+money(Math.abs(v))}
-            function compact(v,prefix){
-              var s=v>=1e9?(v/1e9).toFixed(2)+"B":v>=1e6?(v/1e6).toFixed(2)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":v.toFixed(0);
-              return (prefix||"")+s;
-            }
-            function hm(d){return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}
-            function clock(d){return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
-            function fmtTime(ms){
-              var d=new Date(ms);
-              if(state.range==="1H"||state.range==="1D")return hm(d);
-              var day=d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"});
-              return state.range==="1Y"?day+" "+d.getFullYear():day+" · "+hm(d);
-            }
-            function parse(v){v=(v||"").replace(/[٠-٩]/g,function(c){return "٠١٢٣٤٥٦٧٨٩".indexOf(c)}).replace(/[٫,]/g,".");return parseFloat(v)}
-
-            function fetchJSON(url){
-              if(/^https?:/.test(url))return fetch(url,{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()});
-              var i=0;
-              function next(){
-                if(i>=HOSTS.length)return Promise.reject(new Error("unreachable"));
-                var h=HOSTS[i++];
-                return fetch(h+url,{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(next);
-              }
-              return next();
-            }
-
-            /* ---------- Offline ---------- */
-            function setOffline(on){
-              var last=sjson("gram.last",null);
-              $("offBanner").hidden=!on;
-              if(on&&last&&last.t)$("offTxt").textContent="بدون اتصال · آخر سعر محفوظ من "+hm(new Date(last.t));
-            }
-            window.addEventListener("online",function(){
-              if(location.protocol==="file:")location.href=REMOTE+"?v="+Date.now();
-              else{setOffline(false);refreshAll();}
-            });
-            window.addEventListener("offline",function(){setOffline(true)});
-
-            /* ---------- Ticker ---------- */
-            var scrubbing=false;
-            function applyTicker(t,fromCache){
-              var p=+t.price, prev=state.price;
-              state.price=p;state.chg=+t.chg;state.pct=+t.pct;
-              var el=$("price");
-              el.textContent=money(p);
-              if(prev&&p!==prev&&!fromCache){
-                el.classList.remove("flash-up","flash-down");void el.offsetWidth;
-                el.classList.add(p>prev?"flash-up":"flash-down");
-                setTimeout(function(){el.classList.remove("flash-up","flash-down")},450);
-              }
-              var up=t.pct>=0,pill=$("pct");
-              pill.className="pill "+(up?"up":"down");
-              pill.innerHTML='<span class="num">'+(up?"▲ +":"▼ ")+(+t.pct).toFixed(2)+"%</span>";
-              $("abs").textContent=signed(+t.chg);
-              $("low").textContent=money(+t.low);
-              $("high").textContent=money(+t.high);
-              var pos=t.high>t.low?(p-t.low)/(t.high-t.low):.5;
-              $("knob").style.left=(Math.max(0,Math.min(1,pos))*100)+"%";
-              $("qvol").textContent=compact(+t.qvol,"$");
-              $("vol").textContent=compact(+t.vol);
-              $("open").textContent=money(+t.open);
-              $("trades").textContent=Math.round(+t.trades).toLocaleString("en-US");
-              if(!scrubbing)$("scrubV").textContent=money(p);
-              syncConv();renderPortfolio();
-              if(fromCache)return;
-              checkAlerts(p);
-              state.lastTick=Date.now();
-              setOffline(false);
-              $("foot").innerHTML="البيانات من Binance · آخر تحديث <span class='num'>"+clock(new Date())+"</span>";
-              if(Date.now()-state.lastSave>10000){
-                state.lastSave=Date.now();
-                t.t=Date.now();sset("gram.last",JSON.stringify(t));
-              }
-            }
-
-            function loadTicker(){
-              return fetchJSON("/api/v3/ticker/24hr?symbol="+SYM).then(function(t){
-                applyTicker({price:+t.lastPrice,pct:+t.priceChangePercent,chg:+t.priceChange,low:+t.lowPrice,high:+t.highPrice,
-                  qvol:+t.quoteVolume,vol:+t.volume,open:+t.openPrice,trades:+t.count});
-              });
-            }
-
-            /* ---------- Trades ---------- */
-            function renderTrades(fresh){
-              var box=$("tradeList");
-              if(!state.trades.length){box.innerHTML='<div class="empty">لا توجد صفقات بعد</div>';return;}
-              box.innerHTML=state.trades.map(function(t,i){
-                return '<div class="tr '+(t.sell?"sell":"buy")+(fresh&&i===0?" new":"")+'"><span>'+t.p.toFixed(dec(t.p))+'</span><span>'+
-                  t.q.toLocaleString("en-US",{maximumFractionDigits:2})+'</span><span>'+clock(new Date(t.t))+'</span></div>';
-              }).join("");
-            }
-            function addTrade(t){
-              state.trades.unshift(t);
-              if(state.trades.length>12)state.trades.length=12;
-            }
-            var tradeQ=[],tradeTimer=null;
-            function queueTrade(t){
-              tradeQ.push(t);
-              if(tradeTimer)return;
-              tradeTimer=setTimeout(function(){
-                tradeQ.forEach(addTrade);tradeQ=[];tradeTimer=null;renderTrades(true);
-              },400);
-            }
-            function loadTrades(){
-              return fetchJSON("/api/v3/trades?symbol="+SYM+"&limit=12").then(function(a){
-                state.trades=a.reverse().map(function(x){return {p:+x.price,q:+x.qty,t:x.time,sell:!!x.isBuyerMaker}});
-                renderTrades(false);
-              }).catch(function(){if(!state.trades.length)$("tradeList").innerHTML='<div class="empty">تعذر تحميل الصفقات</div>'});
-            }
-
-            /* ---------- Live stream ---------- */
-            function setLive(on,txt){$("live").classList.toggle("on",on);$("liveTxt").textContent=txt;}
-            function connect(){
-              if(!("WebSocket" in window)){setLive(false,"تحديث دوري");return;}
-              var ws;
-              try{ws=new WebSocket(WSS[state.wsIdx%WSS.length]);}catch(e){state.wsIdx++;setTimeout(connect,3000);return;}
-              ws.onopen=function(){setLive(true,"مباشر")};
-              ws.onmessage=function(m){
-                try{
-                  var msg=JSON.parse(m.data),d=msg.data||msg;
-                  if(d.e==="24hrTicker"){
-                    applyTicker({price:+d.c,pct:+d.P,chg:+d.p,low:+d.l,high:+d.h,qvol:+d.q,vol:+d.v,open:+d.o,trades:+d.n});
-                  }else if(d.e==="trade"){
-                    queueTrade({p:+d.p,q:+d.q,t:d.T,sell:!!d.m});
-                  }
-                }catch(e){}
-              };
-              ws.onclose=function(){setLive(false,"إعادة الاتصال");state.wsIdx++;setTimeout(connect,3000)};
-              ws.onerror=function(){try{ws.close()}catch(e){}};
-            }
-            setInterval(function(){if(Date.now()-state.lastTick>20000)loadTicker().catch(function(){});},10000);
-
-            /* ---------- Chart ---------- */
-            var cv=$("chart"),ctx=cv.getContext("2d"),hoverIdx=-1;
-            function setCandles(k){
-              state.candles=k.map(function(c){return {t:c[0],o:+c[1],h:+c[2],l:+c[3],c:+c[4]}});
-            }
-            function afterChart(){
-              var s=state.candles;if(s.length<2)return;
-              $("chartEmpty").hidden=true;
-              var a=s[0].c,b=s[s.length-1].c,ch=(b-a)/a*100;
-              var pc=$("periodChg");pc.textContent=(ch>=0?"+":"")+ch.toFixed(2)+"%";
-              pc.style.color=ch>=0?"var(--up)":"var(--down)";
-              draw();
-            }
-            function loadChart(){
-              var r=RANGES[state.range],key="gram.k."+state.range;
-              var cached=sjson(key,null);
-              if(cached&&cached.length){setCandles(cached);afterChart();}
-              else{$("chartEmpty").hidden=false;$("chartEmpty").textContent="جاري تحميل الرسم…";}
-              return fetchJSON("/api/v3/klines?symbol="+SYM+"&interval="+r[0]+"&limit="+r[1]).then(function(k){
-                setCandles(k);afterChart();
-                try{sset(key,JSON.stringify(k.map(function(c){return [c[0],c[1],c[2],c[3],c[4]]})))}catch(e){}
-              }).catch(function(){if(!state.candles.length)$("chartEmpty").textContent="تعذر تحميل الرسم";});
-            }
-            function draw(){
-              var s=state.candles,dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;
-              cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
-              if(s.length<2)return;
-              var candle=state.mode==="candle";
-              var min=Infinity,max=-Infinity;
-              s.forEach(function(c){var lo=candle?c.l:c.c,hi=candle?c.h:c.c;if(lo<min)min=lo;if(hi>max)max=hi});
-              var rg=(max-min)||1,pt=12,pb=10,px=10;
-              function X(i){return px+(W-2*px)*i/(s.length-1)}
-              function Y(v){return pt+(H-pt-pb)*(1-(v-min)/rg)}
-              ctx.strokeStyle="rgba(255,255,255,.10)";ctx.lineWidth=1;
-              for(var g=1;g<4;g++){var gy=Math.round(H*g/4)+.5;ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
-              var i;
-              if(candle){
-                var bw=Math.max(1,(W-2*px)/s.length*0.62);
-                for(i=0;i<s.length;i++){
-                  var c=s[i],x=X(i),up=c.c>=c.o;
-                  ctx.strokeStyle=ctx.fillStyle=up?"#9dffc8":"#ffc7cd";
-                  ctx.lineWidth=1;
-                  ctx.beginPath();ctx.moveTo(Math.round(x)+.5,Y(c.h));ctx.lineTo(Math.round(x)+.5,Y(c.l));ctx.stroke();
-                  var y1=Y(Math.max(c.o,c.c)),y2=Y(Math.min(c.o,c.c));
-                  ctx.fillRect(x-bw/2,y1,bw,Math.max(1,y2-y1));
-                }
-              }else{
-                ctx.beginPath();
-                for(i=0;i<s.length;i++){i?ctx.lineTo(X(i),Y(s[i].c)):ctx.moveTo(X(i),Y(s[i].c))}
-                ctx.lineTo(X(s.length-1),H);ctx.lineTo(X(0),H);ctx.closePath();
-                var gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,"rgba(255,255,255,.38)");gr.addColorStop(1,"rgba(255,255,255,0)");
-                ctx.fillStyle=gr;ctx.fill();
-                ctx.beginPath();
-                for(i=0;i<s.length;i++){i?ctx.lineTo(X(i),Y(s[i].c)):ctx.moveTo(X(i),Y(s[i].c))}
-                ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.lineJoin="round";ctx.lineCap="round";
-                ctx.shadowColor="rgba(10,40,120,.25)";ctx.shadowBlur=6;ctx.stroke();ctx.shadowBlur=0;
-              }
-              var mi=hoverIdx>=0?hoverIdx:s.length-1,mx=X(mi),my=Y(s[mi].c);
-              if(hoverIdx>=0){
-                ctx.strokeStyle="rgba(255,255,255,.45)";ctx.setLineDash([3,4]);ctx.lineWidth=1;
-                ctx.beginPath();ctx.moveTo(mx,0);ctx.lineTo(mx,H);ctx.stroke();ctx.setLineDash([]);
-              }
-              ctx.fillStyle="rgba(255,255,255,.25)";ctx.beginPath();ctx.arc(mx,my,9,0,7);ctx.fill();
-              ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(mx,my,5,0,7);ctx.fill();
-              ctx.fillStyle="#1f6fdc";ctx.beginPath();ctx.arc(mx,my,3,0,7);ctx.fill();
-            }
-            function scrubAt(clientX){
-              var r=cv.getBoundingClientRect(),s=state.candles,n=s.length;if(n<2)return;
-              var i=Math.round((clientX-r.left-10)/(r.width-20)*(n-1));i=Math.max(0,Math.min(n-1,i));
-              hoverIdx=i;scrubbing=true;
-              var c=s[i];
-              $("scrubV").textContent=state.mode==="candle"?money(c.c)+"  ↑"+money(c.h)+" ↓"+money(c.l):money(c.c);
-              $("scrubT").textContent=fmtTime(c.t);
-              draw();
-            }
-            function endScrub(){hoverIdx=-1;scrubbing=false;$("scrubV").textContent=state.price?money(state.price):"—";$("scrubT").textContent="";draw();}
-            var box=$("chartBox");
-            box.addEventListener("pointerdown",function(e){scrubAt(e.clientX)});
-            box.addEventListener("pointermove",function(e){if(scrubbing||e.pointerType==="mouse")scrubAt(e.clientX)});
-            ["pointerup","pointercancel","pointerleave"].forEach(function(ev){box.addEventListener(ev,endScrub)});
-            if("ResizeObserver" in window)new ResizeObserver(draw).observe(box);else window.addEventListener("resize",draw);
-
-            function each(sel,fn){Array.prototype.forEach.call(document.querySelectorAll(sel),fn)}
-            each(".tab",function(b){
-              b.setAttribute("aria-pressed",b.dataset.r===state.range?"true":"false");
-              b.addEventListener("click",function(){
-                if(state.range===b.dataset.r)return;
-                state.range=b.dataset.r;sset("gram.range",state.range);
-                each(".tab",function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
-                state.candles=[];loadChart();
-              });
-            });
-            each(".seg button",function(b){
-              b.setAttribute("aria-pressed",b.dataset.mode===state.mode?"true":"false");
-              b.addEventListener("click",function(){
-                state.mode=b.dataset.mode;sset("gram.mode",state.mode);
-                each(".seg button",function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
-                draw();
-              });
-            });
-
-            /* ---------- Converter ---------- */
-            function trim(n,max){return n.toLocaleString("en-US",{maximumFractionDigits:max,useGrouping:false})}
-            function syncConv(){
-              if(!state.price)return;
-              if(state.lastSide==="gram"){var g=parse($("inGram").value);$("inUsd").value=isNaN(g)?"":trim(g*state.price,2);}
-              else{var u=parse($("inUsd").value);$("inGram").value=isNaN(u)?"":trim(u/state.price,4);}
-            }
-            $("inGram").addEventListener("input",function(){state.lastSide="gram";syncConv()});
-            $("inUsd").addEventListener("input",function(){state.lastSide="usd";syncConv()});
-
-            /* ---------- Portfolio ---------- */
-            var pf=sjson("gram.pf",{amt:"",buy:""});
-            $("pfAmt").value=pf.amt||"";$("pfBuy").value=pf.buy||"";
-            function setPL(el,v,base){
-              if(v==null||isNaN(v)){el.textContent="—";el.className="num";if(el.nextElementSibling)el.nextElementSibling.textContent="";return;}
-              el.textContent=signed(v);el.className="num "+(v>=0?"pos":"neg");
-              var sm=el.nextElementSibling;
-              if(sm)sm.textContent=base?(v>=0?"+":"")+(v/base*100).toFixed(1)+"%":"";
-            }
-            function renderPortfolio(){
-              var amt=parse($("pfAmt").value),buy=parse($("pfBuy").value);
-              if(!state.price||isNaN(amt)||amt<=0){$("pfVal").textContent="—";setPL($("pfDay"),null);setPL($("pfTot"),null);return;}
-              $("pfVal").textContent=money(amt*state.price);
-              setPL($("pfDay"),amt*state.chg,amt*(state.price-state.chg));
-              if(!isNaN(buy)&&buy>0)setPL($("pfTot"),amt*(state.price-buy),amt*buy);else setPL($("pfTot"),null);
-            }
-            ["pfAmt","pfBuy"].forEach(function(id){
-              $(id).addEventListener("input",function(){
-                sset("gram.pf",JSON.stringify({amt:$("pfAmt").value,buy:$("pfBuy").value}));renderPortfolio();
-              });
-            });
-
-            /* ---------- Alerts ---------- */
-            state.alerts=sjson("alerts",[]);
-            if(!Array.isArray(state.alerts))state.alerts=[];
-            function saveAlerts(){sset("alerts",JSON.stringify(state.alerts));renderAlerts();}
-            function renderAlerts(){
-              var box=$("alList");
-              if(!state.alerts.length){box.innerHTML='<div class="empty">ما عندك تنبيهات</div>';return;}
-              box.innerHTML=state.alerts.map(function(a){
-                var up=a.dir==="above";
-                return '<div class="al-item"><span class="ar '+(up?"up":"down")+'">'+(up?"▲":"▼")+'</span><span class="t">'+
-                  (up?"إذا صعد فوق ":"إذا نزل تحت ")+'<b class="num">'+money(a.price)+'</b></span>'+
-                  '<button class="x" data-id="'+a.id+'" aria-label="حذف">×</button></div>';
-              }).join("");
-              each("#alList .x",function(b){b.addEventListener("click",function(){
-                var id=+b.dataset.id;state.alerts=state.alerts.filter(function(a){return a.id!==id});saveAlerts();
-              })});
-            }
-            function checkAlerts(p){
-              if(!state.alerts.length)return;
-              var hit=[],keep=[];
-              state.alerts.forEach(function(a){((a.dir==="above"?p>=a.price:p<=a.price)?hit:keep).push(a)});
-              if(!hit.length)return;
-              state.alerts=keep;saveAlerts();
-              hit.forEach(function(a){
-                var title=a.dir==="above"?"GRAM صعد فوق "+money(a.price):"GRAM نزل تحت "+money(a.price);
-                try{if(A&&A.notify)A.notify(title,"السعر الآن "+money(p));}catch(e){}
-                toast(title);
-              });
-            }
-            $("alAdd").addEventListener("click",function(){
-              var v=parse($("alPrice").value);
-              if(isNaN(v)||v<=0){toast("اكتب سعر صحيح");return;}
-              if(!state.price){toast("انتظر يوصل السعر الحالي");return;}
-              if(v===state.price){toast("هذا هو السعر الحالي");return;}
-              var a={id:Date.now(),price:v,dir:v>state.price?"above":"below"};
-              state.alerts.push(a);saveAlerts();
-              $("alPrice").value="";
-              toast(a.dir==="above"?"راح أنبهك لما يصعد فوق "+money(v):"راح أنبهك لما ينزل تحت "+money(v));
-              try{if(A&&A.notifStatus&&A.notifStatus()!=="granted")A.requestNotif();}catch(e){}
-            });
-            if(!A)$("alHint").textContent="التنبيهات بالإشعارات تشتغل داخل تطبيق Price Gram.";
-            renderAlerts();
-
-            /* ---------- Update banner ---------- */
-            function checkUpdate(){
-              if(!A||!A.versionCode)return;
-              var mine=0;try{mine=A.versionCode()}catch(e){return}
-              fetchJSON("https://api.github.com/repos/maxhssss7-png/max1/releases/latest").then(function(r){
-                var run=parseInt(String(r.tag_name||"").replace(/\D/g,""),10);
-                if(run&&run+100>mine){
-                  $("updTxt").textContent="النسخة 2."+run+" صارت متوفرة، تتثبت فوق الحالية بدون ما تحذف شي.";
-                  $("updBanner").hidden=false;
-                }
-              }).catch(function(){});
-            }
-            $("updBtn").addEventListener("click",function(){
-              try{if(A&&A.openUrl){A.openUrl(APK);return;}}catch(e){}
-              location.href=APK;
-            });
-
-            /* ---------- Share ---------- */
-            function shareText(){
-              var head=state.price?("سعر GRAM الآن "+money(state.price)+"\n"):"";
-              return head+"تابع سعر GRAM لحظة بلحظة مع رسم بياني وويدجت على شاشتك، حمّل تطبيق Price Gram مجاناً: "+APK;
-            }
-            $("share").addEventListener("click",function(){
-              var t=shareText();
-              try{if(A&&A.share){A.share(t);return;}}catch(e){}
-              if(navigator.share){navigator.share({text:t}).catch(function(){});return;}
-              try{navigator.clipboard.writeText(t).then(function(){toast("تم نسخ رابط المشاركة")});}catch(e){}
-            });
-
-            /* ---------- Start ---------- */
-            function refreshAll(){
-              return Promise.all([loadTicker(),loadChart(),loadTrades()]).catch(function(){});
-            }
-            $("refresh").addEventListener("click",function(){
-              var b=this;b.classList.remove("spin");void b.offsetWidth;b.classList.add("spin");
-              refreshAll();
-            });
-
-            var cachedT=sjson("gram.last",null);
-            if(cachedT&&cachedT.price)applyTicker(cachedT,true);
-            loadTicker().catch(function(){
-              setOffline(true);
-              if(!cachedT)$("foot").innerHTML="<span class='err'>تعذر الاتصال بـ Binance، تأكد من الإنترنت</span>";
-            });
-            loadChart();
-            loadTrades();
-            connect();
-            checkUpdate();
-            document.addEventListener("visibilitychange",function(){if(!document.hidden){loadTicker().catch(function(){});}});
-          })();
-          </script>
-          </body>
-          </html>
-          EOF
-
-          mkdir -p src/main/java/com/ton/price src/main/assets src/main/res/drawable src/main/res/drawable-nodpi src/main/res/mipmap src/main/res/mipmap-anydpi-v26 src/main/res/layout src/main/res/xml src/main/res/values
+          tar -xzf src.tgz && rm src.tgz
+          mkdir -p src/main/assets src/main/res/mipmap src/main/res/drawable-nodpi
           cp site/ton.html site/logo.png src/main/assets/
           cp site/logo.png src/main/res/drawable-nodpi/logo_badge.png
-
-          base64 -d > src/main/res/drawable-nodpi/widget_preview.webp << 'EOF'
-          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
-          EOF
-
-          base64 -d > src/main/res/drawable-nodpi/widget_small_preview.webp << 'EOF'
-          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
-          NoP/xi4zqrl5AaDwG6vb30f7Wcu6UY5nwAAA
-          EOF
-
           pip install --quiet pillow
           python3 - << 'EOF'
           from PIL import Image, ImageDraw
@@ -1035,668 +703,42 @@ jobs:
           leg.save("src/main/res/mipmap/ic_launcher.png")
           EOF
 
-          cat > src/main/res/mipmap-anydpi-v26/ic_launcher.xml << 'EOF'
-          <?xml version="1.0" encoding="utf-8"?>
-          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-              <background android:drawable="@color/icon_bg" />
-              <foreground android:drawable="@drawable/ic_fg" />
-              <monochrome android:drawable="@drawable/ic_fg" />
-          </adaptive-icon>
-          EOF
+      - uses: actions/configure-pages@v5
 
-          cat > src/main/res/values/colors.xml << 'EOF'
-          <resources>
-              <color name="icon_bg">#30A1F5</color>
-          </resources>
-          EOF
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
 
-          cat > settings.gradle << 'EOF'
-          pluginManagement {
-              repositories { google(); mavenCentral(); gradlePluginPortal() }
-          }
-          dependencyResolutionManagement {
-              repositories { google(); mavenCentral() }
-          }
-          rootProject.name = 'TonPrice'
-          EOF
+      - id: deploy
+        uses: actions/deploy-pages@v4
 
-          cat > build.gradle << 'EOF'
-          plugins { id 'com.android.application' version '8.5.2' }
-          android {
-              namespace 'com.ton.price'
-              compileSdk 34
-              defaultConfig {
-                  applicationId 'com.ton.price'
-                  minSdk 24
-                  targetSdk 34
-                  versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1') + 100
-                  versionName '2.' + (System.getenv('GITHUB_RUN_NUMBER') ?: '0')
-              }
-              signingConfigs {
-                  fixed {
-                      storeFile file('key.jks')
-                      storePassword 'pgf6e6b1607493125c1941004b'
-                      keyAlias 'pricegram'
-                      keyPassword 'pgf6e6b1607493125c1941004b'
-                  }
-              }
-              buildTypes {
-                  debug {
-                      signingConfig signingConfigs.fixed
-                  }
-              }
-          }
-          EOF
+      - name: Signing key
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        run: |
+          if [ -z "$SIGNING_KEY" ]; then
+            echo "::error::أضف SIGNING_KEY من Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+          echo "$SIGNING_KEY" | base64 -d > key.jks
 
-          cat > src/main/AndroidManifest.xml << 'EOF'
-          <?xml version="1.0" encoding="utf-8"?>
-          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-              <uses-permission android:name="android.permission.INTERNET" />
-              <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-              <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-              <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-              <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-              <application
-                  android:label="Price Gram"
-                  android:icon="@mipmap/ic_launcher"
-                  android:roundIcon="@mipmap/ic_launcher"
-                  android:supportsRtl="true"
-                  android:theme="@android:style/Theme.Material.NoActionBar">
-                  <activity android:name=".MainActivity" android:exported="true"
-                      android:launchMode="singleTask"
-                      android:configChanges="orientation|screenSize|keyboardHidden">
-                      <intent-filter>
-                          <action android:name="android.intent.action.MAIN" />
-                          <category android:name="android.intent.category.LAUNCHER" />
-                      </intent-filter>
-                  </activity>
-                  <receiver android:name=".PriceWidget" android:exported="true"
-                      android:label="Price Gram">
-                      <intent-filter>
-                          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                      </intent-filter>
-                      <meta-data android:name="android.appwidget.provider"
-                          android:resource="@xml/widget_info" />
-                  </receiver>
-                  <receiver android:name=".PriceWidgetSmall" android:exported="true"
-                      android:label="Price Gram صغير">
-                      <intent-filter>
-                          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                      </intent-filter>
-                      <meta-data android:name="android.appwidget.provider"
-                          android:resource="@xml/widget_small_info" />
-                  </receiver>
-                  <receiver android:name=".AlertReceiver" android:exported="true">
-                      <intent-filter>
-                          <action android:name="android.intent.action.BOOT_COMPLETED" />
-                          <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                      </intent-filter>
-                  </receiver>
-              </application>
-          </manifest>
-          EOF
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
 
-          cat > src/main/res/drawable/widget_bg.xml << 'EOF'
-          <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-              <item>
-                  <shape android:shape="rectangle">
-                      <gradient android:angle="270" android:startColor="#2B95F2" android:centerColor="#1F6FDC" android:endColor="#1546B8" />
-                      <corners android:radius="28dp" />
-                      <stroke android:width="1dp" android:color="#33FFFFFF" />
-                  </shape>
-              </item>
-          </layer-list>
-          EOF
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
 
-          cat > src/main/res/drawable/pill_up.xml << 'EOF'
-          <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-              <solid android:color="#FFFFFFFF" />
-              <corners android:radius="99dp" />
-          </shape>
-          EOF
+      - name: Build APK
+        run: |
+          gradle assembleDebug --no-daemon
+          cp build/outputs/apk/debug/*.apk Price-Gram.apk
 
-          cat > src/main/res/drawable/pill_down.xml << 'EOF'
-          <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-              <solid android:color="#FFFFFFFF" />
-              <corners android:radius="99dp" />
-          </shape>
-          EOF
-
-          cat > src/main/res/values/strings.xml << 'EOF'
-          <resources>
-              <string name="widget_desc">سعر GRAM المباشر من Binance</string>
-          </resources>
-          EOF
-
-          cat > src/main/res/layout/widget.xml << 'EOF'
-          <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/root"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingLeft="18dp"
-              android:paddingRight="18dp"
-              android:paddingTop="16dp"
-              android:paddingBottom="14dp"
-              android:layoutDirection="ltr"
-              android:background="@drawable/widget_bg">
-
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:gravity="center_vertical">
-                  <ImageView
-                      android:id="@+id/logo"
-                      android:layout_width="30dp"
-                      android:layout_height="30dp"
-                      android:src="@drawable/logo_badge" />
-                  <LinearLayout
-                      android:layout_width="0dp"
-                      android:layout_height="wrap_content"
-                      android:layout_weight="1"
-                      android:layout_marginStart="10dp"
-                      android:orientation="vertical">
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="GRAM"
-                          android:textColor="#FFFFFF"
-                          android:textSize="15sp"
-                          android:fontFamily="sans-serif-medium"
-                          android:letterSpacing="0.04" />
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="USDT · Binance"
-                          android:textColor="#D6E6FF"
-                          android:textSize="10sp" />
-                  </LinearLayout>
-                  <TextView
-                      android:id="@+id/pill"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:background="@drawable/pill_up"
-                      android:paddingLeft="10dp"
-                      android:paddingRight="10dp"
-                      android:paddingTop="4dp"
-                      android:paddingBottom="4dp"
-                      android:text="—"
-                      android:textColor="#12A865"
-                      android:textSize="12sp"
-                      android:fontFamily="sans-serif-medium"
-                      android:fontFeatureSettings="tnum" />
-              </LinearLayout>
-
-              <TextView
-                  android:id="@+id/price"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="8dp"
-                  android:text="$—"
-                  android:textColor="#FFFFFF"
-                  android:textSize="34sp"
-                  android:fontFamily="sans-serif-medium"
-                  android:fontFeatureSettings="tnum"
-                  android:includeFontPadding="false" />
-
-              <ImageView
-                  android:id="@+id/spark"
-                  android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:layout_weight="1"
-                  android:layout_marginTop="8dp"
-                  android:scaleType="fitXY" />
-
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="8dp"
-                  android:orientation="horizontal"
-                  android:gravity="center_vertical">
-                  <TextView
-                      android:id="@+id/range"
-                      android:layout_width="0dp"
-                      android:layout_height="wrap_content"
-                      android:layout_weight="1"
-                      android:text="↓ —   ↑ —"
-                      android:textColor="#D6E6FF"
-                      android:textSize="11sp"
-                      android:fontFeatureSettings="tnum"
-                      android:maxLines="1" />
-                  <TextView
-                      android:id="@+id/time"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text=""
-                      android:textColor="#D6E6FF"
-                      android:textSize="11sp"
-                      android:fontFeatureSettings="tnum" />
-              </LinearLayout>
-          </LinearLayout>
-          EOF
-
-          cat > src/main/res/layout/widget_small.xml << 'EOF'
-          <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/root"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="horizontal"
-              android:gravity="center_vertical"
-              android:paddingLeft="12dp"
-              android:paddingRight="12dp"
-              android:layoutDirection="ltr"
-              android:background="@drawable/widget_bg">
-              <ImageView
-                  android:id="@+id/logo"
-                  android:layout_width="28dp"
-                  android:layout_height="28dp"
-                  android:src="@drawable/logo_badge" />
-              <LinearLayout
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:layout_marginStart="10dp"
-                  android:orientation="vertical">
-                  <TextView
-                      android:id="@+id/price"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="$—"
-                      android:textColor="#FFFFFF"
-                      android:textSize="20sp"
-                      android:fontFamily="sans-serif-medium"
-                      android:fontFeatureSettings="tnum"
-                      android:includeFontPadding="false"
-                      android:maxLines="1" />
-                  <TextView
-                      android:id="@+id/pill"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="2dp"
-                      android:text="GRAM"
-                      android:textColor="#D6E6FF"
-                      android:textSize="12sp"
-                      android:fontFamily="sans-serif-medium"
-                      android:fontFeatureSettings="tnum"
-                      android:maxLines="1" />
-              </LinearLayout>
-          </LinearLayout>
-          EOF
-
-          cat > src/main/res/xml/widget_info.xml << 'EOF'
-          <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-              android:minWidth="180dp"
-              android:minHeight="110dp"
-              android:minResizeWidth="140dp"
-              android:minResizeHeight="100dp"
-              android:targetCellWidth="4"
-              android:targetCellHeight="2"
-              android:resizeMode="horizontal|vertical"
-              android:updatePeriodMillis="1800000"
-              android:initialLayout="@layout/widget"
-              android:previewImage="@drawable/widget_preview"
-              android:description="@string/widget_desc"
-              android:widgetCategory="home_screen|keyguard" />
-          EOF
-
-          cat > src/main/res/xml/widget_small_info.xml << 'EOF'
-          <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-              android:minWidth="110dp"
-              android:minHeight="40dp"
-              android:minResizeWidth="110dp"
-              android:minResizeHeight="40dp"
-              android:targetCellWidth="2"
-              android:targetCellHeight="1"
-              android:resizeMode="horizontal|vertical"
-              android:updatePeriodMillis="1800000"
-              android:initialLayout="@layout/widget_small"
-              android:previewImage="@drawable/widget_small_preview"
-              android:description="@string/widget_desc"
-              android:widgetCategory="home_screen|keyguard" />
-          EOF
-
-          cat > src/main/java/com/ton/price/PriceWidget.java << 'EOF'
-          package com.ton.price;
-
-          import android.app.AlarmManager;
-          import android.app.PendingIntent;
-          import android.appwidget.AppWidgetManager;
-          import android.appwidget.AppWidgetProvider;
-          import android.content.ComponentName;
-          import android.content.Context;
-          import android.content.Intent;
-          import android.content.SharedPreferences;
-          import android.graphics.Bitmap;
-          import android.graphics.Canvas;
-          import android.graphics.LinearGradient;
-          import android.graphics.Paint;
-          import android.graphics.Path;
-          import android.graphics.Shader;
-          import android.view.View;
-          import android.widget.RemoteViews;
-          import org.json.JSONArray;
-          import org.json.JSONObject;
-          import java.io.BufferedReader;
-          import java.io.InputStreamReader;
-          import java.net.HttpURLConnection;
-          import java.net.URL;
-          import java.text.SimpleDateFormat;
-          import java.util.Date;
-          import java.util.Locale;
-
-          public class PriceWidget extends AppWidgetProvider {
-              static final String[] HOSTS = {"https://api.binance.com", "https://data-api.binance.vision"};
-              static final String TICKER = "/api/v3/ticker/24hr?symbol=GRAMUSDT";
-              static final String KLINES = "/api/v3/klines?symbol=GRAMUSDT&interval=30m&limit=48";
-              static final String REFRESH = "com.ton.price.REFRESH";
-              static final int UP = 0xFF12A865, DOWN = 0xFFD1293A, LINE = 0xFFFFFFFF;
-              static final int UP_LIGHT = 0xFF9DFFC8, DOWN_LIGHT = 0xFFFFC7CD;
-
-              @Override
-              public void onReceive(Context c, Intent i) {
-                  String a = i.getAction();
-                  if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(a) || REFRESH.equals(a)) {
-                      if (count(c) == 0) {
-                          cancel(c);
-                          return;
-                      }
-                      schedule(c);
-                      final PendingResult pr = goAsync();
-                      final Context app = c.getApplicationContext();
-                      new Thread(new Runnable() {
-                          public void run() {
-                              try { update(app); } catch (Throwable ignored) {} finally { pr.finish(); }
-                          }
-                      }).start();
-                  } else {
-                      super.onReceive(c, i);
-                  }
-              }
-
-              @Override
-              public void onDisabled(Context c) {
-                  if (count(c) == 0) cancel(c);
-              }
-
-              static ComponentName big(Context c) { return new ComponentName(c, PriceWidget.class); }
-
-              static ComponentName small(Context c) { return new ComponentName(c, PriceWidgetSmall.class); }
-
-              static int count(Context c) {
-                  AppWidgetManager m = AppWidgetManager.getInstance(c);
-                  return m.getAppWidgetIds(big(c)).length + m.getAppWidgetIds(small(c)).length;
-              }
-
-              static void cancel(Context c) {
-                  AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-                  if (am != null) am.cancel(tick(c));
-              }
-
-              static PendingIntent tick(Context c) {
-                  Intent i = new Intent(c, PriceWidget.class).setAction(REFRESH);
-                  return PendingIntent.getBroadcast(c, 2, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-              }
-
-              static void schedule(Context c) {
-                  AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-                  if (am == null) return;
-                  long every = 60 * 1000L;
-                  am.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + every, every, tick(c));
-              }
-
-              static PendingIntent openApp(Context c) {
-                  Intent oi = new Intent(c, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                  return PendingIntent.getActivity(c, 1, oi, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-              }
-
-              static String get(String path) throws Exception {
-                  Exception last = null;
-                  for (String h : HOSTS) {
-                      try {
-                          HttpURLConnection con = (HttpURLConnection) new URL(h + path).openConnection();
-                          con.setConnectTimeout(4000);
-                          con.setReadTimeout(4000);
-                          con.setUseCaches(false);
-                          con.setRequestProperty("User-Agent", "PriceGramApp");
-                          if (con.getResponseCode() != 200) throw new Exception("HTTP " + con.getResponseCode());
-                          BufferedReader r = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-                          StringBuilder sb = new StringBuilder();
-                          String line;
-                          while ((line = r.readLine()) != null) sb.append(line);
-                          r.close();
-                          return sb.toString();
-                      } catch (Exception e) { last = e; }
-                  }
-                  throw last;
-              }
-
-              static double price() throws Exception {
-                  JSONObject o = new JSONObject(get("/api/v3/ticker/price?symbol=GRAMUSDT"));
-                  return Double.parseDouble(o.getString("price"));
-              }
-
-              static String money(double v) {
-                  return String.format(Locale.US, v < 10 ? "$%,.3f" : "$%,.2f", v);
-              }
-
-              static Bitmap spark(double[] d, int color) {
-                  int w = 640, h = 160;
-                  float px = 10f, py = 12f;
-                  Bitmap b = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-                  Canvas cv = new Canvas(b);
-                  double min = d[0], max = d[0];
-                  for (double v : d) { if (v < min) min = v; if (v > max) max = v; }
-                  double rg = max - min;
-                  if (rg == 0) rg = 1;
-                  Path line = new Path();
-                  float lx = 0, ly = 0;
-                  for (int i = 0; i < d.length; i++) {
-                      float x = px + (w - 2 * px) * i / (d.length - 1);
-                      float y = (float) (py + (h - 2 * py) * (1 - (d[i] - min) / rg));
-                      if (i == 0) line.moveTo(x, y); else line.lineTo(x, y);
-                      lx = x; ly = y;
-                  }
-                  Path fill = new Path(line);
-                  fill.lineTo(lx, h);
-                  fill.lineTo(px, h);
-                  fill.close();
-                  Paint fp = new Paint(Paint.ANTI_ALIAS_FLAG);
-                  fp.setShader(new LinearGradient(0, 0, 0, h, (color & 0x00FFFFFF) | 0x60000000,
-                      color & 0x00FFFFFF, Shader.TileMode.CLAMP));
-                  cv.drawPath(fill, fp);
-                  Paint lp = new Paint(Paint.ANTI_ALIAS_FLAG);
-                  lp.setStyle(Paint.Style.STROKE);
-                  lp.setStrokeWidth(4f);
-                  lp.setStrokeJoin(Paint.Join.ROUND);
-                  lp.setStrokeCap(Paint.Cap.ROUND);
-                  lp.setColor(color);
-                  cv.drawPath(line, lp);
-                  Paint dp = new Paint(Paint.ANTI_ALIAS_FLAG);
-                  dp.setColor((color & 0x00FFFFFF) | 0x40000000);
-                  cv.drawCircle(lx, ly, 10f, dp);
-                  dp.setColor(0xFFFFFFFF);
-                  cv.drawCircle(lx, ly, 6f, dp);
-                  dp.setColor(0xFF1F6FDC);
-                  cv.drawCircle(lx, ly, 3.5f, dp);
-                  return b;
-              }
-
-              static void update(Context c) {
-                  SharedPreferences sp = c.getSharedPreferences("w", Context.MODE_PRIVATE);
-                  AppWidgetManager m = AppWidgetManager.getInstance(c);
-                  RemoteViews rv = new RemoteViews(c.getPackageName(), R.layout.widget);
-                  RemoteViews sv = new RemoteViews(c.getPackageName(), R.layout.widget_small);
-                  rv.setOnClickPendingIntent(R.id.root, openApp(c));
-                  sv.setOnClickPendingIntent(R.id.root, openApp(c));
-                  try {
-                      JSONObject o = new JSONObject(get(TICKER));
-                      double p = Double.parseDouble(o.getString("lastPrice"));
-                      double ch = Double.parseDouble(o.getString("priceChangePercent"));
-                      double lo = Double.parseDouble(o.getString("lowPrice"));
-                      double hi = Double.parseDouble(o.getString("highPrice"));
-                      boolean up = ch >= 0;
-                      int col = up ? UP : DOWN;
-                      String now = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
-                      String pct = String.format(Locale.US, "%s %s%.2f%%", up ? "▲" : "▼", up ? "+" : "", ch);
-                      sp.edit().putString("last", now).apply();
-
-                      rv.setTextViewText(R.id.price, money(p));
-                      rv.setTextViewText(R.id.pill, pct);
-                      rv.setTextColor(R.id.pill, col);
-                      rv.setInt(R.id.pill, "setBackgroundResource", up ? R.drawable.pill_up : R.drawable.pill_down);
-                      rv.setTextViewText(R.id.range, "↓ " + money(lo) + "    ↑ " + money(hi));
-                      rv.setTextViewText(R.id.time, "● " + now);
-                      rv.setTextColor(R.id.time, 0xFFD6E6FF);
-
-                      sv.setTextViewText(R.id.price, money(p));
-                      sv.setTextViewText(R.id.pill, pct);
-                      sv.setTextColor(R.id.pill, up ? UP_LIGHT : DOWN_LIGHT);
-
-                      try {
-                          JSONArray k = new JSONArray(get(KLINES));
-                          double[] d = new double[k.length()];
-                          for (int i = 0; i < d.length; i++) d[i] = Double.parseDouble(k.getJSONArray(i).getString(4));
-                          if (d.length > 1) {
-                              rv.setImageViewBitmap(R.id.spark, spark(d, LINE));
-                              rv.setViewVisibility(R.id.spark, View.VISIBLE);
-                          }
-                      } catch (Exception ignored) {}
-                  } catch (Exception e) {
-                      String last = sp.getString("last", null);
-                      RemoteViews err = new RemoteViews(c.getPackageName(), R.layout.widget);
-                      err.setTextViewText(R.id.time, last != null ? "⚠ " + last : "⚠");
-                      err.setTextColor(R.id.time, 0xFFFFC7CD);
-                      err.setOnClickPendingIntent(R.id.root, openApp(c));
-                      m.partiallyUpdateAppWidget(m.getAppWidgetIds(big(c)), err);
-                      return;
-                  }
-                  m.updateAppWidget(big(c), rv);
-                  m.updateAppWidget(small(c), sv);
-              }
-          }
-          EOF
-
-          cat > src/main/java/com/ton/price/PriceWidgetSmall.java << 'EOF'
-          package com.ton.price;
-
-          public class PriceWidgetSmall extends PriceWidget {
-          }
-          EOF
-
-          cat > src/main/java/com/ton/price/AlertReceiver.java << 'EOF'
-          package com.ton.price;
-
-          import android.app.AlarmManager;
-          import android.app.Notification;
-          import android.app.NotificationChannel;
-          import android.app.NotificationManager;
-          import android.app.PendingIntent;
-          import android.content.BroadcastReceiver;
-          import android.content.Context;
-          import android.content.Intent;
-          import android.content.SharedPreferences;
-          import android.os.Build;
-          import org.json.JSONArray;
-          import org.json.JSONObject;
-
-          public class AlertReceiver extends BroadcastReceiver {
-              static final String CHECK = "com.ton.price.ALERT_CHECK";
-              static final String CHANNEL = "price_alerts";
-
-              @Override
-              public void onReceive(Context c, Intent i) {
-                  final Context app = c.getApplicationContext();
-                  if (!CHECK.equals(i.getAction())) {
-                      reschedule(app);
-                      return;
-                  }
-                  final PendingResult pr = goAsync();
-                  new Thread(new Runnable() {
-                      public void run() {
-                          try { check(app); } catch (Throwable ignored) {} finally { pr.finish(); }
-                      }
-                  }).start();
-              }
-
-              static SharedPreferences store(Context c) {
-                  return c.getSharedPreferences("store", Context.MODE_PRIVATE);
-              }
-
-              static JSONArray alerts(Context c) {
-                  try { return new JSONArray(store(c).getString("alerts", "[]")); } catch (Exception e) { return new JSONArray(); }
-              }
-
-              static PendingIntent pi(Context c) {
-                  Intent i = new Intent(c, AlertReceiver.class).setAction(CHECK);
-                  return PendingIntent.getBroadcast(c, 7, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-              }
-
-              static void reschedule(Context c) {
-                  AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-                  if (am == null) return;
-                  if (alerts(c).length() == 0) {
-                      am.cancel(pi(c));
-                      return;
-                  }
-                  long every = 3 * 60 * 1000L;
-                  am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 1000L, every, pi(c));
-              }
-
-              static void check(Context c) throws Exception {
-                  JSONArray list = alerts(c);
-                  if (list.length() == 0) { reschedule(c); return; }
-                  double p = PriceWidget.price();
-                  JSONArray keep = new JSONArray();
-                  for (int i = 0; i < list.length(); i++) {
-                      JSONObject a = list.getJSONObject(i);
-                      double target = a.getDouble("price");
-                      boolean above = "above".equals(a.optString("dir"));
-                      boolean hit = above ? p >= target : p <= target;
-                      if (hit) {
-                          notify(c, (int) (a.optLong("id", i) % 100000),
-                              above ? "GRAM صعد فوق " + PriceWidget.money(target) : "GRAM نزل تحت " + PriceWidget.money(target),
-                              "السعر الآن " + PriceWidget.money(p));
-                      } else {
-                          keep.put(a);
-                      }
-                  }
-                  store(c).edit().putString("alerts", keep.toString()).apply();
-                  reschedule(c);
-              }
-
-              static void notify(Context c, int id, String title, String body) {
-                  NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-                  if (nm == null) return;
-                  Notification.Builder b;
-                  if (Build.VERSION.SDK_INT >= 26) {
-                      NotificationChannel ch = new NotificationChannel(CHANNEL, "تنبيهات السعر", NotificationManager.IMPORTANCE_HIGH);
-                      nm.createNotificationChannel(ch);
-                      b = new Notification.Builder(c, CHANNEL);
-                  } else {
-                      b = new Notification.Builder(c);
-                      b.setPriority(Notification.PRIORITY_HIGH);
-                      b.setDefaults(Notification.DEFAULT_ALL);
-                  }
-                  b.setSmallIcon(R.drawable.ic_fg)
-                      .setColor(0xFF1F6FDC)
-                      .setContentTitle(title)
-                      .setContentText(body)
-                      .setAutoCancel(true)
-                      .setContentIntent(PriceWidget.openApp(c));
-                  try { nm.notify(id, b.build()); } catch (Exception ignored) {}
-              }
-          }
-          EOF
-
-          cat > src/main/java/com/ton/price/MainActivity.java << 'EOF'
-          package com.ton.price;
-
-          import android.app.Activity;
-          import android.app.AlertDialog;
-          import android.content.Context;
-          import android.content.Intent;
-          import android.content.SharedPreferences;
-          import android.net.ConnectivityManager;
-          import android.net.NetworkInfo;
-          
+      - name: Publish APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.run_number }}
+          name: Price Gram 2.${{ github.run_number }}
+          files: Price-Gram.apk
