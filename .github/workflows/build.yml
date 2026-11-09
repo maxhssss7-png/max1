@@ -1,4 +1,4 @@
-# Price Gram — ملف واحد يبني كل شي: الصفحة + الأيقونة + التطبيق + الويدجت
+# Price Gram — ملف واحد يبني كل شي: الصفحة + الأيقونة + التطبيق + الويدجت + التنبيهات
 name: Price Gram
 
 on:
@@ -225,6 +225,66 @@ jobs:
             .err{color:var(--down)}
             button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
             @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+            /* Banners */
+            .banner{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--r-md);font-size:13px;line-height:1.5}
+            .banner.update{background:#ffffff;color:#0b2a4a;box-shadow:0 8px 24px rgba(10,40,120,.25)}
+            .banner.update b{display:block;font-size:14px}
+            .banner.update .txt{flex:1;min-width:0}
+            .banner.offline{background:rgba(0,0,0,.18);border:1px solid var(--line);color:var(--txt)}
+            .btn{border:0;border-radius:12px;height:38px;padding:0 16px;font:600 13px var(--font);cursor:pointer;white-space:nowrap}
+            .btn.primary{background:#1f6fdc;color:#fff}
+            .btn.light{background:#fff;color:#1f6fdc}
+            .btn.ghost{background:var(--surface-2);color:var(--txt)}
+
+            /* Chart header */
+            .seg{display:flex;gap:2px;padding:3px;background:rgba(0,0,0,.12);border-radius:10px;border:1px solid var(--line)}
+            .seg button{border:0;background:none;color:var(--sub);font:500 12px var(--font);height:26px;padding:0 10px;border-radius:8px;cursor:pointer}
+            .seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--txt)}
+            .tabs.full{margin-top:12px;justify-content:space-between}
+            .tabs.full .tab{flex:1}
+
+            /* Portfolio */
+            .field{min-width:0}
+            .field input{width:100%}
+            .pf-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:12px}
+            .pf-grid .field{height:54px}
+            .pf-grid .field input{font-size:17px}
+            .pf-out{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+            .pf-out div{background:rgba(0,0,0,.10);border-radius:12px;padding:10px;min-width:0}
+            .pf-out span{display:block;color:var(--sub);font-size:11px}
+            .pf-out b{display:block;font-size:15px;font-weight:600;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+            .pf-out small{display:block;font-size:11px;font-weight:500;margin-top:2px;opacity:.9}
+            .pos{color:var(--up)} .neg{color:var(--down)}
+            .hint{color:var(--faint);font-size:11px;margin-top:8px;line-height:1.6}
+
+            /* Alerts */
+            .al-row{display:flex;gap:8px;margin-top:12px}
+            .al-row .field{flex:1;min-width:0;height:50px}
+            .al-row .field input{font-size:17px}
+            .al-row .btn{height:50px}
+            .al-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+            .al-item{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.10);border-radius:12px;padding:10px 12px;font-size:13px}
+            .al-item .ar{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:#fff}
+            .al-item .ar.up{color:#12a865} .al-item .ar.down{color:#d1293a}
+            .al-item .t{flex:1;min-width:0}
+            .al-item .x{border:0;background:var(--surface-2);color:var(--txt);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px}
+            .empty{color:var(--faint);font-size:12px;text-align:center;padding:8px 0}
+
+            /* Trades */
+            .tr-head,.tr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:12px}
+            .tr-head{color:var(--faint);margin-top:10px;padding:0 4px 6px;border-bottom:1px solid var(--line)}
+            .tr{padding:6px 4px;font-variant-numeric:tabular-nums;direction:ltr}
+            .tr-head{direction:ltr}
+            .tr span:nth-child(2),.tr-head span:nth-child(2){text-align:center}
+            .tr span:last-child,.tr-head span:last-child{text-align:right;color:var(--sub)}
+            .tr.buy span:first-child{color:var(--up)} .tr.sell span:first-child{color:var(--down)}
+            .tr.new{animation:flash .8s ease-out}
+            @keyframes flash{from{background:rgba(255,255,255,.18)}to{background:transparent}}
+            .trades{max-height:330px;overflow:hidden;border-radius:10px}
+
+            .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);background:#fff;color:#0b2a4a;
+              padding:10px 18px;border-radius:99px;font-size:13px;font-weight:500;box-shadow:0 8px 24px rgba(10,40,120,.3);z-index:20;max-width:90%;text-align:center}
           </style>
           </head>
           <body>
@@ -232,18 +292,28 @@ jobs:
 
             <header class="top">
               <div class="brand">
-                <div class="mark" id="mark">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M18 7.5A7 7 0 1 0 19 13h-6"/></svg>
-                </div>
+                <div class="mark" id="mark"><img src="logo.png" alt=""></div>
                 <div><b>PRICE GRAM</b><small>GRAM / USDT</small></div>
               </div>
               <div class="actions">
                 <div class="live" id="live"><span class="dot"></span><span id="liveTxt">جاري الاتصال</span></div>
+                <button class="icon-btn" id="share" aria-label="مشاركة">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+                </button>
                 <button class="icon-btn" id="refresh" aria-label="تحديث">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
                 </button>
               </div>
             </header>
+
+            <div class="banner update" id="updBanner" hidden>
+              <div class="txt"><b>يوجد تحديث جديد</b><span id="updTxt">نسخة أحدث من Price Gram صارت متوفرة</span></div>
+              <button class="btn primary" id="updBtn">تحديث</button>
+            </div>
+
+            <div class="banner offline" id="offBanner" hidden>
+              <span>⚠</span><span id="offTxt">بدون اتصال · يعرض آخر سعر محفوظ</span>
+            </div>
 
             <section class="hero">
               <div class="label">سعر GRAM الآن · USDT</div>
@@ -258,12 +328,17 @@ jobs:
             <section class="card">
               <div class="card-h">
                 <h2>الحركة</h2>
-                <div class="tabs" role="group" aria-label="المدة">
-                  <button class="tab" data-r="1D" aria-pressed="false">يوم</button>
-                  <button class="tab" data-r="1W" aria-pressed="true">أسبوع</button>
-                  <button class="tab" data-r="1M" aria-pressed="false">شهر</button>
-                  <button class="tab" data-r="1Y" aria-pressed="false">سنة</button>
+                <div class="seg" role="group" aria-label="نوع الرسم">
+                  <button data-mode="line" aria-pressed="true">خط</button>
+                  <button data-mode="candle" aria-pressed="false">شموع</button>
                 </div>
+              </div>
+              <div class="tabs full" role="group" aria-label="المدة">
+                <button class="tab" data-r="1H" aria-pressed="false">ساعة</button>
+                <button class="tab" data-r="1D" aria-pressed="false">يوم</button>
+                <button class="tab" data-r="1W" aria-pressed="true">أسبوع</button>
+                <button class="tab" data-r="1M" aria-pressed="false">شهر</button>
+                <button class="tab" data-r="1Y" aria-pressed="false">سنة</button>
               </div>
               <div class="scrub"><span class="v num" id="scrubV">—</span><span class="t" id="scrubT"></span></div>
               <div class="chart-box" id="chartBox">
@@ -284,11 +359,41 @@ jobs:
               </div>
             </section>
 
+            <section class="card">
+              <div class="card-h"><h2>محفظتي</h2></div>
+              <div class="pf-grid">
+                <label class="field"><input id="pfAmt" type="text" inputmode="decimal" placeholder="0" aria-label="كمية GRAM عندك"><span class="cur">GRAM</span></label>
+                <label class="field"><input id="pfBuy" type="text" inputmode="decimal" placeholder="سعر الشراء" aria-label="متوسط سعر الشراء"><span class="cur">$</span></label>
+              </div>
+              <div class="pf-out">
+                <div><span>القيمة الآن</span><b class="num" id="pfVal">—</b></div>
+                <div><span>ربح اليوم</span><b class="num" id="pfDay">—</b><small class="num"></small></div>
+                <div><span>الربح الكلي</span><b class="num" id="pfTot">—</b><small class="num"></small></div>
+              </div>
+              <div class="hint">اكتب كم GRAM عندك، وسعر الشراء إذا تريد تعرف ربحك الكلي. تنحفظ بموبايلك بس.</div>
+            </section>
+
+            <section class="card">
+              <div class="card-h"><h2>نبّهني</h2></div>
+              <div class="al-row">
+                <label class="field"><input id="alPrice" type="text" inputmode="decimal" placeholder="مثلاً 1.10" aria-label="سعر التنبيه"><span class="cur">$</span></label>
+                <button class="btn light" id="alAdd">أضف تنبيه</button>
+              </div>
+              <div class="al-list" id="alList"></div>
+              <div class="hint" id="alHint">إذا السعر اللي تكتبه أعلى من الحالي ينبهك لما يصعد له، وإذا أقل ينبهك لما ينزل له. يجيك إشعار حتى لو التطبيق مسكّر.</div>
+            </section>
+
             <section class="grid">
               <div class="tile"><span>حجم التداول (USDT)</span><b class="num" id="qvol">—</b></div>
               <div class="tile"><span>حجم التداول (GRAM)</span><b class="num" id="vol">—</b></div>
               <div class="tile"><span>سعر الافتتاح</span><b class="num" id="open">—</b></div>
               <div class="tile"><span>عدد الصفقات</span><b class="num" id="trades">—</b></div>
+            </section>
+
+            <section class="card">
+              <div class="card-h"><h2>آخر الصفقات</h2><span class="hint" style="margin:0">مباشر من Binance</span></div>
+              <div class="tr-head"><span>السعر $</span><span>الكمية GRAM</span><span>الوقت</span></div>
+              <div class="trades" id="tradeList"><div class="empty">جاري التحميل…</div></div>
             </section>
 
             <section class="card">
@@ -302,73 +407,113 @@ jobs:
 
             <div class="foot" id="foot">البيانات من Binance</div>
           </div>
+          <div class="toast" id="toast" hidden></div>
 
           <script>
           (function(){
             "use strict";
+            var REMOTE="https://maxhssss7-png.github.io/max1/ton.html";
+            var APK="https://github.com/maxhssss7-png/max1/releases/latest/download/Price-Gram.apk";
             var HOSTS=["https://api.binance.com","https://data-api.binance.vision"];
-            var WSS=["wss://stream.binance.com:9443/ws/gramusdt@ticker","wss://data-stream.binance.vision/ws/gramusdt@ticker"];
+            var WSS=["wss://stream.binance.com:9443/stream?streams=gramusdt@ticker/gramusdt@trade",
+                     "wss://data-stream.binance.vision/stream?streams=gramusdt@ticker/gramusdt@trade"];
             var SYM="GRAMUSDT";
-            var RANGES={"1D":["15m",96],"1W":["1h",168],"1M":["4h",180],"1Y":["1d",365]};
+            var RANGES={"1H":["1m",60],"1D":["15m",96],"1W":["1h",168],"1M":["4h",180],"1Y":["1d",365]};
             var $=function(id){return document.getElementById(id)};
-            var state={price:0,range:"1W",series:[],times:[],lastSide:"gram",ws:null,wsIdx:0,lastTick:0};
+            var A=window.Android||null;
+            var state={price:0,chg:0,pct:0,range:"1W",mode:"line",candles:[],lastSide:"gram",wsIdx:0,lastTick:0,lastSave:0,trades:[],alerts:[]};
 
-            try{var saved=localStorage.getItem("gram.range");if(saved&&RANGES[saved])state.range=saved;}catch(e){}
+            /* ---------- Storage (app store, falls back to browser) ---------- */
+            function sget(k){
+              try{if(A&&A.get){var v=A.get(k);if(v!=null)return v;}}catch(e){}
+              try{return localStorage.getItem(k)}catch(e){return null}
+            }
+            function sset(k,v){
+              try{if(A&&A.set){A.set(k,v);return;}}catch(e){}
+              try{localStorage.setItem(k,v)}catch(e){}
+            }
+            function sjson(k,d){try{var v=sget(k);return v?JSON.parse(v):d}catch(e){return d}}
 
-            // Optional logo uploaded to the repo as logo.png
-            (function(){var img=new Image();img.onload=function(){$("mark").innerHTML="";$("mark").appendChild(img);};img.src="logo.png";})();
+            var r0=sget("gram.range");if(r0&&RANGES[r0])state.range=r0;
+            var m0=sget("gram.mode");if(m0==="line"||m0==="candle")state.mode=m0;
 
-            function dec(v){return v>=1000?2:v>=10?2:v>=1?3:v>=0.01?4:6}
+            function toast(t){var el=$("toast");el.textContent=t.replace(/\$[\d.,]+/g,function(m){return "\u2066"+m+"\u2069"});el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){el.hidden=true},2600)}
+
+            function dec(v){return v>=10?2:v>=1?3:v>=0.01?4:6}
             function money(v){return "$"+v.toLocaleString("en-US",{minimumFractionDigits:dec(v),maximumFractionDigits:dec(v)})}
+            function signed(v){return (v>=0?"+":"-")+money(Math.abs(v))}
             function compact(v,prefix){
               var s=v>=1e9?(v/1e9).toFixed(2)+"B":v>=1e6?(v/1e6).toFixed(2)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":v.toFixed(0);
               return (prefix||"")+s;
             }
+            function hm(d){return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}
             function clock(d){return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
             function fmtTime(ms){
               var d=new Date(ms);
-              if(state.range==="1D")return d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+              if(state.range==="1H"||state.range==="1D")return hm(d);
               var day=d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"});
-              return state.range==="1Y"?day+" "+d.getFullYear():day+" · "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+              return state.range==="1Y"?day+" "+d.getFullYear():day+" · "+hm(d);
             }
+            function parse(v){v=(v||"").replace(/[٠-٩]/g,function(c){return "٠١٢٣٤٥٦٧٨٩".indexOf(c)}).replace(/[٫,]/g,".");return parseFloat(v)}
 
-            function fetchJSON(path){
+            function fetchJSON(url){
+              if(/^https?:/.test(url))return fetch(url,{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()});
               var i=0;
               function next(){
                 if(i>=HOSTS.length)return Promise.reject(new Error("unreachable"));
                 var h=HOSTS[i++];
-                return fetch(h+path,{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(next);
+                return fetch(h+url,{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(next);
               }
               return next();
             }
 
+            /* ---------- Offline ---------- */
+            function setOffline(on){
+              var last=sjson("gram.last",null);
+              $("offBanner").hidden=!on;
+              if(on&&last&&last.t)$("offTxt").textContent="بدون اتصال · آخر سعر محفوظ من "+hm(new Date(last.t));
+            }
+            window.addEventListener("online",function(){
+              if(location.protocol==="file:")location.href=REMOTE+"?v="+Date.now();
+              else{setOffline(false);refreshAll();}
+            });
+            window.addEventListener("offline",function(){setOffline(true)});
+
             /* ---------- Ticker ---------- */
-            function applyTicker(t){
+            var scrubbing=false;
+            function applyTicker(t,fromCache){
               var p=+t.price, prev=state.price;
-              state.price=p;
+              state.price=p;state.chg=+t.chg;state.pct=+t.pct;
               var el=$("price");
               el.textContent=money(p);
-              if(prev&&p!==prev){
+              if(prev&&p!==prev&&!fromCache){
                 el.classList.remove("flash-up","flash-down");void el.offsetWidth;
                 el.classList.add(p>prev?"flash-up":"flash-down");
                 setTimeout(function(){el.classList.remove("flash-up","flash-down")},450);
               }
               var up=t.pct>=0,pill=$("pct");
               pill.className="pill "+(up?"up":"down");
-              pill.innerHTML='<span class="num">'+(up?"▲ +":"▼ ")+t.pct.toFixed(2)+"%</span>";
-              $("abs").textContent=(t.chg>=0?"+":"-")+money(Math.abs(t.chg));
-              $("low").textContent=money(t.low);
-              $("high").textContent=money(t.high);
+              pill.innerHTML='<span class="num">'+(up?"▲ +":"▼ ")+(+t.pct).toFixed(2)+"%</span>";
+              $("abs").textContent=signed(+t.chg);
+              $("low").textContent=money(+t.low);
+              $("high").textContent=money(+t.high);
               var pos=t.high>t.low?(p-t.low)/(t.high-t.low):.5;
               $("knob").style.left=(Math.max(0,Math.min(1,pos))*100)+"%";
-              $("qvol").textContent=compact(t.qvol,"$");
-              $("vol").textContent=compact(t.vol);
-              $("open").textContent=money(t.open);
-              $("trades").textContent=Math.round(t.trades).toLocaleString("en-US");
+              $("qvol").textContent=compact(+t.qvol,"$");
+              $("vol").textContent=compact(+t.vol);
+              $("open").textContent=money(+t.open);
+              $("trades").textContent=Math.round(+t.trades).toLocaleString("en-US");
               if(!scrubbing)$("scrubV").textContent=money(p);
-              syncConv();
+              syncConv();renderPortfolio();
+              if(fromCache)return;
+              checkAlerts(p);
               state.lastTick=Date.now();
+              setOffline(false);
               $("foot").innerHTML="البيانات من Binance · آخر تحديث <span class='num'>"+clock(new Date())+"</span>";
+              if(Date.now()-state.lastSave>10000){
+                state.lastSave=Date.now();
+                t.t=Date.now();sset("gram.last",JSON.stringify(t));
+              }
             }
 
             function loadTicker(){
@@ -378,76 +523,129 @@ jobs:
               });
             }
 
+            /* ---------- Trades ---------- */
+            function renderTrades(fresh){
+              var box=$("tradeList");
+              if(!state.trades.length){box.innerHTML='<div class="empty">لا توجد صفقات بعد</div>';return;}
+              box.innerHTML=state.trades.map(function(t,i){
+                return '<div class="tr '+(t.sell?"sell":"buy")+(fresh&&i===0?" new":"")+'"><span>'+t.p.toFixed(dec(t.p))+'</span><span>'+
+                  t.q.toLocaleString("en-US",{maximumFractionDigits:2})+'</span><span>'+clock(new Date(t.t))+'</span></div>';
+              }).join("");
+            }
+            function addTrade(t){
+              state.trades.unshift(t);
+              if(state.trades.length>12)state.trades.length=12;
+            }
+            var tradeQ=[],tradeTimer=null;
+            function queueTrade(t){
+              tradeQ.push(t);
+              if(tradeTimer)return;
+              tradeTimer=setTimeout(function(){
+                tradeQ.forEach(addTrade);tradeQ=[];tradeTimer=null;renderTrades(true);
+              },400);
+            }
+            function loadTrades(){
+              return fetchJSON("/api/v3/trades?symbol="+SYM+"&limit=12").then(function(a){
+                state.trades=a.reverse().map(function(x){return {p:+x.price,q:+x.qty,t:x.time,sell:!!x.isBuyerMaker}});
+                renderTrades(false);
+              }).catch(function(){if(!state.trades.length)$("tradeList").innerHTML='<div class="empty">تعذر تحميل الصفقات</div>'});
+            }
+
             /* ---------- Live stream ---------- */
             function setLive(on,txt){$("live").classList.toggle("on",on);$("liveTxt").textContent=txt;}
             function connect(){
               if(!("WebSocket" in window)){setLive(false,"تحديث دوري");return;}
-              var url=WSS[state.wsIdx%WSS.length],ws;
-              try{ws=new WebSocket(url);}catch(e){state.wsIdx++;setTimeout(connect,3000);return;}
-              state.ws=ws;
+              var ws;
+              try{ws=new WebSocket(WSS[state.wsIdx%WSS.length]);}catch(e){state.wsIdx++;setTimeout(connect,3000);return;}
               ws.onopen=function(){setLive(true,"مباشر")};
               ws.onmessage=function(m){
-                try{var d=JSON.parse(m.data);
-                  applyTicker({price:+d.c,pct:+d.P,chg:+d.p,low:+d.l,high:+d.h,qvol:+d.q,vol:+d.v,open:+d.o,trades:+d.n});
+                try{
+                  var msg=JSON.parse(m.data),d=msg.data||msg;
+                  if(d.e==="24hrTicker"){
+                    applyTicker({price:+d.c,pct:+d.P,chg:+d.p,low:+d.l,high:+d.h,qvol:+d.q,vol:+d.v,open:+d.o,trades:+d.n});
+                  }else if(d.e==="trade"){
+                    queueTrade({p:+d.p,q:+d.q,t:d.T,sell:!!d.m});
+                  }
                 }catch(e){}
               };
               ws.onclose=function(){setLive(false,"إعادة الاتصال");state.wsIdx++;setTimeout(connect,3000)};
               ws.onerror=function(){try{ws.close()}catch(e){}};
             }
-            // Safety net: if the stream goes quiet, poll
             setInterval(function(){if(Date.now()-state.lastTick>20000)loadTicker().catch(function(){});},10000);
 
             /* ---------- Chart ---------- */
-            var cv=$("chart"),ctx=cv.getContext("2d"),scrubbing=false,hoverIdx=-1;
+            var cv=$("chart"),ctx=cv.getContext("2d"),hoverIdx=-1;
+            function setCandles(k){
+              state.candles=k.map(function(c){return {t:c[0],o:+c[1],h:+c[2],l:+c[3],c:+c[4]}});
+            }
+            function afterChart(){
+              var s=state.candles;if(s.length<2)return;
+              $("chartEmpty").hidden=true;
+              var a=s[0].c,b=s[s.length-1].c,ch=(b-a)/a*100;
+              var pc=$("periodChg");pc.textContent=(ch>=0?"+":"")+ch.toFixed(2)+"%";
+              pc.style.color=ch>=0?"var(--up)":"var(--down)";
+              draw();
+            }
             function loadChart(){
-              var r=RANGES[state.range];
-              $("chartEmpty").hidden=false;$("chartEmpty").textContent="جاري تحميل الرسم…";
+              var r=RANGES[state.range],key="gram.k."+state.range;
+              var cached=sjson(key,null);
+              if(cached&&cached.length){setCandles(cached);afterChart();}
+              else{$("chartEmpty").hidden=false;$("chartEmpty").textContent="جاري تحميل الرسم…";}
               return fetchJSON("/api/v3/klines?symbol="+SYM+"&interval="+r[0]+"&limit="+r[1]).then(function(k){
-                state.series=k.map(function(c){return +c[4]});
-                state.times=k.map(function(c){return c[0]});
-                $("chartEmpty").hidden=true;
-                var a=state.series[0],b=state.series[state.series.length-1],ch=(b-a)/a*100;
-                var pc=$("periodChg");pc.textContent=(ch>=0?"+":"")+ch.toFixed(2)+"%";
-                pc.style.color=ch>=0?"var(--up)":"var(--down)";
-                draw();
-              }).catch(function(){$("chartEmpty").textContent="تعذر تحميل الرسم";});
+                setCandles(k);afterChart();
+                try{sset(key,JSON.stringify(k.map(function(c){return [c[0],c[1],c[2],c[3],c[4]]})))}catch(e){}
+              }).catch(function(){if(!state.candles.length)$("chartEmpty").textContent="تعذر تحميل الرسم";});
             }
             function draw(){
-              var d=state.series,dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;
+              var s=state.candles,dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;
               cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
-              if(d.length<2)return;
-              var min=Math.min.apply(null,d),max=Math.max.apply(null,d),rg=(max-min)||1,pt=12,pb=10;
-              var col="255,255,255";
-              var px=10;function X(i){return px+(W-2*px)*i/(d.length-1)}
+              if(s.length<2)return;
+              var candle=state.mode==="candle";
+              var min=Infinity,max=-Infinity;
+              s.forEach(function(c){var lo=candle?c.l:c.c,hi=candle?c.h:c.c;if(lo<min)min=lo;if(hi>max)max=hi});
+              var rg=(max-min)||1,pt=12,pb=10,px=10;
+              function X(i){return px+(W-2*px)*i/(s.length-1)}
               function Y(v){return pt+(H-pt-pb)*(1-(v-min)/rg)}
-              // grid
               ctx.strokeStyle="rgba(255,255,255,.10)";ctx.lineWidth=1;
               for(var g=1;g<4;g++){var gy=Math.round(H*g/4)+.5;ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
-              // area
-              ctx.beginPath();
-              for(var i=0;i<d.length;i++){i?ctx.lineTo(X(i),Y(d[i])):ctx.moveTo(X(i),Y(d[i]))}
-              ctx.lineTo(X(d.length-1),H);ctx.lineTo(X(0),H);ctx.closePath();
-              var gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,"rgba("+col+",.38)");gr.addColorStop(1,"rgba("+col+",0)");
-              ctx.fillStyle=gr;ctx.fill();
-              // line
-              ctx.beginPath();
-              for(i=0;i<d.length;i++){i?ctx.lineTo(X(i),Y(d[i])):ctx.moveTo(X(i),Y(d[i]))}
-              ctx.strokeStyle="rgb("+col+")";ctx.lineWidth=2;ctx.lineJoin="round";ctx.lineCap="round";
-              ctx.shadowColor="rgba(10,40,120,.25)";ctx.shadowBlur=6;ctx.stroke();ctx.shadowBlur=0;
-              // marker
-              var mi=hoverIdx>=0?hoverIdx:d.length-1,mx=X(mi),my=Y(d[mi]);
+              var i;
+              if(candle){
+                var bw=Math.max(1,(W-2*px)/s.length*0.62);
+                for(i=0;i<s.length;i++){
+                  var c=s[i],x=X(i),up=c.c>=c.o;
+                  ctx.strokeStyle=ctx.fillStyle=up?"#9dffc8":"#ffc7cd";
+                  ctx.lineWidth=1;
+                  ctx.beginPath();ctx.moveTo(Math.round(x)+.5,Y(c.h));ctx.lineTo(Math.round(x)+.5,Y(c.l));ctx.stroke();
+                  var y1=Y(Math.max(c.o,c.c)),y2=Y(Math.min(c.o,c.c));
+                  ctx.fillRect(x-bw/2,y1,bw,Math.max(1,y2-y1));
+                }
+              }else{
+                ctx.beginPath();
+                for(i=0;i<s.length;i++){i?ctx.lineTo(X(i),Y(s[i].c)):ctx.moveTo(X(i),Y(s[i].c))}
+                ctx.lineTo(X(s.length-1),H);ctx.lineTo(X(0),H);ctx.closePath();
+                var gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,"rgba(255,255,255,.38)");gr.addColorStop(1,"rgba(255,255,255,0)");
+                ctx.fillStyle=gr;ctx.fill();
+                ctx.beginPath();
+                for(i=0;i<s.length;i++){i?ctx.lineTo(X(i),Y(s[i].c)):ctx.moveTo(X(i),Y(s[i].c))}
+                ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.lineJoin="round";ctx.lineCap="round";
+                ctx.shadowColor="rgba(10,40,120,.25)";ctx.shadowBlur=6;ctx.stroke();ctx.shadowBlur=0;
+              }
+              var mi=hoverIdx>=0?hoverIdx:s.length-1,mx=X(mi),my=Y(s[mi].c);
               if(hoverIdx>=0){
-                ctx.strokeStyle="rgba(255,255,255,.45)";ctx.setLineDash([3,4]);
+                ctx.strokeStyle="rgba(255,255,255,.45)";ctx.setLineDash([3,4]);ctx.lineWidth=1;
                 ctx.beginPath();ctx.moveTo(mx,0);ctx.lineTo(mx,H);ctx.stroke();ctx.setLineDash([]);
               }
-              ctx.fillStyle="rgba("+col+",.25)";ctx.beginPath();ctx.arc(mx,my,9,0,7);ctx.fill();
-              ctx.fillStyle="#ffffff";ctx.beginPath();ctx.arc(mx,my,5,0,7);ctx.fill();ctx.fillStyle="#1f6fdc";ctx.beginPath();ctx.arc(mx,my,3,0,7);ctx.fill();
+              ctx.fillStyle="rgba(255,255,255,.25)";ctx.beginPath();ctx.arc(mx,my,9,0,7);ctx.fill();
+              ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(mx,my,5,0,7);ctx.fill();
+              ctx.fillStyle="#1f6fdc";ctx.beginPath();ctx.arc(mx,my,3,0,7);ctx.fill();
             }
             function scrubAt(clientX){
-              var r=cv.getBoundingClientRect(),n=state.series.length;if(n<2)return;
+              var r=cv.getBoundingClientRect(),s=state.candles,n=s.length;if(n<2)return;
               var i=Math.round((clientX-r.left-10)/(r.width-20)*(n-1));i=Math.max(0,Math.min(n-1,i));
               hoverIdx=i;scrubbing=true;
-              $("scrubV").textContent=money(state.series[i]);$("scrubT").textContent=fmtTime(state.times[i]);
+              var c=s[i];
+              $("scrubV").textContent=state.mode==="candle"?money(c.c)+"  ↑"+money(c.h)+" ↓"+money(c.l):money(c.c);
+              $("scrubT").textContent=fmtTime(c.t);
               draw();
             }
             function endScrub(){hoverIdx=-1;scrubbing=false;$("scrubV").textContent=state.price?money(state.price):"—";$("scrubT").textContent="";draw();}
@@ -457,19 +655,26 @@ jobs:
             ["pointerup","pointercancel","pointerleave"].forEach(function(ev){box.addEventListener(ev,endScrub)});
             if("ResizeObserver" in window)new ResizeObserver(draw).observe(box);else window.addEventListener("resize",draw);
 
-            Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(b){
+            function each(sel,fn){Array.prototype.forEach.call(document.querySelectorAll(sel),fn)}
+            each(".tab",function(b){
               b.setAttribute("aria-pressed",b.dataset.r===state.range?"true":"false");
               b.addEventListener("click",function(){
                 if(state.range===b.dataset.r)return;
-                state.range=b.dataset.r;
-                try{localStorage.setItem("gram.range",state.range)}catch(e){}
-                Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
-                loadChart();
+                state.range=b.dataset.r;sset("gram.range",state.range);
+                each(".tab",function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+                state.candles=[];loadChart();
+              });
+            });
+            each(".seg button",function(b){
+              b.setAttribute("aria-pressed",b.dataset.mode===state.mode?"true":"false");
+              b.addEventListener("click",function(){
+                state.mode=b.dataset.mode;sset("gram.mode",state.mode);
+                each(".seg button",function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+                draw();
               });
             });
 
             /* ---------- Converter ---------- */
-            function parse(v){v=(v||"").replace(/[٠-٩]/g,function(c){return "٠١٢٣٤٥٦٧٨٩".indexOf(c)}).replace(/[٫,]/g,".");return parseFloat(v)}
             function trim(n,max){return n.toLocaleString("en-US",{maximumFractionDigits:max,useGrouping:false})}
             function syncConv(){
               if(!state.price)return;
@@ -479,22 +684,129 @@ jobs:
             $("inGram").addEventListener("input",function(){state.lastSide="gram";syncConv()});
             $("inUsd").addEventListener("input",function(){state.lastSide="usd";syncConv()});
 
-            /* ---------- Refresh ---------- */
-            $("refresh").addEventListener("click",function(){
-              var b=this;b.classList.remove("spin");void b.offsetWidth;b.classList.add("spin");
-              Promise.all([loadTicker(),loadChart()]).catch(function(){});
+            /* ---------- Portfolio ---------- */
+            var pf=sjson("gram.pf",{amt:"",buy:""});
+            $("pfAmt").value=pf.amt||"";$("pfBuy").value=pf.buy||"";
+            function setPL(el,v,base){
+              if(v==null||isNaN(v)){el.textContent="—";el.className="num";if(el.nextElementSibling)el.nextElementSibling.textContent="";return;}
+              el.textContent=signed(v);el.className="num "+(v>=0?"pos":"neg");
+              var sm=el.nextElementSibling;
+              if(sm)sm.textContent=base?(v>=0?"+":"")+(v/base*100).toFixed(1)+"%":"";
+            }
+            function renderPortfolio(){
+              var amt=parse($("pfAmt").value),buy=parse($("pfBuy").value);
+              if(!state.price||isNaN(amt)||amt<=0){$("pfVal").textContent="—";setPL($("pfDay"),null);setPL($("pfTot"),null);return;}
+              $("pfVal").textContent=money(amt*state.price);
+              setPL($("pfDay"),amt*state.chg,amt*(state.price-state.chg));
+              if(!isNaN(buy)&&buy>0)setPL($("pfTot"),amt*(state.price-buy),amt*buy);else setPL($("pfTot"),null);
+            }
+            ["pfAmt","pfBuy"].forEach(function(id){
+              $(id).addEventListener("input",function(){
+                sset("gram.pf",JSON.stringify({amt:$("pfAmt").value,buy:$("pfBuy").value}));renderPortfolio();
+              });
             });
 
-            loadTicker().catch(function(){$("foot").innerHTML="<span class='err'>تعذر الاتصال بـ Binance، تأكد من الإنترنت</span>"});
+            /* ---------- Alerts ---------- */
+            state.alerts=sjson("alerts",[]);
+            if(!Array.isArray(state.alerts))state.alerts=[];
+            function saveAlerts(){sset("alerts",JSON.stringify(state.alerts));renderAlerts();}
+            function renderAlerts(){
+              var box=$("alList");
+              if(!state.alerts.length){box.innerHTML='<div class="empty">ما عندك تنبيهات</div>';return;}
+              box.innerHTML=state.alerts.map(function(a){
+                var up=a.dir==="above";
+                return '<div class="al-item"><span class="ar '+(up?"up":"down")+'">'+(up?"▲":"▼")+'</span><span class="t">'+
+                  (up?"إذا صعد فوق ":"إذا نزل تحت ")+'<b class="num">'+money(a.price)+'</b></span>'+
+                  '<button class="x" data-id="'+a.id+'" aria-label="حذف">×</button></div>';
+              }).join("");
+              each("#alList .x",function(b){b.addEventListener("click",function(){
+                var id=+b.dataset.id;state.alerts=state.alerts.filter(function(a){return a.id!==id});saveAlerts();
+              })});
+            }
+            function checkAlerts(p){
+              if(!state.alerts.length)return;
+              var hit=[],keep=[];
+              state.alerts.forEach(function(a){((a.dir==="above"?p>=a.price:p<=a.price)?hit:keep).push(a)});
+              if(!hit.length)return;
+              state.alerts=keep;saveAlerts();
+              hit.forEach(function(a){
+                var title=a.dir==="above"?"GRAM صعد فوق "+money(a.price):"GRAM نزل تحت "+money(a.price);
+                try{if(A&&A.notify)A.notify(title,"السعر الآن "+money(p));}catch(e){}
+                toast(title);
+              });
+            }
+            $("alAdd").addEventListener("click",function(){
+              var v=parse($("alPrice").value);
+              if(isNaN(v)||v<=0){toast("اكتب سعر صحيح");return;}
+              if(!state.price){toast("انتظر يوصل السعر الحالي");return;}
+              if(v===state.price){toast("هذا هو السعر الحالي");return;}
+              var a={id:Date.now(),price:v,dir:v>state.price?"above":"below"};
+              state.alerts.push(a);saveAlerts();
+              $("alPrice").value="";
+              toast(a.dir==="above"?"راح أنبهك لما يصعد فوق "+money(v):"راح أنبهك لما ينزل تحت "+money(v));
+              try{if(A&&A.notifStatus&&A.notifStatus()!=="granted")A.requestNotif();}catch(e){}
+            });
+            if(!A)$("alHint").textContent="التنبيهات بالإشعارات تشتغل داخل تطبيق Price Gram.";
+            renderAlerts();
+
+            /* ---------- Update banner ---------- */
+            function checkUpdate(){
+              if(!A||!A.versionCode)return;
+              var mine=0;try{mine=A.versionCode()}catch(e){return}
+              fetchJSON("https://api.github.com/repos/maxhssss7-png/max1/releases/latest").then(function(r){
+                var run=parseInt(String(r.tag_name||"").replace(/\D/g,""),10);
+                if(run&&run+100>mine){
+                  $("updTxt").textContent="النسخة 2."+run+" صارت متوفرة، تتثبت فوق الحالية بدون ما تحذف شي.";
+                  $("updBanner").hidden=false;
+                }
+              }).catch(function(){});
+            }
+            $("updBtn").addEventListener("click",function(){
+              try{if(A&&A.openUrl){A.openUrl(APK);return;}}catch(e){}
+              location.href=APK;
+            });
+
+            /* ---------- Share ---------- */
+            function shareText(){
+              var head=state.price?("سعر GRAM الآن "+money(state.price)+"\n"):"";
+              return head+"تابع سعر GRAM لحظة بلحظة مع رسم بياني وويدجت على شاشتك، حمّل تطبيق Price Gram مجاناً: "+APK;
+            }
+            $("share").addEventListener("click",function(){
+              var t=shareText();
+              try{if(A&&A.share){A.share(t);return;}}catch(e){}
+              if(navigator.share){navigator.share({text:t}).catch(function(){});return;}
+              try{navigator.clipboard.writeText(t).then(function(){toast("تم نسخ رابط المشاركة")});}catch(e){}
+            });
+
+            /* ---------- Start ---------- */
+            function refreshAll(){
+              return Promise.all([loadTicker(),loadChart(),loadTrades()]).catch(function(){});
+            }
+            $("refresh").addEventListener("click",function(){
+              var b=this;b.classList.remove("spin");void b.offsetWidth;b.classList.add("spin");
+              refreshAll();
+            });
+
+            var cachedT=sjson("gram.last",null);
+            if(cachedT&&cachedT.price)applyTicker(cachedT,true);
+            loadTicker().catch(function(){
+              setOffline(true);
+              if(!cachedT)$("foot").innerHTML="<span class='err'>تعذر الاتصال بـ Binance، تأكد من الإنترنت</span>";
+            });
             loadChart();
+            loadTrades();
             connect();
+            checkUpdate();
             document.addEventListener("visibilitychange",function(){if(!document.hidden){loadTicker().catch(function(){});}});
           })();
           </script>
           </body>
           </html>
           EOF
-          mkdir -p src/main/java/com/ton/price src/main/res/drawable src/main/res/drawable-nodpi src/main/res/mipmap src/main/res/mipmap-anydpi-v26 src/main/res/layout src/main/res/xml src/main/res/values
+
+          mkdir -p src/main/java/com/ton/price src/main/assets src/main/res/drawable src/main/res/drawable-nodpi src/main/res/mipmap src/main/res/mipmap-anydpi-v26 src/main/res/layout src/main/res/xml src/main/res/values
+          cp site/ton.html site/logo.png src/main/assets/
+          cp site/logo.png src/main/res/drawable-nodpi/logo_badge.png
 
           base64 -d > src/main/res/drawable-nodpi/widget_preview.webp << 'EOF'
           UklGRr4dAABXRUJQVlA4WAoAAAAQAAAA0wEA+wAAQUxQSEABAAABgKRt27HlXmpYRTNj+M/+JeSa
@@ -633,7 +945,62 @@ jobs:
           f7ay6PlHiL+se1fcCex/p/5l3OLP7j/aKPcs+L0pAkZv/9FP4JwAAAA=
           EOF
 
-          cp site/logo.png src/main/res/drawable-nodpi/logo_badge.png
+          base64 -d > src/main/res/drawable-nodpi/widget_small_preview.webp << 'EOF'
+          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
+          NoP/xi4zqrl5AaDwG6vb30f7Wcu6UY5nwAAA
+          EOF
 
           pip install --quiet pillow
           python3 - << 'EOF'
@@ -667,7 +1034,6 @@ jobs:
           leg.alpha_composite(s.crop((o, o, o + L, o + L)))
           leg.save("src/main/res/mipmap/ic_launcher.png")
           EOF
-
 
           cat > src/main/res/mipmap-anydpi-v26/ic_launcher.xml << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
@@ -703,8 +1069,21 @@ jobs:
                   applicationId 'com.ton.price'
                   minSdk 24
                   targetSdk 34
-                  versionCode 12
-                  versionName '12.0'
+                  versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1') + 100
+                  versionName '2.' + (System.getenv('GITHUB_RUN_NUMBER') ?: '0')
+              }
+              signingConfigs {
+                  fixed {
+                      storeFile file('key.jks')
+                      storePassword 'pgf6e6b1607493125c1941004b'
+                      keyAlias 'pricegram'
+                      keyPassword 'pgf6e6b1607493125c1941004b'
+                  }
+              }
+              buildTypes {
+                  debug {
+                      signingConfig signingConfigs.fixed
+                  }
               }
           }
           EOF
@@ -715,6 +1094,8 @@ jobs:
               <uses-permission android:name="android.permission.INTERNET" />
               <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
               <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+              <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+              <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
               <application
                   android:label="Price Gram"
                   android:icon="@mipmap/ic_launcher"
@@ -722,23 +1103,38 @@ jobs:
                   android:supportsRtl="true"
                   android:theme="@android:style/Theme.Material.NoActionBar">
                   <activity android:name=".MainActivity" android:exported="true"
+                      android:launchMode="singleTask"
                       android:configChanges="orientation|screenSize|keyboardHidden">
                       <intent-filter>
                           <action android:name="android.intent.action.MAIN" />
                           <category android:name="android.intent.category.LAUNCHER" />
                       </intent-filter>
                   </activity>
-                  <receiver android:name=".PriceWidget" android:exported="true">
+                  <receiver android:name=".PriceWidget" android:exported="true"
+                      android:label="Price Gram">
                       <intent-filter>
                           <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                       </intent-filter>
                       <meta-data android:name="android.appwidget.provider"
                           android:resource="@xml/widget_info" />
                   </receiver>
+                  <receiver android:name=".PriceWidgetSmall" android:exported="true"
+                      android:label="Price Gram صغير">
+                      <intent-filter>
+                          <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                      </intent-filter>
+                      <meta-data android:name="android.appwidget.provider"
+                          android:resource="@xml/widget_small_info" />
+                  </receiver>
+                  <receiver android:name=".AlertReceiver" android:exported="true">
+                      <intent-filter>
+                          <action android:name="android.intent.action.BOOT_COMPLETED" />
+                          <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                      </intent-filter>
+                  </receiver>
               </application>
           </manifest>
           EOF
-
 
           cat > src/main/res/drawable/widget_bg.xml << 'EOF'
           <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
@@ -880,6 +1276,54 @@ jobs:
           </LinearLayout>
           EOF
 
+          cat > src/main/res/layout/widget_small.xml << 'EOF'
+          <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/root"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:gravity="center_vertical"
+              android:paddingLeft="12dp"
+              android:paddingRight="12dp"
+              android:layoutDirection="ltr"
+              android:background="@drawable/widget_bg">
+              <ImageView
+                  android:id="@+id/logo"
+                  android:layout_width="28dp"
+                  android:layout_height="28dp"
+                  android:src="@drawable/logo_badge" />
+              <LinearLayout
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:layout_marginStart="10dp"
+                  android:orientation="vertical">
+                  <TextView
+                      android:id="@+id/price"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="$—"
+                      android:textColor="#FFFFFF"
+                      android:textSize="20sp"
+                      android:fontFamily="sans-serif-medium"
+                      android:fontFeatureSettings="tnum"
+                      android:includeFontPadding="false"
+                      android:maxLines="1" />
+                  <TextView
+                      android:id="@+id/pill"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="2dp"
+                      android:text="GRAM"
+                      android:textColor="#D6E6FF"
+                      android:textSize="12sp"
+                      android:fontFamily="sans-serif-medium"
+                      android:fontFeatureSettings="tnum"
+                      android:maxLines="1" />
+              </LinearLayout>
+          </LinearLayout>
+          EOF
+
           cat > src/main/res/xml/widget_info.xml << 'EOF'
           <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
               android:minWidth="180dp"
@@ -892,6 +1336,22 @@ jobs:
               android:updatePeriodMillis="1800000"
               android:initialLayout="@layout/widget"
               android:previewImage="@drawable/widget_preview"
+              android:description="@string/widget_desc"
+              android:widgetCategory="home_screen|keyguard" />
+          EOF
+
+          cat > src/main/res/xml/widget_small_info.xml << 'EOF'
+          <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+              android:minWidth="110dp"
+              android:minHeight="40dp"
+              android:minResizeWidth="110dp"
+              android:minResizeHeight="40dp"
+              android:targetCellWidth="2"
+              android:targetCellHeight="1"
+              android:resizeMode="horizontal|vertical"
+              android:updatePeriodMillis="1800000"
+              android:initialLayout="@layout/widget_small"
+              android:previewImage="@drawable/widget_small_preview"
               android:description="@string/widget_desc"
               android:widgetCategory="home_screen|keyguard" />
           EOF
@@ -931,13 +1391,14 @@ jobs:
               static final String KLINES = "/api/v3/klines?symbol=GRAMUSDT&interval=30m&limit=48";
               static final String REFRESH = "com.ton.price.REFRESH";
               static final int UP = 0xFF12A865, DOWN = 0xFFD1293A, LINE = 0xFFFFFFFF;
+              static final int UP_LIGHT = 0xFF9DFFC8, DOWN_LIGHT = 0xFFFFC7CD;
 
               @Override
               public void onReceive(Context c, Intent i) {
                   String a = i.getAction();
                   if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(a) || REFRESH.equals(a)) {
-                      if (AppWidgetManager.getInstance(c).getAppWidgetIds(new ComponentName(c, PriceWidget.class)).length == 0) {
-                          onDisabled(c);
+                      if (count(c) == 0) {
+                          cancel(c);
                           return;
                       }
                       schedule(c);
@@ -945,7 +1406,7 @@ jobs:
                       final Context app = c.getApplicationContext();
                       new Thread(new Runnable() {
                           public void run() {
-                              try { update(app); } finally { pr.finish(); }
+                              try { update(app); } catch (Throwable ignored) {} finally { pr.finish(); }
                           }
                       }).start();
                   } else {
@@ -955,6 +1416,19 @@ jobs:
 
               @Override
               public void onDisabled(Context c) {
+                  if (count(c) == 0) cancel(c);
+              }
+
+              static ComponentName big(Context c) { return new ComponentName(c, PriceWidget.class); }
+
+              static ComponentName small(Context c) { return new ComponentName(c, PriceWidgetSmall.class); }
+
+              static int count(Context c) {
+                  AppWidgetManager m = AppWidgetManager.getInstance(c);
+                  return m.getAppWidgetIds(big(c)).length + m.getAppWidgetIds(small(c)).length;
+              }
+
+              static void cancel(Context c) {
                   AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
                   if (am != null) am.cancel(tick(c));
               }
@@ -981,10 +1455,10 @@ jobs:
                   for (String h : HOSTS) {
                       try {
                           HttpURLConnection con = (HttpURLConnection) new URL(h + path).openConnection();
-                          con.setConnectTimeout(3500);
-                          con.setReadTimeout(3500);
+                          con.setConnectTimeout(4000);
+                          con.setReadTimeout(4000);
                           con.setUseCaches(false);
-                          con.setRequestProperty("User-Agent", "GramUpdateApp");
+                          con.setRequestProperty("User-Agent", "PriceGramApp");
                           if (con.getResponseCode() != 200) throw new Exception("HTTP " + con.getResponseCode());
                           BufferedReader r = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
                           StringBuilder sb = new StringBuilder();
@@ -995,6 +1469,11 @@ jobs:
                       } catch (Exception e) { last = e; }
                   }
                   throw last;
+              }
+
+              static double price() throws Exception {
+                  JSONObject o = new JSONObject(get("/api/v3/ticker/price?symbol=GRAMUSDT"));
+                  return Double.parseDouble(o.getString("price"));
               }
 
               static String money(double v) {
@@ -1046,9 +1525,10 @@ jobs:
               static void update(Context c) {
                   SharedPreferences sp = c.getSharedPreferences("w", Context.MODE_PRIVATE);
                   AppWidgetManager m = AppWidgetManager.getInstance(c);
-                  ComponentName cn = new ComponentName(c, PriceWidget.class);
                   RemoteViews rv = new RemoteViews(c.getPackageName(), R.layout.widget);
+                  RemoteViews sv = new RemoteViews(c.getPackageName(), R.layout.widget_small);
                   rv.setOnClickPendingIntent(R.id.root, openApp(c));
+                  sv.setOnClickPendingIntent(R.id.root, openApp(c));
                   try {
                       JSONObject o = new JSONObject(get(TICKER));
                       double p = Double.parseDouble(o.getString("lastPrice"));
@@ -1058,15 +1538,20 @@ jobs:
                       boolean up = ch >= 0;
                       int col = up ? UP : DOWN;
                       String now = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
+                      String pct = String.format(Locale.US, "%s %s%.2f%%", up ? "▲" : "▼", up ? "+" : "", ch);
                       sp.edit().putString("last", now).apply();
 
                       rv.setTextViewText(R.id.price, money(p));
-                      rv.setTextViewText(R.id.pill, String.format(Locale.US, "%s %s%.2f%%", up ? "▲" : "▼", up ? "+" : "", ch));
+                      rv.setTextViewText(R.id.pill, pct);
                       rv.setTextColor(R.id.pill, col);
                       rv.setInt(R.id.pill, "setBackgroundResource", up ? R.drawable.pill_up : R.drawable.pill_down);
                       rv.setTextViewText(R.id.range, "↓ " + money(lo) + "    ↑ " + money(hi));
                       rv.setTextViewText(R.id.time, "● " + now);
                       rv.setTextColor(R.id.time, 0xFFD6E6FF);
+
+                      sv.setTextViewText(R.id.price, money(p));
+                      sv.setTextViewText(R.id.pill, pct);
+                      sv.setTextColor(R.id.pill, up ? UP_LIGHT : DOWN_LIGHT);
 
                       try {
                           JSONArray k = new JSONArray(get(KLINES));
@@ -1083,10 +1568,123 @@ jobs:
                       err.setTextViewText(R.id.time, last != null ? "⚠ " + last : "⚠");
                       err.setTextColor(R.id.time, 0xFFFFC7CD);
                       err.setOnClickPendingIntent(R.id.root, openApp(c));
-                      m.partiallyUpdateAppWidget(m.getAppWidgetIds(cn), err);
+                      m.partiallyUpdateAppWidget(m.getAppWidgetIds(big(c)), err);
                       return;
                   }
-                  m.updateAppWidget(cn, rv);
+                  m.updateAppWidget(big(c), rv);
+                  m.updateAppWidget(small(c), sv);
+              }
+          }
+          EOF
+
+          cat > src/main/java/com/ton/price/PriceWidgetSmall.java << 'EOF'
+          package com.ton.price;
+
+          public class PriceWidgetSmall extends PriceWidget {
+          }
+          EOF
+
+          cat > src/main/java/com/ton/price/AlertReceiver.java << 'EOF'
+          package com.ton.price;
+
+          import android.app.AlarmManager;
+          import android.app.Notification;
+          import android.app.NotificationChannel;
+          import android.app.NotificationManager;
+          import android.app.PendingIntent;
+          import android.content.BroadcastReceiver;
+          import android.content.Context;
+          import android.content.Intent;
+          import android.content.SharedPreferences;
+          import android.os.Build;
+          import org.json.JSONArray;
+          import org.json.JSONObject;
+
+          public class AlertReceiver extends BroadcastReceiver {
+              static final String CHECK = "com.ton.price.ALERT_CHECK";
+              static final String CHANNEL = "price_alerts";
+
+              @Override
+              public void onReceive(Context c, Intent i) {
+                  final Context app = c.getApplicationContext();
+                  if (!CHECK.equals(i.getAction())) {
+                      reschedule(app);
+                      return;
+                  }
+                  final PendingResult pr = goAsync();
+                  new Thread(new Runnable() {
+                      public void run() {
+                          try { check(app); } catch (Throwable ignored) {} finally { pr.finish(); }
+                      }
+                  }).start();
+              }
+
+              static SharedPreferences store(Context c) {
+                  return c.getSharedPreferences("store", Context.MODE_PRIVATE);
+              }
+
+              static JSONArray alerts(Context c) {
+                  try { return new JSONArray(store(c).getString("alerts", "[]")); } catch (Exception e) { return new JSONArray(); }
+              }
+
+              static PendingIntent pi(Context c) {
+                  Intent i = new Intent(c, AlertReceiver.class).setAction(CHECK);
+                  return PendingIntent.getBroadcast(c, 7, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+              }
+
+              static void reschedule(Context c) {
+                  AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+                  if (am == null) return;
+                  if (alerts(c).length() == 0) {
+                      am.cancel(pi(c));
+                      return;
+                  }
+                  long every = 3 * 60 * 1000L;
+                  am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 1000L, every, pi(c));
+              }
+
+              static void check(Context c) throws Exception {
+                  JSONArray list = alerts(c);
+                  if (list.length() == 0) { reschedule(c); return; }
+                  double p = PriceWidget.price();
+                  JSONArray keep = new JSONArray();
+                  for (int i = 0; i < list.length(); i++) {
+                      JSONObject a = list.getJSONObject(i);
+                      double target = a.getDouble("price");
+                      boolean above = "above".equals(a.optString("dir"));
+                      boolean hit = above ? p >= target : p <= target;
+                      if (hit) {
+                          notify(c, (int) (a.optLong("id", i) % 100000),
+                              above ? "GRAM صعد فوق " + PriceWidget.money(target) : "GRAM نزل تحت " + PriceWidget.money(target),
+                              "السعر الآن " + PriceWidget.money(p));
+                      } else {
+                          keep.put(a);
+                      }
+                  }
+                  store(c).edit().putString("alerts", keep.toString()).apply();
+                  reschedule(c);
+              }
+
+              static void notify(Context c, int id, String title, String body) {
+                  NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+                  if (nm == null) return;
+                  Notification.Builder b;
+                  if (Build.VERSION.SDK_INT >= 26) {
+                      NotificationChannel ch = new NotificationChannel(CHANNEL, "تنبيهات السعر", NotificationManager.IMPORTANCE_HIGH);
+                      nm.createNotificationChannel(ch);
+                      b = new Notification.Builder(c, CHANNEL);
+                  } else {
+                      b = new Notification.Builder(c);
+                      b.setPriority(Notification.PRIORITY_HIGH);
+                      b.setDefaults(Notification.DEFAULT_ALL);
+                  }
+                  b.setSmallIcon(R.drawable.ic_fg)
+                      .setColor(0xFF1F6FDC)
+                      .setContentTitle(title)
+                      .setContentText(body)
+                      .setAutoCancel(true)
+                      .setContentIntent(PriceWidget.openApp(c));
+                  try { nm.notify(id, b.build()); } catch (Exception ignored) {}
               }
           }
           EOF
@@ -1100,185 +1698,5 @@ jobs:
           import android.content.Intent;
           import android.content.SharedPreferences;
           import android.net.ConnectivityManager;
-          import android.net.Uri;
-          import android.os.Build;
-          import android.os.Bundle;
-          import android.os.Handler;
-          import android.os.Looper;
-          import android.os.PowerManager;
-          import android.provider.Settings;
-          import android.webkit.WebResourceError;
-          import android.webkit.WebResourceRequest;
-          import android.webkit.WebSettings;
-          import android.webkit.WebView;
-          import android.webkit.WebViewClient;
-
-          public class MainActivity extends Activity {
-              static final String URL = "https://maxhssss7-png.github.io/max1/ton.html";
-              static final String OFFLINE = "<html dir='rtl'><body style='background:#1f6fdc;color:#fff;"
-                  + "font-family:sans-serif;text-align:center;padding-top:40%'>"
-                  + "<h2>لا يوجد اتصال بالإنترنت</h2>"
-                  + "<button onclick=\"location.href='" + URL + "'\" style='background:#fff;color:#1f6fdc;"
-                  + "border:0;border-radius:14px;padding:14px 32px;font-size:16px'>إعادة المحاولة</button>"
-                  + "</body></html>";
-              static final long SNOOZE = 3L * 24 * 60 * 60 * 1000;
-              WebView web;
-              AlertDialog dialog;
-              final Handler handler = new Handler(Looper.getMainLooper());
-
-              @Override
-              protected void onCreate(Bundle b) {
-                  super.onCreate(b);
-                  getWindow().setStatusBarColor(0xFF2B95F2);
-                  getWindow().setNavigationBarColor(0xFF1546B8);
-                  web = new WebView(this);
-                  web.setBackgroundColor(0xFF1F6FDC);
-                  WebSettings s = web.getSettings();
-                  s.setJavaScriptEnabled(true);
-                  s.setDomStorageEnabled(true);
-                  s.setCacheMode(WebSettings.LOAD_NO_CACHE);
-                  web.setWebViewClient(new WebViewClient() {
-                      @Override
-                      public void onReceivedError(WebView v, WebResourceRequest r, WebResourceError e) {
-                          if (r.isForMainFrame()) v.loadDataWithBaseURL(URL, OFFLINE, "text/html", "UTF-8", null);
-                      }
-                  });
-                  setContentView(web);
-                  web.loadUrl(URL + "?v=" + System.currentTimeMillis());
-              }
-
-              @Override
-              protected void onResume() {
-                  super.onResume();
-                  try {
-                      sendBroadcast(new Intent(this, PriceWidget.class).setAction(PriceWidget.REFRESH));
-                  } catch (Exception ignored) {}
-                  handler.postDelayed(new Runnable() {
-                      public void run() {
-                          try { askPermissions(); } catch (Exception ignored) {}
-                      }
-                  }, 1500);
-              }
-
-              @Override
-              protected void onPause() {
-                  super.onPause();
-                  handler.removeCallbacksAndMessages(null);
-              }
-
-              SharedPreferences prefs() { return getSharedPreferences("perm", Context.MODE_PRIVATE); }
-
-              boolean snoozed(String key) { return System.currentTimeMillis() < prefs().getLong(key, 0); }
-
-              void snooze(String key) { prefs().edit().putLong(key, System.currentTimeMillis() + SNOOZE).apply(); }
-
-              boolean batteryOk() {
-                  try {
-                      PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                      return pm == null || pm.isIgnoringBatteryOptimizations(getPackageName());
-                  } catch (Exception e) {
-                      return true;
-                  }
-              }
-
-              boolean dataOk() {
-                  try {
-                      ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                      return cm == null || cm.getRestrictBackgroundStatus() != ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED;
-                  } catch (Exception e) {
-                      return true;
-                  }
-              }
-
-              void askPermissions() {
-                  if (isFinishing() || (dialog != null && dialog.isShowing())) return;
-                  if (!batteryOk() && !snoozed("battery")) {
-                      show("تشغيل الويدجت بالخلفية",
-                          "حتى يبقى سعر GRAM يتحدث على الشاشة الرئيسية، اسمح للتطبيق يشتغل بدون قيود البطارية.\n\nبالنافذة اللي تطلع اضغط «سماح».",
-                          "battery", new Runnable() { public void run() { openBattery(); } });
-                  } else if (!dataOk() && !snoozed("data")) {
-                      show("استخدام البيانات بالخلفية",
-                          "وضع توفير البيانات مفعّل ويمنع الويدجت يجيب السعر.\n\nبالصفحة اللي تفتح فعّل «السماح بالبيانات أثناء توفير البيانات».",
-                          "data", new Runnable() { public void run() { openData(); } });
-                  }
-              }
-
-              void show(String title, String msg, final String key, final Runnable allow) {
-                  dialog = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert)
-                      .setTitle(title)
-                      .setMessage(msg)
-                      .setCancelable(false)
-                      .setPositiveButton("سماح", new android.content.DialogInterface.OnClickListener() {
-                          public void onClick(android.content.DialogInterface d, int w) { allow.run(); }
-                      })
-                      .setNegativeButton("لاحقاً", new android.content.DialogInterface.OnClickListener() {
-                          public void onClick(android.content.DialogInterface d, int w) { snooze(key); }
-                      })
-                      .create();
-                  dialog.show();
-              }
-
-              void openBattery() {
-                  try {
-                      Intent i = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                      i.setData(Uri.parse("package:" + getPackageName()));
-                      startActivity(i);
-                  } catch (Exception e) {
-                      openAppSettings();
-                  }
-              }
-
-              void openData() {
-                  try {
-                      Intent i = new Intent(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS);
-                      i.setData(Uri.parse("package:" + getPackageName()));
-                      startActivity(i);
-                  } catch (Exception e) {
-                      openAppSettings();
-                  }
-              }
-
-              void openAppSettings() {
-                  try {
-                      Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                      i.setData(Uri.parse("package:" + getPackageName()));
-                      startActivity(i);
-                  } catch (Exception ignored) {}
-              }
-
-              @Override
-              public void onBackPressed() {
-                  if (web.canGoBack()) web.goBack(); else super.onBackPressed();
-              }
-          }
-          EOF
-
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
-      - id: deploy
-        uses: actions/deploy-pages@v4
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-
-      - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.9"
-
-      - name: Build APK
-        run: |
-          gradle assembleDebug --no-daemon
-          cp build/outputs/apk/debug/*.apk Price-Gram.apk
-
-      - name: Publish APK
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ github.run_number }}
-          name: Price Gram v${{ github.run_number }}
-          files: Price-Gram.apk
+          import android.net.NetworkInfo;
+          
