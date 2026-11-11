@@ -45,16 +45,17 @@
     ".pc-av.big{width:96px;height:96px;font-size:38px}",
     ".pc-vb{width:1.15em;height:1.15em;vertical-align:-.2em;margin-right:4px;display:inline-block}",
     ".pc-av.sm{width:34px;height:34px;font-size:14px;cursor:pointer}",
-    ".pc-row{display:flex;align-items:flex-end;gap:6px;align-self:flex-start;max-width:88%}",
-    ".pc-row .pc-m{max-width:100%}",
+    ".pc-row{display:flex;align-items:flex-end;gap:6px;max-width:88%;align-self:flex-end;flex-direction:row-reverse}",
+    ".pc-row.mine{align-self:flex-start;flex-direction:row}",
+    ".pc-row .pc-m{max-width:100%;align-self:auto}",
     ".pc-row .sp{width:34px;flex:none}",
     ".pc-pin{margin:10px 12px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:9px 14px;font-size:14px}",
     ".pc-pin b{font-size:17px;direction:ltr}",
     ".pc-pin i{font-style:normal;font-weight:600;direction:ltr}",
     ".pc-list{flex:1;overflow-y:auto;padding:12px 12px 8px;display:flex;flex-direction:column;gap:8px;-webkit-overflow-scrolling:touch}",
-    ".pc-m{max-width:82%;padding:8px 12px 6px;border-radius:18px;font-size:16px;line-height:1.6;word-wrap:break-word;white-space:pre-wrap;user-select:none;-webkit-user-select:none;align-self:flex-start;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.18);border-top-right-radius:6px}",
+    ".pc-m{max-width:82%;padding:8px 12px 6px;border-radius:18px;font-size:16px;line-height:1.6;word-wrap:break-word;white-space:pre-wrap;user-select:none;-webkit-user-select:none;align-self:flex-start;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.18);border-bottom-left-radius:6px}",
     "html[data-theme=dark] .pc-m{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.1)}",
-    ".pc-m.me{align-self:flex-end;background:#fff;color:#123a8f;border:0;border-top-right-radius:18px;border-top-left-radius:6px}",
+    ".pc-m.me{background:#fff;color:#123a8f;border:0;border-bottom-left-radius:18px;border-bottom-right-radius:6px}",
     "html[data-theme=dark] .pc-m.me{background:#2b6fd6;color:#fff}",
     ".pc-m .n{font-size:13px;font-weight:600;color:#bfe0ff;margin-bottom:1px;cursor:pointer}",
     ".pc-m .t{font-size:11px;opacity:.65;direction:ltr;text-align:left;margin-top:2px}",
@@ -470,18 +471,17 @@
       msgs.forEach(function (m, idx) {
         var t = ms(m.ts), d = dayName(t);
         if (d !== lastDay) { h += '\x3cdiv class="pc-day">' + d + "\x3c/div>"; lastDay = d; }
-        var mine = m.uid === me, nx = msgs[idx + 1];
+        var mine = m.uid === me, nx = msgs[idx + 1], pv = msgs[idx - 1];
+        var firstOfGroup = !pv || pv.uid !== m.uid || dayName(ms(pv.ts)) !== d;
         var lastOfGroup = !nx || nx.uid !== m.uid || dayName(ms(nx.ts)) !== d;
-        if (!mine) {
-          var pp = person(m.uid) || {};
-          h += '\x3cdiv class="pc-row">' + (lastOfGroup ? '\x3cspan data-u="' + esc(m.uid) + '">' + av(pp.photo, pp.name || m.name, false).replace('class="pc-av"', 'class="pc-av sm"') + "\x3c/span>" : '\x3cspan class="sp">\x3c/span>');
-        }
+        var pp = (mine ? myProfile : person(m.uid)) || {};
+        h += '\x3cdiv class="pc-row' + (mine ? " mine" : "") + '">' + (lastOfGroup ? '\x3cspan data-u="' + esc(m.uid) + '">' + av(pp.photo, pp.name || m.name, false).replace('class="pc-av"', 'class="pc-av sm"') + "\x3c/span>" : '\x3cspan class="sp">\x3c/span>');
         h += '\x3cdiv class="pc-m' + (mine ? " me" : "") + '" data-id="' + esc(m.id) + '">' +
-          (mine ? "" : '\x3cdiv class="n" data-u="' + esc(m.uid) + '">' + vname(m.uid, m.name || "مستخدم") + "\x3c/div>") +
+          (mine || !firstOfGroup ? "" : '\x3cdiv class="n" data-u="' + esc(m.uid) + '">' + vname(m.uid, m.name || "مستخدم") + "\x3c/div>") +
           (m.rep ? '\x3cdiv class="pc-q">' + esc(m.rep.name || "") + ": " + esc(m.rep.text || "") + "\x3c/div>" : "") +
           (m.price ? '\x3cdiv class="pc-card">\x3cspan>سعر GRAM\x3c/span>\x3cb>' + money(m.price) + '\x3c/b>\x3ci style="color:' + ((m.pct || 0) >= 0 ? "#12a865" : "#d93c4a") + '">' + ((m.pct || 0) >= 0 ? "▲ +" : "▼ ") + (+m.pct || 0).toFixed(2) + "%\x3c/i>\x3c/div>" : "") +
           (m.text ? linkify(m.text) : "") +
-          '\x3cdiv class="t">' + hm(t) + "\x3c/div>\x3c/div>" + (mine ? "" : "\x3c/div>");
+          '\x3cdiv class="t">' + hm(t) + "\x3c/div>\x3c/div>\x3c/div>";
       });
       $l.innerHTML = h;
       if (atBottom || render.first) { $l.scrollTop = $l.scrollHeight; render.first = false; }
