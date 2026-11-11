@@ -25,6 +25,9 @@
     cam: '\x3csvg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">\x3cpath d="M4 8h3l2-3h6l2 3h3v11H4z"/>\x3ccircle cx="12" cy="13" r="3.5"/>\x3c/svg>'
   };
 
+  var BADGE = '\x3csvg class="pc-vb" viewBox="0 0 24 24" aria-label="موثّق">\x3cpath fill="#1d9bf0" stroke="#fff" stroke-width="1.2" d="M12 1.6l2.5 1.9 3.1-.2 1 3 2.6 1.7-.9 3 .9 3-2.6 1.7-1 3-3.1-.2L12 22.4l-2.5-1.9-3.1.2-1-3-2.6-1.7.9-3-.9-3 2.6-1.7 1-3 3.1.2z"/>\x3cpath fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M8 12.3l2.7 2.7L16.2 9.4"/>\x3c/svg>';
+  function vname(uid, name) { return esc(name) + (uid === ADMIN ? BADGE : ""); }
+
   /* ---------- styles ---------- */
   var css = document.createElement("style");
   css.textContent = [
@@ -40,6 +43,11 @@
     ".pc-av{width:44px;height:44px;flex:none;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;font-weight:700;font-size:18px;overflow:hidden;color:#fff}",
     ".pc-av img{width:100%;height:100%;object-fit:cover}",
     ".pc-av.big{width:96px;height:96px;font-size:38px}",
+    ".pc-vb{width:1.15em;height:1.15em;vertical-align:-.2em;margin-right:4px;display:inline-block}",
+    ".pc-av.sm{width:34px;height:34px;font-size:14px;cursor:pointer}",
+    ".pc-row{display:flex;align-items:flex-end;gap:6px;align-self:flex-start;max-width:88%}",
+    ".pc-row .pc-m{max-width:100%}",
+    ".pc-row .sp{width:34px;flex:none}",
     ".pc-pin{margin:10px 12px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:9px 14px;font-size:14px}",
     ".pc-pin b{font-size:17px;direction:ltr}",
     ".pc-pin i{font-style:normal;font-weight:600;direction:ltr}",
@@ -141,10 +149,27 @@
   function rav(big) {
     return room.photo ? av(room.photo, "", big) : '\x3cdiv class="pc-av' + (big ? " big" : "") + '" style="background:#fff;color:#1f6fdc">' + I.chat.replace("\x3csvg ", '\x3csvg style="width:' + (big ? 46 : 22) + 'px;height:' + (big ? 46 : 22) + 'px" ') + "\x3c/div>";
   }
+  function pickImage(input, size, cb) {
+    input.addEventListener("change", function () {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      var img = new Image(), url = URL.createObjectURL(file);
+      img.onload = function () {
+        var cv = document.createElement("canvas"), s = Math.min(img.width, img.height);
+        cv.width = cv.height = size;
+        cv.getContext("2d").drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, size, size);
+        URL.revokeObjectURL(url);
+        input.value = "";
+        cb(cv.toDataURL("image/jpeg", 0.82));
+      };
+      img.onerror = function () { toast("ما گدرت أفتح الصورة"); };
+      img.src = url;
+    });
+  }
   function priceNow() { var s = window.__pg || {}; return { p: +s.price || 0, pct: +s.pct || 0 }; }
 
   /* ---------- Firebase (loads only when the chat opens) ---------- */
-  var fb = null, me = null, myProfile = null;
+  var fb = null, me = null, myProfile = null, people = {};
   function boot() {
     if (fb) return fb;
     fb = Promise.all([
@@ -207,11 +232,13 @@
   }
 
   function editProfile(c, first, done) {
-    var p = myProfile || {};
+    var p = myProfile || {}, photo = p.photo || "";
     var node = el('\x3cdiv class="pc-sh">\x3cdiv class="pc-sb" style="position:relative">' +
       (first ? "" : '\x3cbutton class="pc-ib pc-x" style="background:#eef3fb;color:#123a8f">' + I.close + "\x3c/button>") +
       '\x3cdiv class="pc-pr">\x3ch3 style="margin-top:6px">' + (first ? "أهلاً بيك بالمحادثة" : "ملفك الشخصي") + '\x3c/h3>\x3cdiv class="s">' +
-      (first ? "سوّي ملفك حتى يعرفك الناس" : "تگدر تغيّر أي شي") + "\x3c/div>\x3c/div>" +
+      (first ? "سوّي ملفك حتى يعرفك الناس" : "تگدر تغيّر أي شي") + "\x3c/div>" +
+      '\x3cdiv class="pc-ph" style="margin-top:14px">\x3cspan id="pfAv">' + av(photo, p.name || "?", true) + '\x3c/span>\x3cbutton id="pfPh">' + I.cam + "\x3c/button>\x3c/div>" +
+      '\x3cinput type="file" id="pfF" accept="image/*" hidden>\x3c/div>' +
       '\x3clabel class="pc-f">\x3cspan>الاسم\x3c/span>\x3cinput id="pfN" maxlength="32" placeholder="اسمك" value="' + esc(p.name || "") + '">\x3c/label>' +
       '\x3clabel class="pc-f">\x3cspan>اسم المستخدم\x3c/span>\x3cdiv class="pc-u">\x3cb>@\x3c/b>\x3cinput id="pfU" maxlength="32" placeholder="username" autocapitalize="off" autocomplete="off" spellcheck="false" value="' + esc(p.user || "") + '">\x3c/div>' +
       '\x3cdiv class="h" id="pfUh">حروف إنكليزية وأرقام و _ ، من 5 حروف أو أكثر\x3c/div>\x3c/label>' +
@@ -220,6 +247,9 @@
     var $n = node.querySelector("#pfN"), $u = node.querySelector("#pfU"), $h = node.querySelector("#pfUh"), $go = node.querySelector("#pfGo");
     var x = node.querySelector(".pc-x");
     if (x) x.addEventListener("click", close);
+    var pf = node.querySelector("#pfF");
+    node.querySelector("#pfPh").addEventListener("click", function () { pf.click(); });
+    pickImage(pf, 192, function (d) { photo = d; node.querySelector("#pfAv").innerHTML = av(photo, "", true); });
     var timer = 0, okUser = !!p.user;
     function check() {
       var u = $u.value.trim().toLowerCase().replace(/^@/, "");
@@ -254,10 +284,11 @@
           if (s.exists() && s.data().uid !== me) throw new Error("taken");
           if (!s.exists()) tx.set(ref, { uid: me });
           if (old && old !== user) tx.delete(c.f.doc(c.db, "usernames", old));
-          tx.set(c.f.doc(c.db, "users", me), { name: name, user: user, bio: bio, photo: p.photo || "", last: c.f.serverTimestamp() });
+          tx.set(c.f.doc(c.db, "users", me), { name: name, user: user, bio: bio, photo: photo, last: c.f.serverTimestamp() });
         });
       }).then(function () {
-        myProfile = { name: name, user: user, bio: bio, photo: p.photo || "" };
+        myProfile = { name: name, user: user, bio: bio, photo: photo };
+        people[me] = myProfile;
         toast("تم الحفظ");
         if (first) { stack.pop(); node.parentNode.removeChild(node); if (done) done(); }
         else close();
@@ -278,7 +309,7 @@
     push(node);
     c.f.getDoc(c.f.doc(c.db, "users", uid)).then(function (s) {
       var u = s.exists() ? s.data() : {};
-      var h = av(u.photo, u.name, true) + "\x3ch3>" + esc(u.name || "مستخدم") + "\x3c/h3>" +
+      var h = av(u.photo, u.name, true) + "\x3ch3>" + vname(uid, u.name || "مستخدم") + "\x3c/h3>" +
         (u.user ? '\x3cdiv class="u">@' + esc(u.user) + "\x3c/div>" : "") +
         '\x3cdiv class="s">' + seen(ms(u.last)) + "\x3c/div>" +
         (u.bio ? '\x3cdiv class="pc-bio">\x3csmall>البايو\x3c/small>' + linkify(u.bio) + "\x3c/div>" : "");
@@ -336,21 +367,7 @@
     var f = node.querySelector("#erF");
     node.querySelector("#erPh").addEventListener("click", function () { f.click(); });
     node.querySelector("#erDel").addEventListener("click", function () { photo = ""; node.querySelector("#erAv").innerHTML = '\x3cdiv class="pc-av big" style="background:#e8f1ff;color:#1f6fdc">' + I.chat.replace("\x3csvg ", '\x3csvg style="width:46px;height:46px" ') + "\x3c/div>"; });
-    f.addEventListener("change", function () {
-      var file = f.files && f.files[0];
-      if (!file) return;
-      var img = new Image(), url = URL.createObjectURL(file);
-      img.onload = function () {
-        var S = 256, cv = document.createElement("canvas"), s = Math.min(img.width, img.height);
-        cv.width = cv.height = S;
-        cv.getContext("2d").drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, S, S);
-        photo = cv.toDataURL("image/jpeg", 0.82);
-        URL.revokeObjectURL(url);
-        node.querySelector("#erAv").innerHTML = av(photo, "", true);
-      };
-      img.onerror = function () { toast("ما گدرت أفتح الصورة"); };
-      img.src = url;
-    });
+    pickImage(f, 256, function (d) { photo = d; node.querySelector("#erAv").innerHTML = av(photo, "", true); });
     node.querySelector("#erGo").addEventListener("click", function () {
       var b = this;
       b.disabled = true;
@@ -439,20 +456,32 @@
       node.querySelector("#rcS").textContent = online ? online + " متصل الآن" : "محادثة عامة";
     }
 
+    var asking = {};
+    function person(uid) {
+      if (people[uid] || asking[uid]) return people[uid];
+      asking[uid] = 1;
+      F.getDoc(F.doc(db, "users", uid)).then(function (s) { people[uid] = s.exists() ? s.data() : {}; render(); }).catch(function () {});
+      return null;
+    }
     function render() {
       if (!msgs.length) { $l.innerHTML = '\x3cdiv class="pc-empty">ما بيها رسائل بعد\x3cbr>كون أول واحد يكتب\x3c/div>'; return; }
       var atBottom = $l.scrollHeight - $l.scrollTop - $l.clientHeight < 120;
       var h = "", lastDay = "";
-      msgs.forEach(function (m) {
+      msgs.forEach(function (m, idx) {
         var t = ms(m.ts), d = dayName(t);
         if (d !== lastDay) { h += '\x3cdiv class="pc-day">' + d + "\x3c/div>"; lastDay = d; }
-        var mine = m.uid === me;
+        var mine = m.uid === me, nx = msgs[idx + 1];
+        var lastOfGroup = !nx || nx.uid !== m.uid || dayName(ms(nx.ts)) !== d;
+        if (!mine) {
+          var pp = person(m.uid) || {};
+          h += '\x3cdiv class="pc-row">' + (lastOfGroup ? '\x3cspan data-u="' + esc(m.uid) + '">' + av(pp.photo, pp.name || m.name, false).replace('class="pc-av"', 'class="pc-av sm"') + "\x3c/span>" : '\x3cspan class="sp">\x3c/span>');
+        }
         h += '\x3cdiv class="pc-m' + (mine ? " me" : "") + '" data-id="' + esc(m.id) + '">' +
-          (mine ? "" : '\x3cdiv class="n" data-u="' + esc(m.uid) + '">' + esc(m.name || "مستخدم") + "\x3c/div>") +
+          (mine ? "" : '\x3cdiv class="n" data-u="' + esc(m.uid) + '">' + vname(m.uid, m.name || "مستخدم") + "\x3c/div>") +
           (m.rep ? '\x3cdiv class="pc-q">' + esc(m.rep.name || "") + ": " + esc(m.rep.text || "") + "\x3c/div>" : "") +
           (m.price ? '\x3cdiv class="pc-card">\x3cspan>سعر GRAM\x3c/span>\x3cb>' + money(m.price) + '\x3c/b>\x3ci style="color:' + ((m.pct || 0) >= 0 ? "#12a865" : "#d93c4a") + '">' + ((m.pct || 0) >= 0 ? "▲ +" : "▼ ") + (+m.pct || 0).toFixed(2) + "%\x3c/i>\x3c/div>" : "") +
           (m.text ? linkify(m.text) : "") +
-          '\x3cdiv class="t">' + hm(t) + "\x3c/div>\x3c/div>";
+          '\x3cdiv class="t">' + hm(t) + "\x3c/div>\x3c/div>" + (mine ? "" : "\x3c/div>");
       });
       $l.innerHTML = h;
       if (atBottom || render.first) { $l.scrollTop = $l.scrollHeight; render.first = false; }
