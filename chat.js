@@ -33,28 +33,45 @@
     info: svg('\x3ccircle cx="12" cy="12" r="9"/>\x3cpath d="M12 11v6M12 7.5v.5"/>'),
     down: svg('\x3cpath d="M6 9l6 6 6-6"/>', ' stroke-width="2.4"'),
     clock: svg('\x3ccircle cx="12" cy="12" r="8"/>\x3cpath d="M12 8v4l3 2"/>'),
+    tick2: svg('\x3cpath d="M2 12.5l5 5L18 7"/>\x3cpath d="M11 16.5l1 1L23 7"/>', ' stroke-width="2.2"'),
     tick: svg('\x3cpath d="M4 12.5l5 5L20 7"/>', ' stroke-width="2.4"'),
     verify: svg('\x3cpath d="M12 2l2.5 1.9 3.1-.2 1 3 2.6 1.7-.9 3 .9 3-2.6 1.7-1 3-3.1-.2L12 22l-2.5-1.9-3.1.2-1-3-2.6-1.7.9-3-.9-3 2.6-1.7 1-3 3.1.2z"/>\x3cpath d="M8.5 12.2l2.4 2.4 4.6-4.8"/>')
   };
   var BADGE = '\x3csvg class="pc-vb" viewBox="0 0 24 24" aria-label="موثّق">\x3cpath fill="#1d9bf0" stroke="#fff" stroke-width="1.2" d="M12 1.6l2.5 1.9 3.1-.2 1 3 2.6 1.7-.9 3 .9 3-2.6 1.7-1 3-3.1-.2L12 22.4l-2.5-1.9-3.1.2-1-3-2.6-1.7.9-3-.9-3 2.6-1.7 1-3 3.1.2z"/>\x3cpath fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M8 12.3l2.7 2.7L16.2 9.4"/>\x3c/svg>';
+  /* profile colors: [top, bottom, name color in chat] */
+  var PCOL = [
+    ["#3a3f48", "#14161a", "#c9d1dc", "رمادي"], ["#2f6fd6", "#0d2552", "#62b8ff", "أزرق"], ["#1a9fc4", "#0a3d50", "#5fd1e0", "سماوي"],
+    ["#1f9a66", "#0a3d28", "#5fd4a8", "أخضر"], ["#7558f0", "#24175e", "#b48cff", "بنفسجي"], ["#d84d8f", "#4f1330", "#f08ab5", "وردي"],
+    ["#e9822a", "#5a2a08", "#ffb35c", "برتقالي"], ["#de3f48", "#4f1014", "#ff7a7a", "أحمر"]
+  ];
+  function pcol(u) { var i = u && typeof u.color === "number" ? u.color : -1; return PCOL[i] || null; }
+  function headBg(u) {
+    var c = pcol(u) || PCOL[0];
+    return "background:radial-gradient(circle at 50% 18%," + c[0] + " 0,transparent 62%),radial-gradient(circle,rgba(255,255,255,.07) 0 2.5px,transparent 3px) 0 0/34px 34px," + "linear-gradient(180deg," + c[0] + "," + c[1] + ")";
+  }
   var COLORS = ["#ff7a7a", "#ffb35c", "#5fd4a8", "#62b8ff", "#b48cff", "#f08ab5", "#5fd1e0"];
 
   /* ---------- styles ---------- */
   var css = document.createElement("style");
   css.textContent = [
-    "body{padding-bottom:calc(env(safe-area-inset-bottom,0px) + " + (NAVH + 30) + "px)!important}",
+    "body{padding-bottom:calc(env(safe-area-inset-bottom,0px) + " + (NAVH + 40) + "px)!important}",
+    "body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}",
+    "input,textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}",
     ".pc-ns,.pc-ns *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}",
     ".pc-ns input,.pc-ns textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}",
     /* bottom nav */
-    ".pc-nav{position:fixed;left:0;right:0;bottom:0;z-index:55;height:calc(" + NAVH + "px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);display:flex;justify-content:space-around;align-items:center;background:rgba(14,22,40,.97);border-top:1px solid rgba(255,255,255,.08);font-family:var(--font)}",
-    ".pc-nav button{flex:1;height:100%;border:0;background:none;color:#8592ad;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font:500 12px var(--font);position:relative;cursor:pointer}",
-    ".pc-nav button i{display:grid;place-items:center;width:58px;height:32px;border-radius:16px;transition:background .2s}",
+    ".pc-nav{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);z-index:55;height:" + NAVH + "px;padding:5px;display:flex;align-items:stretch;gap:4px;background:#1b2335;border:1px solid rgba(255,255,255,.08);border-radius:34px;box-shadow:0 8px 28px rgba(0,0,0,.45);font-family:var(--font)}",
+    ".pc-navbg{position:fixed;left:0;right:0;bottom:0;height:calc(env(safe-area-inset-bottom,0px) + " + (NAVH + 20) + "px);z-index:54;background:linear-gradient(180deg,rgba(11,18,34,0),#0b1222 55%);pointer-events:none}",
+    "html.pc-tabbed body{overflow:hidden!important}",
+    "html.pc-tabbed .wrap,html.pc-tabbed .banner{visibility:hidden!important}",
+    ".pc-nav button{flex:1;border:0;border-radius:28px;background:none;color:#c9d3e6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:600 12.5px var(--font);position:relative;cursor:pointer;transition:background .2s}",
+    ".pc-nav button i{display:grid;place-items:center;height:26px}",
     ".pc-nav button svg{width:24px;height:24px}",
-    ".pc-nav button.on{color:#4ea4ff}",
-    ".pc-nav button.on i{background:rgba(78,164,255,.15)}",
-    ".pc-nb{position:absolute;top:6px;left:calc(50% - 30px);min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#4ea4ff;color:#fff;font:700 11px/20px var(--font);border:2px solid #0e1628}",
+    ".pc-nav button i .pc-av{width:26px;height:26px;font-size:12px}",
+    ".pc-nav button.on{color:#5aaeff;background:#2a3753}",
+    ".pc-nb{position:absolute;top:2px;left:calc(50% - 28px);min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:#4ea4ff;color:#fff;font:700 11px/20px var(--font);border:2px solid #0e1628}",
     /* panels */
-    ".pc-pn{position:fixed;left:0;right:0;top:0;bottom:calc(" + NAVH + "px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;flex-direction:column;background:#0b1222;color:#fff;font-family:var(--font)}",
+    ".pc-pn{position:fixed;left:0;right:0;top:0;bottom:calc(" + (NAVH + 20) + "px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;flex-direction:column;background:#0b1222;color:#fff;font-family:var(--font)}",
     ".pc-pn *{box-sizing:border-box}",
     ".pc-h{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 10px) 12px 10px;background:#111a2d;border-bottom:1px solid rgba(255,255,255,.06)}",
     ".pc-ttl{flex:1;min-width:0;display:flex;align-items:center;gap:10px;cursor:pointer}",
@@ -116,10 +133,36 @@
     ".pc-send svg{width:21px;height:21px}",
     ".pc-load{margin:auto;color:#8fa6d1;font-size:15px;text-align:center;line-height:2}",
     /* me tab */
-    ".pc-me{flex:1;overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 24px) 16px 24px;text-align:center}",
-    ".pc-me h2{margin:4px 0 0;font-size:24px}",
-    ".pc-me .u{color:#4ea4ff;direction:ltr;margin-top:2px;font-size:15px}",
-    ".pc-me .s{color:#8fa6d1;font-size:13px;margin-top:3px}",
+    ".pc-me{flex:1;overflow-y:auto;padding-bottom:24px;background:#0f1726}",
+    ".pc-hd{position:relative;padding:calc(env(safe-area-inset-top,0px) + 14px) 16px 16px;text-align:center}",
+    ".pc-hd .tb{display:flex;justify-content:space-between;align-items:center;height:48px}",
+    ".pc-hd .tb .pc-ib{width:48px;height:48px;background:rgba(0,0,0,.25);color:#fff}",
+    ".pc-hd .pc-av.xl{width:124px;height:124px;font-size:50px;margin:-30px auto 0;box-shadow:0 6px 24px rgba(0,0,0,.35)}",
+    ".pc-hd h2{margin:14px 0 0;font-size:27px;font-weight:700}",
+    ".pc-hd .s{color:rgba(255,255,255,.72);font-size:15px;margin-top:3px}",
+    ".pc-acts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}",
+    ".pc-acts button{border:0;border-radius:20px;background:rgba(255,255,255,.12);color:#fff;padding:13px 4px 11px;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 14px var(--font);cursor:pointer}",
+    ".pc-acts svg{width:26px;height:26px}",
+    ".pc-chips{display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap}",
+    ".pc-chips button{border:0;border-radius:99px;background:rgba(255,255,255,.12);color:#fff;height:36px;padding:0 14px;display:flex;align-items:center;gap:8px;font:600 14px var(--font);cursor:pointer}",
+    ".pc-chips i{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.8)}",
+    ".pc-chips svg{width:16px;height:16px}",
+    ".pc-card2{margin:14px 12px 0;background:#1b2335;border-radius:22px;padding:6px 18px;text-align:right}",
+    ".pc-row2{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}",
+    ".pc-row2:last-child{border-bottom:0}",
+    ".pc-row2 b{display:block;font-size:17px;font-weight:500;line-height:1.6;word-wrap:break-word;white-space:pre-wrap}",
+    ".pc-row2 b.ltr{direction:ltr;text-align:right;color:#5aaeff}",
+    ".pc-row2 b a{color:#5aaeff;text-decoration:none}",
+    ".pc-row2 small{display:block;color:#8592ad;font-size:13.5px;margin-top:1px}",
+    ".pc-card2 .pc-it{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}",
+    ".pc-card2 .pc-it:last-child{border-bottom:0}",
+    ".pc-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:10px 22px 6px}",
+    ".pc-cols button{border:0;background:none;color:#c9d3e6;display:flex;flex-direction:column;align-items:center;gap:6px;font:500 13px var(--font);cursor:pointer}",
+    ".pc-cols i{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;border:3px solid transparent}",
+    ".pc-cols button.on i{border-color:#fff}",
+    ".pc-cols svg{width:24px;height:24px;color:#fff}",
+    ".pc-sb .pc-hd{border-radius:22px 22px 0 0;margin-top:-10px;padding-top:18px}",
+    ".pc-sb .pc-hd .pc-av.xl{margin-top:0;width:104px;height:104px}",
     ".pc-grp{margin-top:18px;background:#121c30;border:1px solid rgba(255,255,255,.06);border-radius:18px;text-align:right;overflow:hidden}",
     ".pc-it{display:flex;align-items:center;gap:14px;width:100%;border:0;background:none;color:#fff;font:500 16px var(--font);padding:14px 16px;cursor:pointer;text-align:right;border-bottom:1px solid rgba(255,255,255,.06)}",
     ".pc-it:last-child{border-bottom:0}",
@@ -230,7 +273,7 @@
   var C = null, me = null, myProfile = null, people = {}, badges = {};
   var room = { name: "المحادثة", bio: "", photo: "", verified: false, pin: null };
   var msgs = [], lastRead = +(lsGet("pc.read") || 0), members = 0, online = 0;
-  var tab = "price", chatUI = null, meUI = null;
+  var tab = "price", chatUI = null, meUI = null, othersRead = 0, readSent = 0, readTimer = 0;
 
   /* ---------- Firebase ---------- */
   var booting = null;
@@ -263,6 +306,7 @@
         return C.f.getDoc(C.f.doc(db, "users", me)).then(function (s) {
           myProfile = s.exists() ? s.data() : null;
           if (myProfile) { people[me] = myProfile; lsSet("pc.joined", "1"); }
+          navMe();
           live();
           return C;
         });
@@ -291,6 +335,12 @@
       if (chatUI) { chatUI.render(); chatUI.head(); }
       if (meUI) meUI.render();
     }, function () {});
+    /* the newest "read up to" time of anyone except me -> double ticks */
+    F.onSnapshot(F.query(F.collection(db, "users"), F.orderBy("readAt", "desc"), F.limit(3)), function (s) {
+      var mx = 0;
+      s.docs.forEach(function (d) { if (d.id !== me) mx = Math.max(mx, +d.data().readAt || 0); });
+      if (mx !== othersRead) { othersRead = mx; if (chatUI) chatUI.render(); }
+    }, function () {});
     stats();
     setInterval(function () { if (tab !== "price") stats(); }, 60000);
   }
@@ -312,6 +362,13 @@
     var t = ms(msgs[msgs.length - 1].ts);
     if (t > lastRead) { lastRead = t; lsSet("pc.read", String(t)); }
     unread();
+    if (C && myProfile && t > readSent) {
+      clearTimeout(readTimer);
+      readTimer = setTimeout(function () {
+        readSent = t;
+        C.f.updateDoc(C.f.doc(C.db, "users", me), { readAt: t }).catch(function () { readSent = 0; });
+      }, 1200);
+    }
   }
   function person(uid, cb) {
     if (people[uid]) return people[uid];
@@ -354,10 +411,15 @@
 
   /* ---------- bottom nav ---------- */
   var nav = el('\x3cnav class="pc-nav pc-ns">' +
-    '\x3cbutton data-t="price" class="on">\x3ci>' + I.price + "\x3c/i>السعر\x3c/button>" +
+    '\x3cbutton data-t="me">\x3ci>' + I.user + "\x3c/i>ملفي\x3c/button>" +
     '\x3cbutton data-t="chat">\x3ci>' + I.chat + '\x3c/i>المحادثة\x3cspan class="pc-nb" hidden>\x3c/span>\x3c/button>' +
-    '\x3cbutton data-t="me">\x3ci>' + I.user + "\x3c/i>ملفي\x3c/button>\x3c/nav>");
+    '\x3cbutton data-t="price" class="on">\x3ci>' + I.price + "\x3c/i>السعر\x3c/button>\x3c/nav>");
+  document.body.appendChild(el('\x3cdiv class="pc-navbg">\x3c/div>'));
   document.body.appendChild(nav);
+  function navMe() {
+    var i = nav.querySelector('button[data-t="me"] i');
+    i.innerHTML = myProfile && myProfile.photo ? av(myProfile.photo, "", "") : I.user;
+  }
   nav.addEventListener("click", function (e) {
     var b = e.target.closest("button[data-t]");
     if (!b) return;
@@ -372,6 +434,7 @@
     [].forEach.call(nav.querySelectorAll("button"), function (b) { b.classList.toggle("on", b.getAttribute("data-t") === t); });
     if (chatUI) chatUI.node.hidden = t !== "chat";
     if (meUI) meUI.node.hidden = t !== "me";
+    document.documentElement.classList.toggle("pc-tabbed", t !== "price");
     if (t !== "price" && was === "price" && !fromPop) { try { history.pushState({ pcTab: 1 }, ""); } catch (e) {} }
     if (t === "chat") openChat();
     if (t === "me") openMe();
@@ -439,12 +502,13 @@
           if (s.exists() && s.data().uid !== me) throw new Error("taken");
           if (!s.exists()) tx.set(ref, { uid: me });
           if (old && old !== user) tx.delete(F.doc(db, "usernames", old));
-          tx.set(F.doc(db, "users", me), { name: name, user: user, bio: bio, photo: photo, last: F.serverTimestamp() });
+          tx.set(F.doc(db, "users", me), { name: name, user: user, bio: bio, photo: photo, color: typeof p.color === "number" ? p.color : 0, last: F.serverTimestamp() });
         });
       }).then(function () {
-        myProfile = { name: name, user: user, bio: bio, photo: photo, last: Date.now() };
+        myProfile = { name: name, user: user, bio: bio, photo: photo, color: typeof p.color === "number" ? p.color : 0, last: Date.now() };
         people[me] = myProfile;
         lsSet("pc.joined", "1");
+        navMe();
         toast("تم الحفظ");
         if (chatUI) chatUI.render();
         if (meUI) meUI.render();
@@ -462,23 +526,24 @@
   /* ---------- profile: view ---------- */
   function showProfile(uid) {
     var F = C.f, db = C.db;
-    var node = sheet('\x3cdiv class="pc-pad">\x3cdiv class="pc-pr" id="pv">\x3cdiv class="pc-load" style="padding:30px">جاري التحميل...\x3c/div>\x3c/div>\x3c/div>', true);
+    var node = sheet('\x3cdiv id="pv">\x3cdiv class="pc-load" style="padding:40px">جاري التحميل...\x3c/div>\x3c/div>', true);
     push(node);
     function draw(u) {
-      var h = av(u.photo, u.name, "big", uid) + "\x3ch3>" + vname(uid, u.name || "مستخدم") + "\x3c/h3>" +
-        (u.user ? '\x3cdiv class="u">@' + esc(u.user) + "\x3c/div>" : "") +
-        '\x3cdiv class="s">' + seen(ms(u.last)) + "\x3c/div>" +
-        (u.bio ? '\x3cdiv class="pc-bio">\x3csmall>البايو\x3c/small>' + linkify(u.bio) + "\x3c/div>" : "") + "\x3c/div>";
+      var h = '\x3cdiv class="pc-hd" style="' + headBg(u) + '">' + av(u.photo, u.name, "xl", uid) +
+        "\x3ch2>" + vname(uid, u.name || "مستخدم") + '\x3c/h2>\x3cdiv class="s">' + seen(ms(u.last)) + "\x3c/div>\x3c/div>" +
+        '\x3cdiv class="pc-card2">' +
+        (u.user ? '\x3cdiv class="pc-row2">\x3cb class="ltr">@' + esc(u.user) + "\x3c/b>\x3csmall>اسم المستخدم\x3c/small>\x3c/div>" : "") +
+        (u.bio ? '\x3cdiv class="pc-row2">\x3cb>' + linkify(u.bio) + "\x3c/b>\x3csmall>النبذة\x3c/small>\x3c/div>" : "") + "\x3c/div>";
       var acts = "";
       if (uid === me) acts += '\x3cbutton class="pc-it" data-a="edit">' + I.edit + "تعديل ملفي\x3c/button>";
       if (me === ADMIN && uid !== ADMIN) {
         acts += '\x3cbutton class="pc-it" data-a="ver">' + I.verify + (badges[uid] ? "سحب علامة التوثيق" : "منح علامة التوثيق") + "\x3c/button>";
         acts += '\x3cbutton class="pc-it r" data-a="ban">' + I.ban + "حظر هذا الشخص\x3c/button>";
       }
+      if (acts) h += '\x3cdiv class="pc-card2">' + acts + "\x3c/div>";
       var pv = node.querySelector("#pv");
       pv.innerHTML = h;
-      if (acts) pv.insertAdjacentHTML("afterend", '\x3cdiv class="pc-grp" style="margin-top:16px">' + acts + "\x3c/div>");
-      node.querySelector(".pc-pad").addEventListener("click", function (e) {
+      pv.addEventListener("click", function (e) {
         var b = e.target.closest("[data-a]");
         if (b) {
           var a = b.getAttribute("data-a");
@@ -655,7 +720,7 @@
         var first = !pv || pv.uid !== m.uid || dayName(ms(pv.ts)) !== d;
         var last = !nx || nx.uid !== m.uid || dayName(ms(nx.ts)) !== d;
         var mine = m.uid === me, pp = (mine ? myProfile : person(m.uid, render)) || {};
-        var nc = color(m.uid);
+        var nc = (pcol(pp) || [0, 0, color(m.uid)])[2];
         h += '\x3cdiv class="pc-row' + (mine ? " mine" : "") + (first ? " gs" : "") + '" data-id="' + esc(m.id) + '">' +
           (last ? '\x3cspan data-u="' + esc(m.uid) + '">' + av(pp.photo, pp.name || m.name, "sm", m.uid) + "\x3c/span>" : '\x3cspan class="sp">\x3c/span>') +
           '\x3cdiv class="pc-m' + (last ? " tl" : "") + '">' +
@@ -663,7 +728,7 @@
           (m.rep ? '\x3cdiv class="pc-q" data-j="' + esc(m.rep.id || "") + '" style="color:' + (mine ? "#d6e6ff" : color(m.rep.uid || m.rep.name)) + '">\x3cb>' + esc(m.rep.name || "") + "\x3c/b>\x3cspan>" + esc(m.rep.text || "") + "\x3c/span>\x3c/div>" : "") +
           (m.price ? '\x3cdiv class="pc-card">\x3cspan>سعر GRAM\x3c/span>\x3cb>' + money(m.price) + '\x3c/b>\x3cem style="color:' + ((m.pct || 0) >= 0 ? "#5fe3a1" : "#ff8a95") + '">' + pct(m.pct) + "\x3c/em>\x3c/div>" : "") +
           (m.text ? linkify(m.text) : "") +
-          '\x3cdiv class="t">' + hm(t) + (mine ? (m._p ? I.clock : I.tick) : "") + "\x3c/div>\x3c/div>\x3c/div>";
+          '\x3cdiv class="t">' + hm(t) + (mine ? (m._p ? I.clock : (othersRead >= ms(m.ts) ? I.tick2 : I.tick)) : "") + "\x3c/div>\x3c/div>\x3c/div>";
       });
       $l.innerHTML = h;
       if (wasBottom) { $l.scrollTop = $l.scrollHeight; if (tab === "chat") markRead(); }
@@ -711,46 +776,52 @@
       if (n) showProfile(n.getAttribute("data-u"));
     });
 
-    /* swipe left to reply + long press menu */
+    /* swipe left anywhere on a message line to reply + long press menu */
     var tr = null;
+    function rowAt(y) {
+      var rows = $l.querySelectorAll(".pc-row");
+      for (var i = 0; i < rows.length; i++) { var r = rows[i].getBoundingClientRect(); if (y >= r.top - 3 && y <= r.bottom + 3) return rows[i]; }
+      return null;
+    }
     $l.addEventListener("touchstart", function (e) {
-      var row = e.target.closest(".pc-row");
+      var t0 = e.touches[0], onRow = e.target.closest(".pc-row"), row = onRow || rowAt(t0.clientY);
       if (!row) return;
-      var t0 = e.touches[0];
       tr = { row: row, x: t0.clientX, y: t0.clientY, mode: null, dx: 0 };
-      tr.lp = setTimeout(function () {
+      if (onRow) tr.lp = setTimeout(function () {
         if (!tr || tr.mode) return;
         var m = findMsg(row);
         tr = null;
-        if (m) { try { navigator.vibrate && navigator.vibrate(15); } catch (er) {} msgMenu(m, doReply); }
-      }, 450);
+        if (m) { msgMenu(m, doReply); }
+      }, 480);
     }, { passive: true });
     $l.addEventListener("touchmove", function (e) {
       if (!tr) return;
       var t = e.touches[0], dx = tr.x - t.clientX, dy = t.clientY - tr.y;
       if (!tr.mode) {
-        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        if (Math.abs(dx) < 7 && Math.abs(dy) < 7) return;
         clearTimeout(tr.lp);
-        tr.mode = Math.abs(dx) > Math.abs(dy) && dx > 0 ? "swipe" : "scroll";
-        if (tr.mode === "swipe") tr.row.style.transition = "none";
+        tr.mode = dx > 0 && Math.abs(dx) > Math.abs(dy) * 1.2 ? "swipe" : "scroll";
+        if (tr.mode === "swipe") { tr.row.style.transition = "none"; tr.x = t.clientX + 7; dx = 7; }
       }
       if (tr.mode !== "swipe") return;
       e.preventDefault();
-      tr.dx = Math.max(0, Math.min(90, dx));
+      dx = Math.max(0, dx);
+      /* moves with the finger, gets a little heavier after the reply point */
+      tr.dx = dx < 80 ? dx : Math.min(150, 80 + (dx - 80) * 0.45);
       tr.row.style.transform = "translateX(" + (-tr.dx) + "px)";
       var rb = tr.row.getBoundingClientRect(), wb = $l.getBoundingClientRect();
       $sw.style.top = (rb.top - wb.top + rb.height / 2 - 17) + "px";
-      $sw.style.opacity = Math.min(1, tr.dx / 60);
-      if (tr.dx >= 60 && !tr.buzz) { tr.buzz = 1; try { navigator.vibrate && navigator.vibrate(10); } catch (er) {} }
+      $sw.style.opacity = Math.min(1, tr.dx / 70);
+      $sw.style.transform = "scale(" + (tr.dx >= 70 ? 1.1 : 0.8 + tr.dx / 350) + ")";
     }, { passive: false });
     function endTouch() {
       if (!tr) return;
       clearTimeout(tr.lp);
       if (tr.mode === "swipe") {
-        tr.row.style.transition = "";
+        tr.row.style.transition = "transform .22s ease-out";
         tr.row.style.transform = "";
         $sw.style.opacity = 0;
-        if (tr.dx >= 60) { var m = findMsg(tr.row); if (m) doReply(m); }
+        if (tr.dx >= 70) { var m = findMsg(tr.row); if (m) doReply(m); }
       }
       tr = null;
     }
@@ -792,38 +863,96 @@
     if (!C) boot().then(function () { meUI.render(); }).catch(function () { meUI.render(true); });
   }
   function buildMe() {
-    var node = el('\x3cdiv class="pc-pn pc-ns" hidden>\x3cdiv class="pc-me" id="mB">\x3c/div>\x3c/div>');
+    var node = el('\x3cdiv class="pc-pn pc-ns" hidden>\x3cdiv class="pc-me" id="mB">\x3c/div>\x3cinput type="file" id="mF" accept="image/*" hidden>\x3c/div>');
     document.body.appendChild(node);
-    var $b = node.querySelector("#mB");
+    var $b = node.querySelector("#mB"), $f = node.querySelector("#mF");
+    pickImage($f, 192, function (d) {
+      if (!C || !myProfile) return;
+      C.f.updateDoc(C.f.doc(C.db, "users", me), { photo: d }).then(function () {
+        myProfile.photo = d; people[me] = myProfile; render(); navMe(); if (chatUI) chatUI.render(); toast("تم تغيير الصورة");
+      }).catch(function () { toast("ما گدرت أحفظ الصورة"); });
+    });
     function alertsCount() { try { return (JSON.parse(A.get("alerts") || "[]") || []).length; } catch (e) { return 0; } }
     function render(err) {
-      var p = myProfile, h = "";
-      if (!C) h = '\x3cdiv class="pc-load" style="padding-top:40px">' + (err ? "ما گدرت أتصل، تأكد من النت" : "جاري التحميل...") + "\x3c/div>";
-      else if (!p || !p.user) h = '\x3cdiv style="padding-top:20px">' + av("", "?", "big", me).replace('class="pc-av big"', 'class="pc-av big" style="margin:0 auto;background:#2a3a5c"') +
-        '\x3ch2 style="margin-top:12px">ما عندك ملف بعد\x3c/h2>\x3cdiv class="s">سوّي ملفك حتى تحچي بالمحادثة\x3c/div>\x3cbutton class="pc-go" data-a="edit" style="max-width:320px">سوّي ملفي\x3c/button>\x3c/div>';
-      else h = '\x3cdiv class="pc-pr" data-a="view" style="cursor:pointer">' + av(p.photo, p.name, "big", me).replace('class="pc-av big"', 'class="pc-av big" style="margin:0 auto 10px"') +
-        "\x3ch2>" + vname(me, p.name) + '\x3c/h2>\x3cdiv class="u">@' + esc(p.user) + '\x3c/div>\x3cdiv class="s">متصل الآن\x3c/div>\x3c/div>';
-      var n = alertsCount();
-      h += '\x3cdiv class="pc-grp">' +
-        (p && p.user ? '\x3cbutton class="pc-it" data-a="edit">' + I.edit + "\x3cdiv>تعديل الملف\x3csmall>الاسم · اليوزر · البايو · الصورة\x3c/small>\x3c/div>\x3c/button>" : "") +
-        '\x3cbutton class="pc-it" data-a="alerts">' + I.bell + "\x3cdiv>التنبيهات\x3c/div>" + (n ? '\x3cspan class="v">' + n + " فعّالة\x3c/span>" : "") + "\x3c/button>" +
-        '\x3cbutton class="pc-it" data-a="settings">' + I.gear + "\x3cdiv>الإعدادات\x3csmall>المظهر · الصوت · الإيقاف الليلي\x3c/small>\x3c/div>\x3c/button>" +
-        '\x3cbutton class="pc-it" data-a="share">' + I.share + "\x3cdiv>شارك التطبيق\x3c/div>\x3c/button>" +
-        (me === ADMIN || A.get("fb.uid") === ADMIN ? '\x3cbutton class="pc-it" data-a="dev">' + I.tool + "\x3cdiv>لوحة المطوّر\x3csmall>تبين لك بس\x3c/small>\x3c/div>\x3c/button>" : "") +
-        "\x3c/div>";
+      var p = myProfile, h;
+      if (!C) h = '\x3cdiv class="pc-load" style="padding-top:60px">' + (err ? "ما گدرت أتصل، تأكد من النت" : "جاري التحميل...") + "\x3c/div>";
+      else if (!p || !p.user) h = '\x3cdiv class="pc-hd" style="' + headBg(null) + ';padding-bottom:30px">\x3cdiv class="tb">\x3c/div>' + av("", "?", "xl", me).replace('class="pc-av xl"', 'class="pc-av xl" style="background:#2a3a5c"') +
+        '\x3ch2>ما عندك ملف بعد\x3c/h2>\x3cdiv class="s">سوّي ملفك حتى تحچي بالمحادثة\x3c/div>\x3cbutton class="pc-go" data-a="edit" style="max-width:320px">سوّي ملفي\x3c/button>\x3c/div>';
+      else {
+        var c = pcol(p) || PCOL[0], n = alertsCount();
+        h = '\x3cdiv class="pc-hd" style="' + headBg(p) + '">' +
+          '\x3cdiv class="tb">\x3cbutton class="pc-ib" data-a="menu">' + I.more + "\x3c/button>\x3cspan>\x3c/span>\x3c/div>" +
+          '\x3cspan data-a="view">' + av(p.photo, p.name, "xl", me) + "\x3c/span>" +
+          "\x3ch2>" + vname(me, p.name) + '\x3c/h2>\x3cdiv class="s">متصل\x3c/div>' +
+          '\x3cdiv class="pc-acts">' +
+          '\x3cbutton data-a="settings">' + I.gear + "الإعدادات\x3c/button>" +
+          '\x3cbutton data-a="edit">' + I.edit + "تعديل البيانات\x3c/button>" +
+          '\x3cbutton data-a="photo">' + I.cam + "تعيين صورة\x3c/button>\x3c/div>" +
+          '\x3cdiv class="pc-chips">' +
+          '\x3cbutton data-a="color">\x3ci style="background:' + c[0] + '">\x3c/i>لون الملف\x3c/button>' +
+          '\x3cbutton data-a="alerts">' + I.bell + "التنبيهات" + (n ? " " + n : "") + "\x3c/button>\x3c/div>\x3c/div>" +
+          '\x3cdiv class="pc-card2">' +
+          '\x3cdiv class="pc-row2">\x3cb class="ltr">@' + esc(p.user) + "\x3c/b>\x3csmall>اسم المستخدم\x3c/small>\x3c/div>" +
+          (p.bio ? '\x3cdiv class="pc-row2">\x3cb>' + linkify(p.bio) + "\x3c/b>\x3csmall>النبذة\x3c/small>\x3c/div>" : '\x3cdiv class="pc-row2" data-a="edit">\x3cb style="color:#5aaeff">أضف نبذة عنك\x3c/b>\x3csmall>النبذة\x3c/small>\x3c/div>') +
+          "\x3c/div>" +
+          '\x3cdiv class="pc-card2">' +
+          '\x3cbutton class="pc-it" data-a="share">' + I.share + "\x3cdiv>شارك التطبيق\x3c/div>\x3c/button>" +
+          (me === ADMIN ? '\x3cbutton class="pc-it" data-a="dev">' + I.tool + "\x3cdiv>لوحة المطوّر\x3csmall>تبين لك بس\x3c/small>\x3c/div>\x3c/button>" : "") +
+          "\x3c/div>";
+      }
       $b.innerHTML = h;
     }
     $b.addEventListener("click", function (e) {
+      var l = e.target.closest("a[data-ext]");
+      if (l) { e.preventDefault(); try { A.openUrl(l.href); } catch (er) {} return; }
       var b = e.target.closest("[data-a]");
       if (!b) return;
       var a = b.getAttribute("data-a");
       if (a === "edit") { if (C) editProfile(!(myProfile && myProfile.user)); }
       else if (a === "view") { if (C) showProfile(me); }
+      else if (a === "photo") $f.click();
+      else if (a === "color") colorSheet();
       else if (a === "alerts") goPrice("#alList");
       else if (a === "settings") goPrice("#themeSeg");
       else if (a === "dev") goPrice("#devCard");
       else if (a === "share") { var s = document.getElementById("share"); if (s) s.click(); }
+      else if (a === "menu") {
+        var mn = sheet('\x3cbutton class="pc-it" data-m="edit">' + I.edit + "تعديل البيانات\x3c/button>" +
+          '\x3cbutton class="pc-it" data-m="color">' + I.gear + "لون الملف\x3c/button>" +
+          '\x3cbutton class="pc-it" data-m="share">' + I.share + "شارك التطبيق\x3c/button>", false);
+        mn.addEventListener("click", function (ev) {
+          var m = ev.target.closest("[data-m]");
+          if (!m) return;
+          var k = m.getAttribute("data-m");
+          close();
+          setTimeout(function () {
+            if (k === "edit") editProfile(false);
+            else if (k === "color") colorSheet();
+            else { var s = document.getElementById("share"); if (s) s.click(); }
+          }, 80);
+        });
+        push(mn);
+      }
     });
+    function colorSheet() {
+      if (!C || !myProfile) return;
+      var cur = typeof myProfile.color === "number" ? myProfile.color : 0;
+      var h = '\x3cdiv class="pc-pad" style="text-align:center">\x3ch3 style="margin:4px 0 2px;font-size:20px">لون الملف\x3c/h3>\x3cdiv style="color:#8fa6d1;font-size:13.5px">يبين بملفك، وبلون اسمك بالمحادثة\x3c/div>\x3c/div>\x3cdiv class="pc-cols">';
+      PCOL.forEach(function (c, i) {
+        h += '\x3cbutton data-c="' + i + '"' + (i === cur ? ' class="on"' : "") + '>\x3ci style="background:linear-gradient(180deg,' + c[0] + "," + c[1] + ')">' + (i === cur ? I.tick : "") + "\x3c/i>" + c[3] + "\x3c/button>";
+      });
+      var cs = sheet(h + "\x3c/div>", false);
+      cs.addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-c]");
+        if (!b) return;
+        var i = +b.getAttribute("data-c");
+        close();
+        C.f.updateDoc(C.f.doc(C.db, "users", me), { color: i }).then(function () {
+          myProfile.color = i; people[me] = myProfile; render(); if (chatUI) chatUI.render();
+        }).catch(function () { toast("ما گدرت أحفظ اللون"); });
+      });
+      push(cs);
+    }
     meUI = { node: node, render: render };
   }
 })();
