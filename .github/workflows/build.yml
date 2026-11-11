@@ -23,6 +23,9 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
+    env:
+      # نسخة تطبيق جديدة بس إذا تغيّر build.yml، وتغيير chat.js بس يحدّث الصفحة
+      APP: ${{ github.event_name != 'push' || contains(toJSON(github.event.commits.*.modified), 'build.yml') || contains(toJSON(github.event.commits.*.added), 'build.yml') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -863,6 +866,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Signing key
+        if: env.APP == 'true'
         env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         run: |
@@ -873,20 +877,24 @@ jobs:
           echo "$SIGNING_KEY" | base64 -d > key.jks
 
       - uses: actions/setup-java@v4
+        if: env.APP == 'true'
         with:
           distribution: temurin
           java-version: 17
 
       - uses: gradle/actions/setup-gradle@v4
+        if: env.APP == 'true'
         with:
           gradle-version: "8.9"
 
       - name: Build APK
+        if: env.APP == 'true'
         run: |
           gradle assembleDebug --no-daemon
           cp build/outputs/apk/debug/*.apk Price-Gram.apk
 
       - name: Publish APK
+        if: env.APP == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ github.run_number }}
