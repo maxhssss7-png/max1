@@ -42,8 +42,10 @@
   var PCOL = [
     ["#3a3f48", "#14161a", "#c9d1dc", "رمادي"], ["#2f6fd6", "#0d2552", "#62b8ff", "أزرق"], ["#1a9fc4", "#0a3d50", "#5fd1e0", "سماوي"],
     ["#1f9a66", "#0a3d28", "#5fd4a8", "أخضر"], ["#7558f0", "#24175e", "#b48cff", "بنفسجي"], ["#d84d8f", "#4f1330", "#f08ab5", "وردي"],
-    ["#e9822a", "#5a2a08", "#ffb35c", "برتقالي"], ["#de3f48", "#4f1014", "#ff7a7a", "أحمر"]
+    ["#e9822a", "#5a2a08", "#ffb35c", "برتقالي"], ["#de3f48", "#4f1014", "#ff7a7a", "أحمر"],
+    ["#1c1c1e", "#000000", "#ffffff", "أسود"]
   ];
+  var BLACK = 8; /* developer only */
   function pcol(u) { var i = u && typeof u.color === "number" ? u.color : -1; return PCOL[i] || null; }
   function headBg(u) {
     var c = pcol(u) || PCOL[0];
@@ -55,6 +57,7 @@
   var css = document.createElement("style");
   css.textContent = [
     "body{padding-bottom:calc(env(safe-area-inset-bottom,0px) + " + (NAVH + 40) + "px)!important}",
+    "#live{display:none!important}",
     "body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}",
     "input,textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}",
     ".pc-ns,.pc-ns *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}",
@@ -939,6 +942,7 @@
       var cur = typeof myProfile.color === "number" ? myProfile.color : 0;
       var h = '\x3cdiv class="pc-pad" style="text-align:center">\x3ch3 style="margin:4px 0 2px;font-size:20px">لون الملف\x3c/h3>\x3cdiv style="color:#8fa6d1;font-size:13.5px">يبين بملفك، وبلون اسمك بالمحادثة\x3c/div>\x3c/div>\x3cdiv class="pc-cols">';
       PCOL.forEach(function (c, i) {
+        if (i === BLACK && me !== ADMIN) return;
         h += '\x3cbutton data-c="' + i + '"' + (i === cur ? ' class="on"' : "") + '>\x3ci style="background:linear-gradient(180deg,' + c[0] + "," + c[1] + ')">' + (i === cur ? I.tick : "") + "\x3c/i>" + c[3] + "\x3c/button>";
       });
       var cs = sheet(h + "\x3c/div>", false);
