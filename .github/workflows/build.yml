@@ -5,7 +5,7 @@ name: Price Gram
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/build.yml', 'chat.js']
+    paths: ['.github/workflows/build.yml', 'chat.js', 'p2p.js']
   workflow_dispatch:
 
 permissions:
@@ -30,10 +30,11 @@ jobs:
 
       - name: What changed
         run: |
-          # نسخة تطبيق جديدة بس إذا تغيّر build.yml، وتغيير chat.js بس يحدّث الصفحة
+          # نسخة تطبيق جديدة بس إذا تغيّر كود التطبيق المضغوط داخل build.yml
+          # تغيير chat.js أو p2p.js أو باقي أسطر هذا الملف بس يحدّث الصفحة
           APP=true
           if [ "${{ github.event_name }}" = "push" ] && git rev-parse -q --verify HEAD~1 >/dev/null; then
-            if git diff --name-only HEAD~1 HEAD | grep -q "build.yml"; then APP=true; else APP=false; fi
+            if git diff -U0 HEAD~1 HEAD -- .github/workflows/build.yml | grep -qE '^[+-] {10}[A-Za-z0-9+/=]{40,}'; then APP=true; else APP=false; fi
           fi
           echo "APP=$APP" >> "$GITHUB_ENV"
           echo "build app: $APP"
@@ -807,7 +808,7 @@ jobs:
           5sjlbMb0AAGh0wKAgApBsSpPscRn+wIAAAAABFla
           EOF
           tar -xJf src.tgz && rm src.tgz
-          if [ -f chat.js ]; then cp chat.js site/chat.js; fi
+          for f in chat.js p2p.js; do if [ -f "$f" ]; then cp "$f" "site/$f"; fi; done
           mkdir -p src/main/assets src/main/res/mipmap src/main/res/drawable-nodpi
           cp site/ton.html site/logo.png src/main/assets/
           cp site/logo.png src/main/res/drawable-nodpi/logo_badge.png
