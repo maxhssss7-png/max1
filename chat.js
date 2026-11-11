@@ -85,7 +85,8 @@ css.textContent = [
 ".pc-pin .tx span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#dfe8fb}",
 ".pc-pin .pr{direction:ltr;font-weight:700;font-size:15px;white-space:nowrap}",
 ".pc-pin .pr em{font-style:normal;font-size:12px;margin-left:5px}",
-".pc-wall{flex:1;position:relative;overflow:hidden;background-color:#0d1526;background-image:radial-gradient(circle at 20% 30%,rgba(78,164,255,.07) 0 2px,transparent 3px),radial-gradient(circle at 70% 65%,rgba(78,164,255,.05) 0 2px,transparent 3px),linear-gradient(45deg,transparent 48%,rgba(255,255,255,.022) 49% 51%,transparent 52%);background-size:60px 60px,84px 84px,46px 46px}",
+".pc-wall{flex:1;position:relative;overflow:hidden;background:#0d1526 url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84'%3E%3Cg fill='%234ea4ff' fill-opacity='.07'%3E%3Ccircle cx='17' cy='25' r='2'/%3E%3Ccircle cx='59' cy='55' r='2'/%3E%3C/g%3E%3Cpath d='M0 84L84 0' stroke='%23fff' stroke-opacity='.025'/%3E%3C/svg%3E\")}",
+".pc-list{will-change:scroll-position}",
 ".pc-list{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:10px 10px 12px;display:flex;flex-direction:column;gap:4px;-webkit-overflow-scrolling:touch}",
 ".pc-row{display:flex;align-items:flex-end;gap:6px;max-width:86%;align-self:flex-end;flex-direction:row-reverse;transition:transform .2s;margin-top:2px}",
 ".pc-row.mine{align-self:flex-start;flex-direction:row}",
@@ -188,7 +189,11 @@ css.textContent = [
 ".pc-it small{display:block;color:#8fa6d1;font-size:12.5px;font-weight:400;margin-top:1px}",
 ".pc-it.r,.pc-it.r svg{color:#ff6b78}",
 ".pc-it .v{margin-right:auto;color:#8fa6d1;font-size:13px;font-weight:400}",
-".pc-sh{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;font-family:var(--font)}",
+".pc-sh{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;font-family:var(--font);animation:pcFade .16s ease-out}",
+".pc-sh .pc-sb{animation:pcUp .22s cubic-bezier(.2,.8,.2,1)}",
+".pc-pn:not([hidden]){animation:pcFade .14s ease-out}",
+"@keyframes pcFade{from{opacity:0}to{opacity:1}}",
+"@keyframes pcUp{from{transform:translateY(40%)}to{transform:none}}",
 ".pc-sb{width:100%;max-height:92vh;overflow-y:auto;background:#151f33;color:#fff;border-radius:22px 22px 0 0;padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 10px);position:relative}",
 ".pc-sb .grab{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin:0 auto 6px}",
 ".pc-sb .pc-it{padding:15px 22px}",
@@ -253,9 +258,20 @@ if (s < 86400) return "آخر ظهور قبل " + Math.round(s / 3600) + " سا�
 return "آخر ظهور " + dayName(t);
 }
 function color(uid) { var h = 0; uid = String(uid || ""); for (var i = 0; i < uid.length; i++) h = (h * 31 + uid.charCodeAt(i)) | 0; return COLORS[Math.abs(h) % COLORS.length]; }
+var blobs = {};
+function pic(d) {
+if (!d || d.indexOf("data:") !== 0) return d;
+if (blobs[d]) return blobs[d];
+try {
+var p = d.indexOf(","), bin = atob(d.slice(p + 1)), arr = new Uint8Array(bin.length);
+for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+blobs[d] = URL.createObjectURL(new Blob([arr], { type: d.slice(5, d.indexOf(";")) }));
+} catch (e) { blobs[d] = d; }
+return blobs[d];
+}
 function av(photo, name, size, uid) {
 var cls = "pc-av" + (size ? " " + size : "");
-if (photo) return '\x3cdiv class="' + cls + '">\x3cimg src="' + esc(photo) + '" alt="">\x3c/div>';
+if (photo) return '\x3cdiv class="' + cls + '">\x3cimg src="' + esc(pic(photo)) + '" alt="" decoding="async">\x3c/div>';
 var n = String(name || "?").trim();
 return '\x3cdiv class="' + cls + '" style="background:' + color(uid || n) + '">' + esc(n.charAt(0).toUpperCase() || "?") + "\x3c/div>";
 }
@@ -377,9 +393,12 @@ s.docs.forEach(function (d) { if (d.id !== me) mx = Math.max(mx, +d.data().readA
 if (mx !== othersRead) { othersRead = mx; if (chatUI) chatUI.render(); }
 }, function () {});
 stats();
-setInterval(function () { if (tab !== "price") stats(); }, 60000);
+setInterval(function () { if (tab !== "price") stats(true); }, 60000);
 }
-function stats() {
+var statsAt = 0;
+function stats(force) {
+if (!force && Date.now() - statsAt < 45000) return;
+statsAt = Date.now();
 var F = C.f, db = C.db;
 if (myProfile) F.updateDoc(F.doc(db, "users", me), { last: F.serverTimestamp() }).catch(function () {});
 F.getCountFromServer(F.collection(db, "users")).then(function (r) { members = r.data().count; if (chatUI) chatUI.head(); }).catch(function () {});
@@ -746,23 +765,29 @@ P.querySelector(".tx span").textContent = room.pin ? (room.pin.name ? room.pin.n
 P.querySelector(".pr").innerHTML = p.p ? money(p.p) + '\x3cem style="color:' + (p.pct >= 0 ? "#5fe3a1" : "#ff8a95") + '">' + pct(p.pct) + "\x3c/em>" : "—";
 }
 setInterval(function () { if (tab === "chat") pin(); }, 2000);
+var rq = 0, nodes = {};
 function render() {
+if (rq) return;
+rq = requestAnimationFrame(function () { rq = 0; draw(); });
+}
+function draw() {
 if (!isReady) return;
-if (!msgs.length) { $l.innerHTML = '\x3cdiv class="pc-empty">ما بيها رسائل بعد\x3cbr>كون أول واحد يكتب\x3c/div>'; return; }
+if (!msgs.length) { nodes = {}; $l.innerHTML = '\x3cdiv class="pc-empty">ما بيها رسائل بعد\x3cbr>كون أول واحد يكتب\x3c/div>'; return; }
 var wasBottom = atBottom() || !lastCount;
 var added = msgs.length - lastCount;
-var h = "", lastDay = "";
+var items = [], lastDay = "", h;
+function add(k, html) { items.push([k, html]); }
 msgs.forEach(function (m, i) {
 var t = ms(m.ts), d = dayName(t), pv = msgs[i - 1], nx = msgs[i + 1];
-if (d !== lastDay) { h += '\x3cdiv class="pc-day">' + d + "\x3c/div>"; lastDay = d; }
-if (m.type === "join") { h += '\x3cdiv class="pc-sys" data-u="' + esc(m.uid) + '">' + vname(m.uid, m.name || "عضو") + " انضم للمحادثة\x3c/div>"; return; }
+if (d !== lastDay) { add("d" + d, '\x3cdiv class="pc-day">' + d + "\x3c/div>"); lastDay = d; }
+if (m.type === "join") { add(m.id, '\x3cdiv class="pc-sys" data-u="' + esc(m.uid) + '">' + vname(m.uid, m.name || "عضو") + " انضم للمحادثة\x3c/div>"); return; }
 if (pv && pv.type === "join") pv = null;
 if (nx && nx.type === "join") nx = null;
 var first = !pv || pv.uid !== m.uid || dayName(ms(pv.ts)) !== d;
 var last = !nx || nx.uid !== m.uid || dayName(ms(nx.ts)) !== d;
 var mine = m.uid === me, pp = (mine ? myProfile : person(m.uid, render)) || {};
 var nc = (pcol(pp) || [0, 0, color(m.uid)])[2];
-h += '\x3cdiv class="pc-row' + (mine ? " mine" : "") + (first ? " gs" : "") + '" data-id="' + esc(m.id) + '">' +
+h = '\x3cdiv class="pc-row' + (mine ? " mine" : "") + (first ? " gs" : "") + '" data-id="' + esc(m.id) + '">' +
 (last ? '\x3cspan data-u="' + esc(m.uid) + '">' + av(pp.photo, pp.name || m.name, "sm", m.uid) + "\x3c/span>" : '\x3cspan class="sp">\x3c/span>') +
 '\x3cdiv class="pc-m' + (last ? " tl" : "") + '">' +
 (!mine && first ? '\x3cdiv class="n" data-u="' + esc(m.uid) + '" style="color:' + nc + '">' + vname(m.uid, m.name || "مستخدم") + "\x3c/div>" : "") +
@@ -771,8 +796,20 @@ h += '\x3cdiv class="pc-row' + (mine ? " mine" : "") + (first ? " gs" : "") + '"
 (m.text ? '\x3cspan class="tx">' + richText(m.text) + "\x3c/span>" : "") +
 reacts(m) +
 '\x3cdiv class="t">' + (m.edited ? '\x3ci class="ed">معدّلة\x3c/i>' : "") + hm(t) + (mine ? (m._p ? I.clock : (othersRead >= ms(m.ts) ? I.tick2 : I.tick)) : "") + "\x3c/div>\x3c/div>\x3c/div>";
+add(m.id, h);
 });
-$l.innerHTML = h;
+var fresh = {}, cur = $l.firstChild;
+if (cur && !cur.getAttribute) cur = null;
+if (cur && (cur.className === "pc-load" || cur.className === "pc-empty")) { $l.innerHTML = ""; cur = null; }
+items.forEach(function (it) {
+var c = nodes[it[0]], n;
+if (c && c.h === it[1]) n = c.n; else n = el(it[1]);
+fresh[it[0]] = { h: it[1], n: n };
+if (n === cur) cur = cur.nextSibling;
+else $l.insertBefore(n, cur);
+});
+while (cur) { var nxn = cur.nextSibling; $l.removeChild(cur); cur = nxn; }
+nodes = fresh;
 if (wasBottom) { $l.scrollTop = $l.scrollHeight; if (tab === "chat") markRead(); }
 else if (added > 0 && lastCount) newWhileUp += added;
 lastCount = msgs.length;
@@ -786,8 +823,11 @@ return '\x3cdiv class="pc-rx">' + order.map(function (e) {
 return '\x3cbutton data-r="' + esc(e) + '"' + (r[me] === e ? ' class="on"' : "") + ">" + e + " " + cnt[e] + "\x3c/button>";
 }).join("") + "\x3c/div>";
 }
-function loading(t) { isReady = false; $l.innerHTML = '\x3cdiv class="pc-load">' + t + "\x3c/div>"; }
-function ready() { isReady = true; lastCount = 0; head(); render(); setTimeout(bottom, 50); }
+function loading(t) { isReady = false; nodes = {}; $l.innerHTML = '\x3cdiv class="pc-load">' + t + "\x3c/div>"; }
+function ready() {
+if (isReady) { head(); setTimeout(function () { if (atBottom()) markRead(); }, 50); return; }
+isReady = true; lastCount = 0; head(); draw(); setTimeout(bottom, 30);
+}
 function findMsg(target) {
 var r = target.closest(".pc-row");
 if (!r) return null;
